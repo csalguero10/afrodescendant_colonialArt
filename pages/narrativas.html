@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Narrativas — Presencias</title>
+  <meta name="description" content="Dos recorridos por la exposición: Público General y Especialistas." />
+  <link rel="stylesheet" href="../css/main.css" />
+  <style>
+    /* ── Fix overflow horizontal y alineación ── */
+    body { overflow-x: hidden; }
+
+    /* Evitar que el h1 grande desborde en pantallas estrechas */
+    .page-hero h1 {
+      word-break: break-word;
+      hyphens: auto;
+    }
+
+    /* ── Sección de introducción ── */
+    .narratives-intro {
+      padding: 2rem 0 5rem;   /* más espacio inferior antes de las cards */
+    }
+
+    .narratives-intro p {
+      color: var(--text-secondary);
+      font-size: 1.0625rem;
+      line-height: 1.8;
+      max-width: 72ch;   /* limitar ancho de línea para legibilidad */
+    }
+
+    .narratives-intro .intro-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 1.5rem;
+    }
+
+    .narratives-intro .intro-cols p {
+      font-size: 0.9375rem;
+      color: var(--text-tertiary);
+      max-width: none;   /* las columnas ya controlan el ancho */
+    }
+
+    .narratives-intro .intro-cols span {
+      color: var(--gold-500);
+      font-weight: 600;
+    }
+
+    @media (max-width: 768px) {
+      .narratives-intro .intro-cols { grid-template-columns: 1fr; }
+    }
+
+    /* ── Cards de narrativa (pantalla completa 50/50) ── */
+    .narratives-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      margin-bottom: 5rem;
+      /* Diagonal ARRIBA del bloque completo */
+      clip-path: polygon(0 6%, 100% 0, 100% 100%, 0 100%);
+      margin-top: 0;   /* sin overlap negativo — el clip-path ya crea el efecto diagonal */
+    }
+
+    @media (max-width: 768px) {
+      .narratives-cards {
+        grid-template-columns: 1fr;
+        clip-path: polygon(0 3%, 100% 0, 100% 100%, 0 100%);
+      }
+    }
+
+    /* ── Narrative card ── */
+    .narrative-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 600px;
+      display: block;          /* no flex — el contenido se posiciona absolute */
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    /* Imagen de fondo */
+    .narrative-card__bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      /* Desaturar levemente para que el tinte azul sea más protagonista */
+      filter: saturate(0.35) brightness(0.8);
+      transition: transform 600ms ease-out, filter 500ms ease-out;
+    }
+
+    .narrative-card:hover .narrative-card__bg {
+      transform: scale(1.05);
+      filter: saturate(0.55) brightness(0.88);
+    }
+
+    /* Tinte azul con pseudo-elemento (más claro de lo que era antes) */
+    .narrative-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(28, 70, 148, 0.42);
+      transition: background 450ms ease-out;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .narrative-card:hover::after {
+      background: rgba(28, 70, 148, 0.22);
+    }
+
+    /* Variante oscura (Especialistas) */
+    .narrative-card--dark::after      { background: rgba(33, 43, 63, 0.50); }
+    .narrative-card--dark:hover::after { background: rgba(33, 43, 63, 0.28); }
+
+    /*
+      MECÁNICA SLIDE-UP:
+      El bloque .narrative-card__content está posicionado en absolute,
+      anclado al fondo de la card.
+
+      Por defecto: sólo el label + título son visibles (la desc y el btn
+      están debajo del borde inferior de la card, fuera de vista gracias a
+      overflow:hidden en la card).
+
+      Al hacer hover: el bloque completo sube con translateY, revelando
+      la descripción y el botón que "emergen" desde abajo.
+
+      El truco: el bloque tiene padding-bottom suficiente para que en reposo
+      la desc/btn queden ocultos, y en hover translateY los sube a la vista.
+    */
+    /*
+      MECÁNICA:
+      En reposo: el bloque sube desplazado hacia arriba con translateY(-100%)
+      más el alto del label+título, de modo que label+título quedan justo
+      en el borde inferior de la card y desc+btn están debajo, fuera de vista.
+
+      Usamos bottom: -9999px + translateY para posicionar desde el fondo.
+      Forma más sencilla: el contenido está DENTRO de la card (overflow:hidden),
+      posicionado en bottom:0 y translateY positivo grande lo empuja hacia abajo
+      dejando visible sólo label+título pegados al fondo.
+
+      En reposo → translateY(calc(100% - [altura label+título]))
+      En hover  → translateY(0) → todo visible
+    */
+    .narrative-card__content {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 2;
+      padding: 2rem 2.75rem 2.75rem;
+
+      /*
+        Desplazamos hacia abajo exactamente la altura de desc + btn + sus márgenes
+        (~160px) para que en reposo sólo se vean label + título pegados al fondo.
+      */
+      transform: translateY(160px);
+      transition: transform 440ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+      /* Gradiente oscuro de fondo para legibilidad del título */
+      background: linear-gradient(
+        to top,
+        rgba(0,0,0,0.72) 0%,
+        rgba(0,0,0,0.45) 55%,
+        transparent 100%
+      );
+    }
+
+    /* En hover: el bloque sube a su posición natural → todo visible */
+    .narrative-card:hover .narrative-card__content {
+      transform: translateY(0);
+    }
+
+    /* Label */
+    .narrative-card__label {
+      font-family: var(--font-secondary);
+      font-size: 0.625rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      color: var(--gold-400);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Título — arranca pegado al borde inferior, sube con el bloque */
+    .narrative-card__title {
+      font-family: var(--font-primary);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-primary);
+      line-height: 1.0;
+      margin-bottom: 0;
+    }
+
+    /* Descripción — fade-in suave durante el slide */
+    .narrative-card__desc {
+      font-family: var(--font-secondary);
+      font-size: 0.9375rem;
+      color: var(--warm-400);
+      line-height: 1.7;
+      max-width: 480px;
+      margin-top: 1rem;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      transition: opacity 280ms 180ms ease-out;
+    }
+
+    .narrative-card:hover .narrative-card__desc {
+      opacity: 1;
+    }
+
+    /* Botón — sólido dorado, visible y claro */
+    .narrative-card__btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1.5rem;
+      font-family: var(--font-secondary);
+      font-weight: 600;
+      font-size: 0.6875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      border: none;
+      border-radius: 2px;
+      background: var(--gold-500);    /* sólido dorado — siempre legible */
+      color: var(--bg-900);
+      opacity: 0;
+      transition: opacity 260ms 200ms ease-out,
+                  background 150ms, transform 150ms;
+    }
+
+    .narrative-card:hover .narrative-card__btn {
+      opacity: 1;
+    }
+
+    .narrative-card__btn:hover {
+      background: var(--gold-400);
+      transform: translateX(3px);
+    }
+
+    /* ── Tema específico: "Did You Know?" — acordeón de datos ── */
+    .publico-section {
+      background-color: var(--bg-800);
+      padding: 5rem 0;
+      margin-bottom: 5rem;
+      clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);
+    }
+
+    .did-you-know {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    @media (max-width: 768px) {
+      .did-you-know { grid-template-columns: 1fr; }
+    }
+
+    .dyk-fact {
+      padding: 1.5rem;
+      border-left: 3px solid var(--gold-500);
+      margin-bottom: 1.5rem;
+    }
+
+    .dyk-fact__number {
+      font-family: var(--font-primary);
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--gold-500);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .dyk-fact__text {
+      font-family: var(--font-secondary);
+      font-size: 0.9375rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* ── Sección Especialistas: obras por categoría ── */
+    .specialist-section {
+      padding: 3rem 0 5rem;
+    }
+
+    .category-tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid var(--bg-500);
+      margin-bottom: 3rem;
+      overflow-x: auto;
+    }
+
+    .category-tab {
+      padding: 0.75rem 1.5rem;
+      font-family: var(--font-primary);
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--bg-500);
+      cursor: pointer;
+      border: none;
+      background: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      white-space: nowrap;
+      transition: color var(--transition-fast), border-color var(--transition-base);
+    }
+
+    .category-tab:hover  { color: var(--warm-400); }
+    .category-tab.active { color: var(--gold-500); border-bottom-color: var(--gold-500); }
+
+    .category-panel {
+      display: none;
+    }
+
+    .category-panel.active {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      animation: fadeInUp 0.4s ease-out;
+    }
+
+    @media (max-width: 1024px) { .category-panel.active { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 640px)  { .category-panel.active { grid-template-columns: repeat(2, 1fr); } }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════ NAVBAR ═══════ -->
+  <nav class="navbar" role="navigation" aria-label="Navegación principal">
+    <div class="navbar__inner">
+      <a href="../index.html" class="navbar__logo">EX</a>
+      <ul class="navbar__links">
+        <li><a href="../index.html">HOME</a></li>
+        <li><a href="about.html">ABOUT</a></li>
+        <li><a href="narrativas.html" class="active">NARRATIVAS</a></li>
+        <li><a href="coleccion.html">COLECCIÓN</a></li>
+        <li><a href="info.html">INFO</a></li>
+        <li><a href="documentacion.html">DOCUMENTACIÓN</a></li>
+      </ul>
+      <button class="navbar__toggle" aria-label="Abrir menú" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="navbar__mobile">
+      <a href="../index.html">HOME</a>
+      <a href="about.html">ABOUT</a>
+      <a href="narrativas.html" class="active">NARRATIVAS</a>
+      <a href="coleccion.html">COLECCIÓN</a>
+      <a href="info.html">INFO</a>
+      <a href="documentacion.html">DOCUMENTACIÓN</a>
+    </div>
+  </nav>
+
+  <main style="overflow-x: hidden;">
+
+    <!-- ══════════════════════════════════════════════ PAGE HERO (heading) ═ -->
+    <div class="page-hero container reveal">
+      <span class="eyebrow">RECORRIDOS • EXPERIENCIAS</span>
+      <h1>NARRATIVAS</h1>
+      <div class="gold-rule"></div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════ INTRO ════════ -->
+    <section class="narratives-intro container reveal" aria-label="Introducción a las narrativas">
+      <div class="container">
+          <p>
+        Hemos diseñado dos recorridos distintos para que explores la exposición de acuerdo
+        a tu nivel de conocimiento e interés sobre el arte colonial y las representaciones
+        de afrodescendientes.
+      </p>
+      <div class="intro-cols">
+        <p>
+          Cada narrativa ofrece una experiencia única: <span>"Did You Know?"</span> conecta
+          el pasado con el presente de manera accesible e inmediata.
+        </p>
+        <p>
+          <span>"Into the Roots"</span> profundiza en el análisis académico y la investigación
+          histórica, con referencias metodológicas y bibliográficas.
+        </p>
+      </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════ NARRATIVE CARDS ══ -->
+    <section class="narratives-cards" aria-label="Recorridos disponibles">
+
+      <!-- Card: Público General -->
+      <a id="publico-general" href="coleccion.html?narrativa=publico"
+         class="narrative-card">
+        <div class="narrative-card__bg"
+             style="background-image:url('../assets/images/narrativa-publico.png');background-color:#1C4694;">
+        </div>
+        <div class="narrative-card__content">
+          <span class="narrative-card__label">DID YOU KNOW?</span>
+          <h2 class="narrative-card__title">PÚBLICO<br>GENERAL</h2>
+          <p class="narrative-card__desc">
+            Un recorrido narrativo que conecta el pasado con el presente, revelando cómo estas obras
+            nos ayudan a comprender las dinámicas socioculturales actuales.
+          </p>
+          <span class="narrative-card__btn">EXPLORAR →</span>
+        </div>
+      </a>
+
+      <!-- Card: Especialistas (tinte más oscuro con clase --dark) -->
+      <a id="especialistas" href="coleccion.html?narrativa=especialistas"
+         class="narrative-card narrative-card--dark">
+        <div class="narrative-card__bg"
+             style="background-image:url('../assets/images/narrativa-especialistas.png');background-color:#212B3F;">
+        </div>
+        <div class="narrative-card__content">
+          <span class="narrative-card__label">INTO THE ROOTS</span>
+          <h2 class="narrative-card__title">ESPECIA-<br>LISTAS</h2>
+          <p class="narrative-card__desc">
+            Una exploración académica y detallada de las obras, organizada por temáticas: seculares,
+            religiosas y retratos. Ideal para investigadores y estudiosos del arte colonial.
+          </p>
+          <span class="narrative-card__btn">EXPLORAR →</span>
+        </div>
+      </a>
+
+    </section>
+
+    <!-- ══════════════════════════════════════════ DID YOU KNOW? (público) ═ -->
+    <section class="publico-section reveal" aria-labelledby="dyk-heading">
+      <div class="container">
+        <span class="eyebrow">DID YOU KNOW?</span>
+        <h2 id="dyk-heading">DATOS QUE TRANSFORMAN</h2>
+        <div class="gold-rule" style="margin-bottom:3rem;"></div>
+
+        <div class="did-you-know">
+
+          <!-- Columna izquierda: facts estadísticos -->
+          <div>
+            <div class="dyk-fact">
+              <div class="dyk-fact__number">40%</div>
+              <p class="dyk-fact__text">
+                De los esclavizados que llegaron a América durante el período colonial obtuvieron
+                la libertad durante su vida, muchos mediante la manumisión o trabajos especializados.
+              </p>
+            </div>
+            <div class="dyk-fact">
+              <div class="dyk-fact__number">16</div>
+              <p class="dyk-fact__text">
+                Categorías distintas de castas documentadas en las pinturas del siglo XVIII,
+                evidenciando la complejidad del sistema de clasificación racial colonial.
+              </p>
+            </div>
+            <div class="dyk-fact">
+              <div class="dyk-fact__number">S. XVII</div>
+              <p class="dyk-fact__text">
+                Siglo de mayor producción de pinturas de castas en la Nueva España, coincidiendo con
+                el auge de las reformas borbónicas y el afán taxonómico ilustrado.
+              </p>
+            </div>
+          </div>
+
+          <!-- Columna derecha: acordeón temático -->
+          <div class="accordion accordion--dark" role="list">
+
+            <div class="accordion__item" role="listitem">
+              <button class="accordion__trigger" aria-expanded="false">
+                <span>¿Qué son las pinturas de castas?</span>
+                <svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div class="accordion__body">
+                <div class="accordion__content">
+                  Las pinturas de castas son una categoría pictórica exclusiva del Virreinato de la
+                  Nueva España (México) y el Virreinato del Perú, producida principalmente en el siglo
+                  XVIII. Documentan las 16 mezclas raciales reconocidas por el sistema colonial,
+                  mostrando a parejas de diferentes orígenes étnicos junto a sus descendientes.
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion__item" role="listitem">
+              <button class="accordion__trigger" aria-expanded="false">
+                <span>Roles sociales más allá de la esclavitud</span>
+                <svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div class="accordion__body">
+                <div class="accordion__content">
+                  Los afrodescendientes libres en la época colonial trabajaban como artesanos, cocheros,
+                  vendedores ambulantes, músicos e incluso como milicianos. En Cuba, Jamaica y el Perú
+                  existían comunidades de libertos que poseían propiedades y negocios propios.
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion__item" role="listitem">
+              <button class="accordion__trigger" aria-expanded="false">
+                <span>La vestimenta como código social</span>
+                <svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div class="accordion__body">
+                <div class="accordion__content">
+                  En las pinturas coloniales, la ropa es un documento social: los bordados, los tipos
+                  de tela y los accesorios indican el estatus de la persona retratada. Un cochero
+                  afrodescendiente con redingote europeo señala su integración en el mundo urbano
+                  y su rol como servidor de confianza de una familia acomodada.
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /accordion dark -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════ OBRAS DESTACADAS (carrusel) ══ -->
+    <section style="padding: 6rem 0; background-color: var(--bg-900);" aria-labelledby="featured-nar-heading">
+      <div class="container" style="margin-bottom:3rem;">
+        <span class="eyebrow">COLECCIÓN • ARTE</span>
+        <h2 id="featured-nar-heading">OBRAS DESTACADAS</h2>
+        <div class="gold-rule"></div>
+      </div>
+
+      <div data-carousel>
+        <div class="carousel" style="padding-left:var(--space-xl);padding-right:var(--space-xl);">
+          <div class="carousel__track reveal" id="nar-featured-track">
+            <!-- Poblado por JS -->
+          </div>
+        </div>
+
+        <div class="container">
+          <div class="carousel__nav">
+            <button class="carousel__btn" data-carousel-prev aria-label="Obra anterior">
+              <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <button class="carousel__btn" data-carousel-next aria-label="Obra siguiente">
+              <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"></polyline></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════ CITAS ROTATIVAS ════════════ -->
+    <section class="quote-section" data-quotes aria-label="Citas del equipo curatorial">
+      <div class="container">
+        <div class="quote-card">
+          <span class="quote-icon" aria-hidden="true">"</span>
+          <p class="quote-text" data-quote-text
+             style="transition:opacity 200ms ease-out;">
+            El arte colonial nos revela que la historia de los afrodescendientes es mucho más
+            compleja y diversa de lo que las narrativas tradicionales nos han contado.
+          </p>
+          <p class="quote-author" data-quote-author>Dra. María Fernández</p>
+          <p class="quote-role"   data-quote-role>Curadora Principal</p>
+
+          <!-- Dots de navegación (data-* contienen el contenido de cada cita) -->
+          <div class="quote-dots">
+            <button class="quote-dot active"
+              data-text="El arte colonial nos revela que la historia de los afrodescendientes es mucho más compleja y diversa de lo que las narrativas tradicionales nos han contado."
+              data-author="Dra. María Fernández"
+              data-role="Curadora Principal"
+              aria-label="Cita 1"></button>
+            <button class="quote-dot"
+              data-text="Estas obras no son solo documentos históricos, son ventanas hacia una comprensión más profunda de nuestra identidad y herencia cultural."
+              data-author="Dr. Carlos Mendoza"
+              data-role="Investigador Senior"
+              aria-label="Cita 2"></button>
+          </div>
+
+          <!-- Botones prev/next para las citas -->
+          <div style="display:flex;gap:1rem;justify-content:center;margin-top:1.5rem;">
+            <button class="carousel__btn" data-quote-prev aria-label="Cita anterior">
+              <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <button class="carousel__btn" data-quote-next aria-label="Cita siguiente">
+              <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"></polyline></svg>
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════ FOOTER ═══════ -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <a href="../index.html" class="footer__logo">EX</a>
+        <span class="footer__copy">© 2026 Exposición Virtual</span>
+      </div>
+      <div class="footer__social">
+        <a href="#" class="footer__social-btn" aria-label="Facebook">
+          <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+        </a>
+        <a href="#" class="footer__social-btn" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path></svg>
+        </a>
+        <a href="#" class="footer__social-btn" aria-label="Twitter">
+          <svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+        </a>
+        <a href="mailto:contacto@presencias.org" class="footer__social-btn" aria-label="Email">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/artworks.js"></script>
+  <script src="../js/main.js"></script>
+
+  <!-- Poblar carrusel de obras destacadas -->
+  <script>
+    (function buildNarCarousel() {
+      var track = document.getElementById('nar-featured-track');
+      if (!track || !window.getFeaturedArtworks) return;
+
+      var featured = window.getFeaturedArtworks();
+
+      track.innerHTML = featured.map(function (art) {
+        return [
+          '<a href="coleccion.html?obra=' + art.id + '" class="carousel__item artwork-card">',
+            '<div class="artwork-card__img">',
+              '<img src="' + art.imageUrl + '" alt="' + art.title + '" loading="lazy" />',
+              '<div class="artwork-card__overlay">',
+                '<h3>' + art.title + '</h3>',
+                '<span class="artist">' + art.artist + '</span>',
+                '<span class="year">'   + art.year   + '</span>',
+              '</div>',
+            '</div>',
+          '</a>'
+        ].join('');
+      }).join('');
+    })();
+  </script>
+
+</body>
+</html>

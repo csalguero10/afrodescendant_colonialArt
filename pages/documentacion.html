@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Documentación — Presencias</title>
+  <meta name="description" content="Recursos académicos, metodología y fuentes de la exposición Presencias." />
+  <link rel="stylesheet" href="../css/main.css" />
+  <style>
+    /* ── Layout de documentación: sidebar + contenido ── */
+    .doc-page {
+      padding-top: calc(var(--navbar-h) + 3rem);
+      padding-bottom: 6rem;
+    }
+
+    /* Secciones de contenido con ID para el sidebar */
+    .doc-section {
+      scroll-margin-top: calc(var(--navbar-h) + 2rem); /* offset del navbar fijo */
+      padding: 5rem 0;
+      border-bottom: 1px solid var(--bg-700);
+    }
+
+    .doc-section:last-child {
+      border-bottom: none;
+    }
+
+    /* ── Sección Contexto (fondo azul) ── */
+    .doc-section--blue {
+      background-color: var(--navy-800);
+      border-radius: var(--radius-xl);
+      padding: 3.5rem;
+      margin-bottom: 2rem;
+    }
+
+    /* ── Sección Metodología (fondo dark) ── */
+    .doc-section--dark {
+      background-color: var(--bg-800);
+      border-radius: var(--radius-xl);
+      padding: 3.5rem;
+      margin-bottom: 2rem;
+    }
+
+    /* Párrafo de contenido en secciones académicas */
+    .doc-text {
+      font-family: var(--font-secondary);
+      font-size: 0.9375rem;
+      color: var(--text-secondary);
+      line-height: 1.85;
+      max-width: 72ch; /* ancho de línea cómodo para lectura */
+    }
+
+    .doc-text + .doc-text {
+      margin-top: 1rem;
+    }
+
+    /* ── Grids ── */
+    .method-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .method-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Tarjeta de metodología (numerada) */
+    .method-card {
+      border-left: 3px solid var(--gold-500);
+      padding-left: 1.5rem;
+    }
+
+    .method-card__num {
+      font-family: var(--font-primary);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--gold-500);
+      line-height: 1;
+      margin-bottom: 0.75rem;
+    }
+
+    .method-card__title {
+      font-family: var(--font-primary);
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-primary);
+      margin-bottom: 0.75rem;
+    }
+
+    .method-card__text {
+      font-family: var(--font-secondary);
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      line-height: 1.75;
+    }
+
+    /* ── Recursos descargables ── */
+    .resources-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 768px) { .resources-grid { grid-template-columns: 1fr; } }
+
+    /* ── Referencias bibliográficas ── */
+    .references-list {
+      margin-top: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .reference-item {
+      padding: 1.25rem;
+      background-color: var(--bg-800);
+      border-radius: var(--radius-md);
+      border-left: 2px solid var(--bg-600);
+      transition: border-color var(--transition-fast);
+    }
+
+    .reference-item:hover {
+      border-left-color: var(--gold-500);
+    }
+
+    .reference-item p {
+      font-family: var(--font-secondary);
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .reference-item .ref-author {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .reference-item .ref-year {
+      color: var(--gold-400);
+      font-weight: 500;
+    }
+
+    /* ── Créditos ── */
+    .credits-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 900px) { .credits-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .credits-grid { grid-template-columns: 1fr; } }
+
+    .credit-card {
+      background-color: var(--bg-800);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+    }
+
+    .credit-card__role {
+      font-family: var(--font-primary);
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gold-500);
+      margin-bottom: 0.5rem;
+    }
+
+    .credit-card__name {
+      font-family: var(--font-secondary);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .credit-card__institution {
+      font-family: var(--font-secondary);
+      font-size: 0.8125rem;
+      color: var(--text-tertiary);
+    }
+
+    /* ── Timeline de la investigación ── */
+    .timeline {
+      margin-top: 2rem;
+      position: relative;
+      padding-left: 2rem;
+    }
+
+    /* Línea vertical */
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.5rem;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--gold-500), transparent);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 2rem;
+    }
+
+    /* Punto en la línea */
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -2rem;
+      top: 0.4rem;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: var(--gold-500);
+      transform: translateX(-4px);
+    }
+
+    .timeline-item__date {
+      font-family: var(--font-primary);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gold-400);
+      margin-bottom: 0.25rem;
+    }
+
+    .timeline-item__title {
+      font-family: var(--font-primary);
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .timeline-item__text {
+      font-family: var(--font-secondary);
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* ── Cita destacada ── */
+    .pull-quote {
+      border-left: 4px solid var(--gold-500);
+      padding: 1.5rem 2rem;
+      margin: 2.5rem 0;
+      background-color: var(--bg-800);
+      border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+    }
+
+    .pull-quote p {
+      font-family: var(--font-secondary);
+      font-size: 1.125rem;
+      font-style: italic;
+      color: var(--text-secondary);
+      line-height: 1.8;
+    }
+
+    .pull-quote cite {
+      display: block;
+      margin-top: 1rem;
+      font-family: var(--font-primary);
+      font-size: 0.75rem;
+      font-style: normal;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gold-400);
+    }
+
+    /* ── Nota del código fuente ── */
+    .code-note {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.8125rem;
+      color: var(--gold-300);
+      background: var(--bg-950);
+      padding: 0.25rem 0.75rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--bg-600);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════ NAVBAR ═══════ -->
+  <nav class="navbar" role="navigation" aria-label="Navegación principal">
+    <div class="navbar__inner">
+      <a href="../index.html" class="navbar__logo">EX</a>
+      <ul class="navbar__links">
+        <li><a href="../index.html">HOME</a></li>
+        <li><a href="about.html">ABOUT</a></li>
+        <li><a href="narrativas.html">NARRATIVAS</a></li>
+        <li><a href="coleccion.html">COLECCIÓN</a></li>
+        <li><a href="info.html">INFO</a></li>
+        <li><a href="documentacion.html" class="active">DOCUMENTACIÓN</a></li>
+      </ul>
+      <button class="navbar__toggle" aria-label="Abrir menú" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="navbar__mobile">
+      <a href="../index.html">HOME</a>
+      <a href="about.html">ABOUT</a>
+      <a href="narrativas.html">NARRATIVAS</a>
+      <a href="coleccion.html">COLECCIÓN</a>
+      <a href="info.html">INFO</a>
+      <a href="documentacion.html" class="active">DOCUMENTACIÓN</a>
+    </div>
+  </nav>
+
+  <main class="doc-page">
+
+    <!-- ══════════════════════════════════════════════ PAGE HERO (heading) ═ -->
+    <div class="container reveal">
+      <span class="eyebrow">RECURSOS • INVESTIGACIÓN</span>
+      <h1>DOCUMENTACIÓN</h1>
+      <div class="gold-rule"></div>
+      <p style="font-family:var(--font-secondary);font-size:1.0625rem;color:var(--text-secondary);max-width:60ch;margin-top:1rem;">
+        Recursos académicos y metodológicos de la exposición. Contexto, fuentes, datos abiertos
+        y créditos del proyecto <em>Presencias</em>.
+      </p>
+    </div>
+
+    <!-- ══════════════════════════════════════ BANNER GITHUB ════════════════ -->
+    <div class="container" style="margin-top:3rem;">
+      <div class="github-banner reveal">
+        <div>
+          <p class="github-banner__title">Consulta todo el proyecto</p>
+          <p class="github-banner__subtitle">
+            Accede al código fuente completo, los datos de las obras y la documentación técnica.
+          </p>
+        </div>
+        <a
+          href="https://github.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="github-banner__btn"
+          aria-label="Ver el proyecto en GitHub"
+        >
+          <!-- Ícono GitHub (SVG inline) -->
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2">
+            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+          </svg>
+          Ver en GitHub
+        </a>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════ LAYOUT SIDEBAR + CONTENIDO ══ -->
+    <div class="container" style="margin-top:3rem;">
+      <div class="doc-layout">
+
+        <!-- ── Sidebar de navegación (sticky) ── -->
+        <aside class="doc-sidebar" aria-label="Navegación de secciones">
+          <nav class="doc-sidebar__nav">
+            <p class="doc-sidebar__title">Contenido</p>
+            <a href="#contexto"    class="doc-sidebar__link active">Contexto del Proyecto</a>
+            <a href="#metodologia" class="doc-sidebar__link">Metodología</a>
+            <a href="#recursos"    class="doc-sidebar__link">Recursos Descargables</a>
+            <a href="#creditos"    class="doc-sidebar__link">Fuentes y Créditos</a>
+          </nav>
+        </aside>
+
+        <!-- ── Contenido principal ── -->
+        <div class="doc-content">
+
+          <!-- ════════════════════════ SECCIÓN 1: CONTEXTO ════════════════ -->
+          <section
+            id="contexto"
+            class="doc-section reveal"
+            aria-labelledby="contexto-heading"
+          >
+            <div class="doc-section--blue">
+              <span class="eyebrow">01 / CONTEXTO</span>
+              <h2 id="contexto-heading">CONTEXTO DEL PROYECTO</h2>
+              <div class="gold-rule" style="margin-bottom:2rem;"></div>
+
+              <p class="doc-text">
+                <em>Presencias</em> es una exposición virtual que complementa la muestra física y
+                surge de una investigación doctoral que aplica el método iconográfico de Erwin Panofsky
+                de manera computacional al estudio de las representaciones de afrodescendientes en el
+                arte colonial latinoamericano (siglos XVI–XIX).
+              </p>
+              <p class="doc-text" style="margin-top:1rem;">
+                El proyecto se enmarca en la intersección de la Historia del Arte, las Humanidades
+                Digitales y la Visión por Computador. Parte del corpus del archivo ARCA (Universidad
+                de los Andes, Bogotá) e incorpora técnicas de análisis visual asistido por modelos
+                de lenguaje visual (VLM) para la anotación iconográfica a escala.
+              </p>
+
+              <div class="pull-quote">
+                <p>
+                  "El objetivo no es sustituir la mirada del historiador del arte, sino amplificar
+                  su capacidad para detectar patrones en corpora de miles de imágenes que de otra
+                  forma serían inabarcables."
+                </p>
+                <cite>Extracto del proyecto de investigación, 2025–2026</cite>
+              </div>
+
+              <!-- Timeline del proyecto -->
+              <h3 style="font-family:var(--font-primary);font-size:1.25rem;text-transform:uppercase;margin-bottom:1.5rem;margin-top:2rem;">
+                Línea de tiempo del proyecto
+              </h3>
+
+              <div class="timeline">
+                <div class="timeline-item">
+                  <p class="timeline-item__date">2024 — Fase 1</p>
+                  <p class="timeline-item__title">Construcción del corpus</p>
+                  <p class="timeline-item__text">
+                    Scraping y limpieza del archivo ARCA con Playwright y Python. Descarga de
+                    ~3 400 imágenes de alta resolución con metadatos Dublin Core.
+                  </p>
+                </div>
+                <div class="timeline-item">
+                  <p class="timeline-item__date">2025 — Fase 2</p>
+                  <p class="timeline-item__title">Anotación iconográfica asistida</p>
+                  <p class="timeline-item__text">
+                    Pipeline ColonialArt-VLM: uso de GPT-4V y Claude para anotar vestimenta,
+                    posición espacial, gestos y objetos. Validación manual por parte de
+                    especialistas en arte colonial.
+                  </p>
+                </div>
+                <div class="timeline-item">
+                  <p class="timeline-item__date">2025–2026 — Fase 3</p>
+                  <p class="timeline-item__title">Exposición y difusión</p>
+                  <p class="timeline-item__text">
+                    Diseño de la muestra física en Bogotá y de esta exposición virtual.
+                    Publicación de los datos anotados bajo licencia CC-BY.
+                  </p>
+                </div>
+              </div>
+
+            </div>
+          </section>
+
+          <!-- ════════════════════════ SECCIÓN 2: METODOLOGÍA ════════════ -->
+          <section
+            id="metodologia"
+            class="doc-section reveal"
+            aria-labelledby="metodologia-heading"
+          >
+            <div class="doc-section--dark">
+              <span class="eyebrow">02 / METODOLOGÍA</span>
+              <h2 id="metodologia-heading">METODOLOGÍA</h2>
+              <div class="gold-rule" style="margin-bottom:2rem;"></div>
+
+              <p class="doc-text">
+                La investigación aplica el modelo de tres niveles de Panofsky —descripción
+                pre-iconográfica, análisis iconográfico e interpretación iconológica— como
+                marco conceptual para el diseño del pipeline de visión computacional.
+              </p>
+              <p class="doc-text" style="margin-top:1rem;">
+                Cada nivel se corresponde con una capa de extracción de características:
+                la detección de objetos y figuras (nivel 1), la clasificación de atributos
+                simbólicos (nivel 2) y la inferencia de roles sociales y relaciones de poder
+                (nivel 3).
+              </p>
+
+              <div class="method-grid">
+
+                <div class="method-card">
+                  <p class="method-card__num">01</p>
+                  <p class="method-card__title">Selección y scraping del corpus</p>
+                  <p class="method-card__text">
+                    Extracción automatizada con Playwright del archivo ARCA. Limpieza y
+                    normalización de metadatos según Dublin Core. Almacenamiento en
+                    Google Sheets vía gspread.
+                  </p>
+                </div>
+
+                <div class="method-card">
+                  <p class="method-card__num">02</p>
+                  <p class="method-card__title">Anotación VLM</p>
+                  <p class="method-card__text">
+                    Prompting estructurado a modelos de lenguaje visual. El modelo identifica
+                    indumentaria, accesorios, posición, gestos y contexto espacial. La
+                    respuesta se almacena en JSON normalizado.
+                  </p>
+                </div>
+
+                <div class="method-card">
+                  <p class="method-card__num">03</p>
+                  <p class="method-card__title">Validación iconográfica</p>
+                  <p class="method-card__text">
+                    Revisión manual por especialistas del 15 % del corpus. Cálculo de
+                    métricas de concordancia inter-anotador (Cohen's κ). Corrección de
+                    errores sistemáticos del modelo.
+                  </p>
+                </div>
+
+                <div class="method-card">
+                  <p class="method-card__num">04</p>
+                  <p class="method-card__title">Curaduría y exhibición</p>
+                  <p class="method-card__text">
+                    Selección de obras representativas para la muestra. Redacción de fichas
+                    curatoriales en dos niveles de profundidad: público general y especialistas.
+                    Diseño de la exposición virtual con SvelteKit + HTML estático.
+                  </p>
+                </div>
+
+              </div>
+
+              <!-- Nota técnica del stack -->
+              <div style="margin-top:2.5rem;padding:1.5rem;background:var(--bg-900);border-radius:var(--radius-lg);border:1px solid var(--bg-600);">
+                <p style="font-family:var(--font-primary);font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--gold-500);margin-bottom:1rem;">
+                  Stack Técnico
+                </p>
+                <div style="display:flex;flex-wrap:wrap;gap:0.625rem;">
+                  <span class="code-note">Python 3.11</span>
+                  <span class="code-note">Playwright</span>
+                  <span class="code-note">gspread</span>
+                  <span class="code-note">FastAPI</span>
+                  <span class="code-note">OpenAI Vision API</span>
+                  <span class="code-note">Claude API</span>
+                  <span class="code-note">SvelteKit</span>
+                  <span class="code-note">HTML + CSS + JS</span>
+                  <span class="code-note">GitHub Pages</span>
+                </div>
+              </div>
+
+            </div>
+          </section>
+
+          <!-- ════════════════════════ SECCIÓN 3: RECURSOS ════════════════ -->
+          <section
+            id="recursos"
+            class="doc-section reveal"
+            aria-labelledby="recursos-heading"
+          >
+            <span class="eyebrow">03 / RECURSOS</span>
+            <h2 id="recursos-heading">RECURSOS DESCARGABLES</h2>
+            <div class="gold-rule" style="margin-bottom:1rem;"></div>
+
+            <p class="doc-text" style="margin-bottom:2rem;">
+              Los siguientes materiales están disponibles bajo licencia
+              <strong style="color:var(--gold-400);">Creative Commons CC-BY 4.0</strong>.
+              Puedes usarlos, compartirlos y adaptarlos con atribución al proyecto.
+            </p>
+
+            <div class="resources-grid">
+
+              <div class="resource-card">
+                <div class="resource-card__icon">
+                  <!-- Ícono descarga -->
+                  <svg viewBox="0 0 24 24">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                  </svg>
+                </div>
+                <div>
+                  <p class="resource-card__title">Corpus ARCA — Metadatos</p>
+                  <p class="resource-card__desc">
+                    CSV con los metadatos de ~3 400 obras del archivo ARCA: título, artista,
+                    fecha, categoría, dimensiones y URL de imagen.
+                  </p>
+                  <a href="#" class="btn btn--outline" style="font-size:0.6875rem;">
+                    Descargar CSV →
+                  </a>
+                </div>
+              </div>
+
+              <div class="resource-card">
+                <div class="resource-card__icon">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                  </svg>
+                </div>
+                <div>
+                  <p class="resource-card__title">Anotaciones Iconográficas</p>
+                  <p class="resource-card__desc">
+                    JSON con las anotaciones VLM validadas: indumentaria, gestos, objetos,
+                    rol social inferido y nivel de confianza del modelo.
+                  </p>
+                  <a href="#" class="btn btn--outline" style="font-size:0.6875rem;">
+                    Descargar JSON →
+                  </a>
+                </div>
+              </div>
+
+              <div class="resource-card">
+                <div class="resource-card__icon">
+                  <!-- Ícono documento -->
+                  <svg viewBox="0 0 24 24">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                  </svg>
+                </div>
+                <div>
+                  <p class="resource-card__title">Guía Curatorial</p>
+                  <p class="resource-card__desc">
+                    PDF con la guía de lectura de las obras para docentes y mediadores culturales.
+                    Incluye actividades pedagógicas y glosario.
+                  </p>
+                  <a href="#" class="btn btn--outline" style="font-size:0.6875rem;">
+                    Descargar PDF →
+                  </a>
+                </div>
+              </div>
+
+              <div class="resource-card">
+                <div class="resource-card__icon">
+                  <!-- Ícono código / terminal -->
+                  <svg viewBox="0 0 24 24">
+                    <polyline points="16 18 22 12 16 6"></polyline>
+                    <polyline points="8 6 2 12 8 18"></polyline>
+                  </svg>
+                </div>
+                <div>
+                  <p class="resource-card__title">Código Fuente</p>
+                  <p class="resource-card__desc">
+                    Repositorio GitHub con el pipeline ColonialArt-VLM, los scripts de scraping
+                    y el código de esta exposición virtual.
+                  </p>
+                  <a
+                    href="https://github.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn btn--outline"
+                    style="font-size:0.6875rem;"
+                  >
+                    Ver en GitHub →
+                  </a>
+                </div>
+              </div>
+
+            </div>
+          </section>
+
+          <!-- ════════════════════════ SECCIÓN 4: CRÉDITOS ════════════════ -->
+          <section
+            id="creditos"
+            class="doc-section reveal"
+            aria-labelledby="creditos-heading"
+          >
+            <span class="eyebrow">04 / FUENTES Y CRÉDITOS</span>
+            <h2 id="creditos-heading">FUENTES Y CRÉDITOS</h2>
+            <div class="gold-rule" style="margin-bottom:1rem;"></div>
+
+            <!-- Equipo -->
+            <h3 style="font-family:var(--font-primary);font-size:1rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-secondary);margin-bottom:1.5rem;">
+              Equipo del Proyecto
+            </h3>
+
+            <div class="credits-grid">
+              <div class="credit-card">
+                <p class="credit-card__role">Investigación & Curaduría</p>
+                <p class="credit-card__name">Catalina Rincón</p>
+                <p class="credit-card__institution">
+                  Universidad de Bologna / DVS Center, Universidad de Zurich
+                </p>
+              </div>
+              <div class="credit-card">
+                <p class="credit-card__role">Dirección de Investigación</p>
+                <p class="credit-card__name">Prof. Tristan Weddigen</p>
+                <p class="credit-card__institution">DVS Center, Universidad de Zurich</p>
+              </div>
+              <div class="credit-card">
+                <p class="credit-card__role">Colaboración Digital</p>
+                <p class="credit-card__name">UCSB-AMPLab</p>
+                <p class="credit-card__institution">Universidad de California, Santa Bárbara</p>
+              </div>
+              <div class="credit-card">
+                <p class="credit-card__role">Corpus de Imágenes</p>
+                <p class="credit-card__name">Proyecto ARCA</p>
+                <p class="credit-card__institution">Universidad de los Andes, Bogotá</p>
+              </div>
+              <div class="credit-card">
+                <p class="credit-card__role">Digitalización de Patrimonio</p>
+                <p class="credit-card__name">Fundación Neogranadina</p>
+                <p class="credit-card__institution">Bogotá, Colombia</p>
+              </div>
+              <div class="credit-card">
+                <p class="credit-card__role">Referencias Fotográficas</p>
+                <p class="credit-card__name">Fondazione Federico Zeri</p>
+                <p class="credit-card__institution">Università di Bologna</p>
+              </div>
+            </div>
+
+            <!-- Bibliografía -->
+            <h3 style="font-family:var(--font-primary);font-size:1rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-secondary);margin-top:3rem;margin-bottom:1.5rem;">
+              Referencias Bibliográficas Principales
+            </h3>
+
+            <div class="references-list">
+
+              <div class="reference-item">
+                <p>
+                  <span class="ref-author">Panofsky, E.</span>
+                  <span class="ref-year">(1955)</span>.
+                  <em>Meaning in the Visual Arts.</em> Garden City, NY: Doubleday Anchor.
+                </p>
+              </div>
+
+              <div class="reference-item">
+                <p>
+                  <span class="ref-author">Katzew, I.</span>
+                  <span class="ref-year">(2004)</span>.
+                  <em>Casta Painting: Images of Race in Eighteenth-Century Mexico.</em>
+                  New Haven: Yale University Press.
+                </p>
+              </div>
+
+              <div class="reference-item">
+                <p>
+                  <span class="ref-author">Brewer-García, L.</span>
+                  <span class="ref-year">(2020)</span>.
+                  <em>Beyond Babel: Translations of Blackness in Colonial Peru and New Granada.</em>
+                  Cambridge University Press.
+                </p>
+              </div>
+
+              <div class="reference-item">
+                <p>
+                  <span class="ref-author">Jopling, C. F.</span>
+                  <span class="ref-year">(1983)</span>.
+                  <em>White and Black in America.</em> Journal of Anthropology.
+                </p>
+              </div>
+
+              <div class="reference-item">
+                <p>
+                  <span class="ref-author">Moreau, F. &amp; Jatowt, A.</span>
+                  <span class="ref-year">(2023)</span>.
+                  "Multimodal Language Models for Historical Image Analysis."
+                  <em>Digital Humanities Quarterly</em>, 17(2).
+                </p>
+              </div>
+
+            </div>
+
+            <!-- Licencias de imagen -->
+            <div style="margin-top:3rem;padding:1.5rem;background:var(--bg-800);border-radius:var(--radius-lg);border:1px solid var(--bg-600);">
+              <p style="font-family:var(--font-primary);font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--gold-500);margin-bottom:0.75rem;">
+                Nota sobre Licencias
+              </p>
+              <p style="font-family:var(--font-secondary);font-size:0.875rem;color:var(--text-secondary);line-height:1.75;">
+                Las imágenes de las pinturas de castas y la obra religiosa de José Nicolás de la Escalera
+                provienen del archivo ARCA (Universidad de los Andes) bajo licencia de uso académico.
+                Las imágenes de placeholder en la colección son de dominio público vía Unsplash.
+                El código fuente del sitio está bajo licencia MIT. Los datos de anotación están bajo
+                CC-BY 4.0.
+              </p>
+            </div>
+
+          </section>
+
+        </div><!-- /doc-content -->
+      </div><!-- /doc-layout -->
+    </div><!-- /container -->
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════ FOOTER ═══════ -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <a href="../index.html" class="footer__logo">EX</a>
+        <span class="footer__copy">© 2026 Exposición Virtual</span>
+      </div>
+      <div class="footer__social">
+        <a href="#" class="footer__social-btn" aria-label="Facebook">
+          <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+        </a>
+        <a href="#" class="footer__social-btn" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path></svg>
+        </a>
+        <a href="#" class="footer__social-btn" aria-label="Twitter">
+          <svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+        </a>
+        <a href="mailto:contacto@presencias.org" class="footer__social-btn" aria-label="Email">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/artworks.js"></script>
+  <script src="../js/main.js"></script>
+
+  <!-- Marcado activo del sidebar según scroll -->
+  <script>
+    (function initDocSidebar() {
+      var links    = document.querySelectorAll('.doc-sidebar__link');
+      var sections = document.querySelectorAll('.doc-section');
+
+      if (!links.length || !sections.length) return;
+
+      /* Usar IntersectionObserver para detectar qué sección está visible */
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            var id = entry.target.id;
+            links.forEach(function (link) {
+              link.classList.remove('active');
+              if (link.getAttribute('href') === '#' + id) {
+                link.classList.add('active');
+              }
+            });
+          }
+        });
+      }, {
+        rootMargin: '-20% 0px -60% 0px',  /* activar cuando la sección ocupa el tercio superior */
+        threshold: 0
+      });
+
+      sections.forEach(function (s) { observer.observe(s); });
+    })();
+  </script>
+
+</body>
+</html>

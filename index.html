@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Presencias — Afrodescendientes en el Arte Colonial</title>
+  <meta name="description" content="Exposición virtual sobre las representaciones de afrodescendientes en el arte colonial latinoamericano." />
+
+  <!-- Estilos principales (design system Vovex) -->
+  <link rel="stylesheet" href="css/main.css" />
+
+  <!-- Estilos específicos del home -->
+  <style>
+    /* ── Hero de pantalla completa ── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      /* Clip diagonal inferior */
+      clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%);
+    }
+
+    .hero__bg {
+      position: absolute;
+      inset: 0;
+    }
+
+    .hero__bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      /* Efecto parallax ligero vía JS */
+      will-change: transform;
+    }
+
+    /* Overlay oscuro semitransparente */
+    .hero__overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.60);
+    }
+
+    /* Contenido centrado del hero */
+    .hero__content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 0 1.5rem;
+      max-width: 900px;
+    }
+
+    .hero__title {
+      font-size: clamp(3rem, 10vw, 7rem);
+      font-family: var(--font-primary);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      line-height: 1.0;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+      /* Animación de entrada */
+      animation: heroSlideUp 1.2s ease-out both;
+    }
+
+    .hero__subtitle {
+      font-family: var(--font-secondary);
+      font-size: 0.8125rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: var(--warm-400);
+      animation: heroSlideUp 1.2s 200ms ease-out both;
+    }
+
+    /* Flecha de scroll al fondo del hero */
+    .hero__scroll-hint {
+      position: absolute;
+      bottom: 8%;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      animation: bounce 2s infinite;
+    }
+
+    .hero__scroll-hint svg {
+      width: 24px;
+      height: 24px;
+      stroke: rgba(255,255,255,0.5);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    @keyframes heroSlideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ── Sección Featured (carrusel de obras) ── */
+    .featured-section {
+      padding: 6rem 0;
+      background-color: var(--bg-900);
+    }
+
+    .featured-section .container {
+      margin-bottom: 3rem;
+    }
+
+    /* ── Sección About / Cream ── */
+    .about-section {
+      position: relative;
+      background-color: var(--cream);
+      padding: 7rem 0;
+      margin: 0 0 5rem;
+      clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);
+    }
+
+    .about-section .eyebrow { color: var(--gold-600); }
+    .about-section h2       { color: var(--bg-900); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .about-grid p {
+      font-size: 0.875rem;
+      color: var(--bg-600);
+      line-height: 1.8;
+    }
+
+    @media (max-width: 768px) {
+      .about-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Sección Narrativas ── */
+    .narratives-section {
+      padding-bottom: 6rem;
+      background-color: var(--bg-900);
+    }
+
+    .narratives-section .section-header {
+      padding: 0 var(--space-xl);
+      margin-bottom: 3rem;
+    }
+
+    .narratives-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      /* Misma diagonal arriba que en narrativas.html */
+      clip-path: polygon(0 6%, 100% 0, 100% 100%, 0 100%);
+      margin-top: -1rem;
+    }
+
+    @media (max-width: 768px) {
+      .narratives-grid {
+        grid-template-columns: 1fr;
+        clip-path: polygon(0 3%, 100% 0, 100% 100%, 0 100%);
+      }
+      .narratives-section .section-header { padding: 0 var(--space-lg); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════ NAVBAR ═══════ -->
+  <nav class="navbar" role="navigation" aria-label="Navegación principal">
+    <div class="navbar__inner">
+      <!-- Logo -->
+      <a href="index.html" class="navbar__logo" aria-label="Presencias — Inicio">EX</a>
+
+      <!-- Links desktop -->
+      <ul class="navbar__links">
+        <li><a href="index.html"                 class="active">HOME</a></li>
+        <li><a href="pages/about.html">ABOUT</a></li>
+        <li><a href="pages/narrativas.html">NARRATIVAS</a></li>
+        <li><a href="pages/coleccion.html">COLECCIÓN</a></li>
+        <li><a href="pages/info.html">INFO</a></li>
+        <li><a href="pages/documentacion.html">DOCUMENTACIÓN</a></li>
+      </ul>
+
+      <!-- Botón hamburguesa (mobile) -->
+      <button class="navbar__toggle" aria-label="Abrir menú" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <!-- Menú mobile -->
+    <div class="navbar__mobile" aria-label="Menú móvil">
+      <a href="index.html"                 class="active">HOME</a>
+      <a href="pages/about.html">ABOUT</a>
+      <a href="pages/narrativas.html">NARRATIVAS</a>
+      <a href="pages/coleccion.html">COLECCIÓN</a>
+      <a href="pages/info.html">INFO</a>
+      <a href="pages/documentacion.html">DOCUMENTACIÓN</a>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- ═══════════════════════════════════════════════════ HERO ══════════ -->
+    <section class="hero" aria-label="Portada de la exposición">
+      <!-- Imagen de fondo con parallax -->
+      <div class="hero__bg">
+        <img
+          id="hero-bg-img"
+          src="assets/images/banner-hero.jpg"
+          alt="Arte colonial — detalle de pintura"
+        />
+      </div>
+      <div class="hero__overlay"></div>
+
+      <!-- Texto central -->
+      <div class="hero__content">
+        <h1 class="hero__title">Afrodescendientes</h1>
+        <p class="hero__subtitle">en el Arte Colonial</p>
+      </div>
+
+      <!-- Flecha indicadora de scroll -->
+      <div class="hero__scroll-hint" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════ OBRAS DESTACADAS (carrusel) ═ -->
+    <section class="featured-section" aria-labelledby="featured-heading">
+      <div class="container">
+        <span class="eyebrow">COLECCIÓN • ARTE</span>
+        <h2 id="featured-heading">OBRAS DESTACADAS</h2>
+        <div class="gold-rule"></div>
+      </div>
+
+      <!-- Carrusel con controles prev/next -->
+      <div data-carousel>
+        <div class="container" style="margin-bottom:1rem;">
+          <!-- Los items se renderizan por JS en .carousel__track -->
+        </div>
+
+        <div class="carousel" style="padding-left:var(--space-xl);padding-right:var(--space-xl);">
+          <div class="carousel__track reveal" id="featured-track">
+            <!-- Poblado por JS (artworks.js + inline JS abajo) -->
+          </div>
+        </div>
+
+        <!-- Botones de navegación del carrusel -->
+        <div class="container">
+          <div class="carousel__nav">
+            <button class="carousel__btn" data-carousel-prev aria-label="Obra anterior">
+              <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <button class="carousel__btn" data-carousel-next aria-label="Obra siguiente">
+              <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"></polyline></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════ SOBRE LA EXPOSICIÓN ═ -->
+    <section class="about-section reveal" aria-labelledby="about-heading">
+      <div class="container">
+        <span class="eyebrow">CONTEXTO • HISTORIA</span>
+        <h2 id="about-heading">SOBRE LA EXPOSICIÓN</h2>
+        <div class="gold-rule"></div>
+
+        <!-- Intro en dos columnas -->
+        <div class="about-grid">
+          <p>
+            Esta exposición virtual complementa la muestra física y busca desdibujar la idea simplista
+            de que todos los afrodescendientes en la época colonial eran esclavos.
+          </p>
+          <p>
+            A través de obras seculares, religiosas y retratos, descubriremos cómo los afrodescendientes
+            ocupaban roles diversos y complejos en la sociedad colonial: comerciantes, artesanos,
+            líderes religiosos y figuras de confianza en las élites.
+          </p>
+        </div>
+
+        <!-- Acordeón -->
+        <div class="accordion" role="list">
+
+          <div class="accordion__item" role="listitem">
+            <button class="accordion__trigger" aria-expanded="false">
+              <span>Objetivos de la Exposición</span>
+              <!-- Ícono chevron -->
+              <svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <div class="accordion__body" role="region">
+              <div class="accordion__content">
+                Esta exposición busca revelar la complejidad de las representaciones de afrodescendientes
+                en el arte colonial, mostrando roles que van más allá de la esclavitud: comerciantes,
+                artesanos, líderes religiosos y figuras de confianza en las élites coloniales.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion__item" role="listitem">
+            <button class="accordion__trigger" aria-expanded="false">
+              <span>Contexto Histórico</span>
+              <svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <div class="accordion__body" role="region">
+              <div class="accordion__content">
+                Durante el periodo colonial latinoamericano (siglos XVI-XIX), los afrodescendientes
+                constituyeron una parte fundamental del tejido social. Aunque muchos llegaron como
+                esclavos, otros fueron personas libres que ejercieron oficios especializados y ocuparon
+                posiciones de responsabilidad en diferentes estratos sociales.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion__item" role="listitem">
+            <button class="accordion__trigger" aria-expanded="false">
+              <span>Relevancia Contemporánea</span>
+              <svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <div class="accordion__body" role="region">
+              <div class="accordion__content">
+                Estas pinturas son más que registros históricos: son pistas fundamentales para comprender
+                mejor las dinámicas socioculturales que aún influyen en nuestra sociedad contemporánea,
+                ayudándonos a cuestionar estereotipos y reconocer la diversidad histórica de las
+                comunidades afrodescendientes.
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /accordion -->
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════ NARRATIVAS ═ -->
+    <section class="narratives-section reveal reveal--delay-1" aria-labelledby="narratives-heading">
+      <div class="section-header container">
+        <span class="eyebrow">RECORRIDOS • EXPERIENCIAS</span>
+        <h2 id="narratives-heading">NARRATIVAS</h2>
+        <div class="gold-rule"></div>
+      </div>
+
+      <div class="narratives-grid">
+
+        <!-- ══════════════════════════════════════════════════ NARRATIVE CARDS ══ -->
+      <!-- Card: Público General -->
+      <a href="pages/coleccion.html" class="narrative-card">
+        <div class="narrative-card__bg"
+             style="background-image:url('../assets/images/narrativa-publico.png');background-color:#1C4694;">
+        </div>
+        <div class="narrative-card__content">
+          <span class="narrative-card__label">DID YOU KNOW?</span>
+          <h2 class="narrative-card__title">PÚBLICO GENERAL</h2>
+          <p class="narrative-card__desc">
+            Un recorrido narrativo que conecta el pasado con el presente, revelando cómo estas obras
+            nos ayudan a comprender las dinámicas socioculturales actuales.
+          </p>
+          <span class="narrative-card__btn">EXPLORAR →</span>
+        </div>
+      </a>
+
+      <!-- Card: Especialistas (tinte más oscuro con clase --dark) -->
+      <a href="pages/coleccion.html" class="narrative-card"
+         class="narrative-card narrative-card--dark">
+        <div class="narrative-card__bg"
+             style="background-image:url('../assets/images/narrativa-especialistas.png');background-color:#212B3F;">
+        </div>
+        <div class="narrative-card__content">
+          <span class="narrative-card__label">INTO THE ROOTS</span>
+          <h2 class="narrative-card__title">ESPECIALISTAS</h2>
+          <p class="narrative-card__desc">
+            Una exploración académica y detallada de las obras, organizada por temáticas: seculares,
+            religiosas y retratos. Ideal para investigadores y estudiosos del arte colonial.
+          </p>
+          <span class="narrative-card__btn">EXPLORAR →</span>
+        </div>
+      </a>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════ FOOTER ═══════ -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <span class="footer__logo">EX</span>
+        <span class="footer__copy">© 2026 Exposición Virtual</span>
+      </div>
+      <div class="footer__social" aria-label="Redes sociales">
+        <a href="#" class="footer__social-btn" aria-label="Facebook">
+          <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+        </a>
+        <a href="#" class="footer__social-btn" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+        </a>
+        <a href="#" class="footer__social-btn" aria-label="Twitter / X">
+          <svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+        </a>
+        <a href="mailto:contacto@presencias.org" class="footer__social-btn" aria-label="Email">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ════════════════════════════════════════════════════ SCRIPTS ══════════ -->
+  <!-- Datos de las obras -->
+  <script src="js/artworks.js"></script>
+  <!-- JS compartido (navbar, scroll reveal, acordeón, carrusel) -->
+  <script src="js/main.js"></script>
+
+  <!-- Script inline: poblar carrusel con obras destacadas -->
+  <script>
+    (function buildFeaturedCarousel() {
+      var track    = document.getElementById('featured-track');
+      if (!track || !window.getFeaturedArtworks) return;
+
+      var featured = window.getFeaturedArtworks();
+
+      /* Construir los items del carrusel */
+      track.innerHTML = featured.map(function (art) {
+        return [
+          '<a href="pages/coleccion.html?obra=' + art.id + '" class="carousel__item artwork-card">',
+            '<div class="artwork-card__img">',
+              '<img src="' + art.imageUrl + '" alt="' + art.title + '" loading="lazy" />',
+              '<div class="artwork-card__overlay">',
+                '<h3>' + art.title + '</h3>',
+                '<span class="artist">' + art.artist + '</span>',
+                '<span class="year">'   + art.year   + '</span>',
+              '</div>',
+            '</div>',
+          '</a>'
+        ].join('');
+      }).join('');
+    })();
+  </script>
+
+  <!-- Parallax muy leve en el hero -->
+  <script>
+    (function heroParallax() {
+      var img = document.getElementById('hero-bg-img');
+      if (!img || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      window.addEventListener('scroll', function () {
+        /* Desplazar la imagen un 30% de lo que se scrollea */
+        img.style.transform = 'translateY(' + (window.scrollY * 0.3) + 'px)';
+      }, { passive: true });
+    })();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Presencias</title>
+  <meta name="description" content="Sobre la exposición: objetivos, contexto histórico, planimetría y equipo curatorial." />
+  <link rel="stylesheet" href="../css/main.css" />
+  <style>
+    /* ── Sección planimetría (fondo azul oscuro) ── */
+    .plan-section {
+      position: relative;
+      background-color: var(--navy-800);
+      padding: 7rem 0;
+      margin-bottom: 5rem;
+      clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);
+    }
+
+    /* Contenedor relativo de la imagen del plano (para posicionar hotspots) */
+    .plan-wrapper {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+
+    .plan-wrapper img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Instrucción de uso del plano */
+    .plan-hint {
+      font-family: var(--font-secondary);
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    /* ── Sección equipo curatorial (cream) ── */
+    .team-section {
+      position: relative;
+      background-color: var(--cream);
+      padding: 7rem 0;
+      clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 100%);
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    @media (max-width: 900px)  { .team-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 640px)  { .team-grid { grid-template-columns: 1fr; } }
+
+    /* ── Sección about / cream superior ── */
+    .about-cream {
+      position: relative;
+      background-color: var(--cream);
+      padding: 7rem 0;
+      margin-bottom: 5rem;
+      clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);
+    }
+    .about-cream .eyebrow { color: var(--gold-600); }
+    .about-cream h2       { color: var(--bg-900); }
+
+    .about-intro-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+    .about-intro-grid p {
+      font-size: 0.875rem;
+      color: var(--bg-600);
+      line-height: 1.8;
+    }
+
+    @media (max-width: 768px) { .about-intro-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════ NAVBAR ═══════ -->
+  <nav class="navbar" role="navigation" aria-label="Navegación principal">
+    <div class="navbar__inner">
+      <a href="../index.html" class="navbar__logo">EX</a>
+      <ul class="navbar__links">
+        <li><a href="../index.html">HOME</a></li>
+        <li><a href="about.html" class="active">ABOUT</a></li>
+        <li><a href="narrativas.html">NARRATIVAS</a></li>
+        <li><a href="coleccion.html">COLECCIÓN</a></li>
+        <li><a href="info.html">INFO</a></li>
+        <li><a href="documentacion.html">DOCUMENTACIÓN</a></li>
+      </ul>
+      <button class="navbar__toggle" aria-label="Abrir menú" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="navbar__mobile">
+      <a href="../index.html">HOME</a>
+      <a href="about.html" class="active">ABOUT</a>
+      <a href="narrativas.html">NARRATIVAS</a>
+      <a href="coleccion.html">COLECCIÓN</a>
+      <a href="info.html">INFO</a>
+      <a href="documentacion.html">DOCUMENTACIÓN</a>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- ══════════════════════════════════════════════ PAGE HERO (heading) ═ -->
+    <div class="page-hero container reveal">
+      <span class="eyebrow">EXPOSICIÓN • INFORMACIÓN</span>
+      <h1>ABOUT</h1>
+      <div class="gold-rule"></div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════ SOBRE LA EXPO ═══ -->
+    <section class="about-cream reveal" aria-labelledby="about-expo-heading">
+      <div class="container">
+        <span class="eyebrow">CONTEXTO • HISTORIA</span>
+        <h2 id="about-expo-heading">SOBRE LA EXPOSICIÓN</h2>
+        <div class="gold-rule"></div>
+
+        <div class="about-intro-grid">
+          <p>
+            Esta exposición virtual complementa la muestra física y busca desdibujar la idea simplista
+            de que todos los afrodescendientes en la época colonial eran esclavos.
+          </p>
+          <p>
+            A través de obras seculares, religiosas y retratos, descubriremos cómo los afrodescendientes
+            ocupaban roles diversos y complejos en la sociedad colonial: comerciantes, artesanos,
+            líderes religiosos y figuras de confianza en las élites.
+          </p>
+        </div>
+
+        <!-- Acordeón con 4 ítems -->
+        <div class="accordion" role="list">
+
+          <div class="accordion__item" role="listitem">
+            <button class="accordion__trigger" aria-expanded="false">
+              <span>Objetivos de la Exposición</span>
+              <svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <div class="accordion__body">
+              <div class="accordion__content">
+                Esta exposición busca revelar la complejidad de las representaciones de afrodescendientes
+                en el arte colonial, mostrando roles que van más allá de la esclavitud: comerciantes,
+                artesanos, líderes religiosos y figuras de confianza en las élites coloniales.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion__item" role="listitem">
+            <button class="accordion__trigger" aria-expanded="false">
+              <span>Contexto Histórico</span>
+              <svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <div class="accordion__body">
+              <div class="accordion__content">
+                Durante el periodo colonial latinoamericano (siglos XVI-XIX), los afrodescendientes
+                constituyeron una parte fundamental del tejido social. Aunque muchos llegaron como
+                esclavos, otros fueron personas libres que ejercieron oficios especializados y ocuparon
+                posiciones de responsabilidad en diferentes estratos sociales.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion__item" role="listitem">
+            <button class="accordion__trigger" aria-expanded="false">
+              <span>Relevancia Contemporánea</span>
+              <svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <div class="accordion__body">
+              <div class="accordion__content">
+                Estas pinturas son más que registros históricos: son pistas fundamentales para comprender
+                mejor las dinámicas socioculturales que aún influyen en nuestra sociedad contemporánea,
+                ayudándonos a cuestionar estereotipos y reconocer la diversidad histórica de las
+                comunidades afrodescendientes.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion__item" role="listitem">
+            <button class="accordion__trigger" aria-expanded="false">
+              <span>Metodología Curatorial</span>
+              <svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <div class="accordion__body">
+              <div class="accordion__content">
+                Las obras fueron seleccionadas siguiendo criterios de representatividad histórica,
+                diversidad de contextos y claridad en la representación de afrodescendientes en roles
+                diversos. Cada pieza fue analizada considerando elementos como vestimenta, posición
+                espacial, gestos y contexto social — aplicando el método iconográfico de Panofsky
+                al corpus del archivo ARCA.
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /accordion -->
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════ PLANIMETRÍA ══════ -->
+    <section class="plan-section reveal" aria-labelledby="plan-heading">
+      <div class="container">
+        <h2 id="plan-heading">PLANIMETRÍA</h2>
+        <div class="gold-rule" style="margin-bottom:2rem;"></div>
+
+        <!-- Contenedor del plano interactivo -->
+        <div
+          id="museum-plan"
+          style="background:rgba(255,255,255,0.1);border:2px solid rgba(184,146,74,0.3);border-radius:8px;overflow:hidden;padding:1rem;"
+        >
+          <!-- .plan-wrapper es donde museum-plan.js inserta los hotspots -->
+          <div class="plan-wrapper">
+            <img
+              src="../assets/images/museum-plan.png"
+              alt="Plano del museo con numeración de obras"
+            />
+            <!-- Los hotspots se insertan aquí vía museum-plan.js -->
+          </div>
+        </div>
+
+        <p class="plan-hint">
+          Pasa el cursor sobre los números para ver las obras &bull; Haz click para más información
+        </p>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════ EQUIPO CURATORIAL ════ -->
+    <section class="team-section reveal" aria-labelledby="team-heading">
+      <div class="container">
+        <h2 id="team-heading" style="color:var(--bg-900);">EQUIPO CURATORIAL</h2>
+        <div class="gold-rule" style="margin-bottom:3rem;"></div>
+
+        <div class="team-grid">
+
+          <div class="team-card">
+            <div class="team-card__avatar" style="background-color:#212B3F;">
+              <div class="team-card__initial">F</div>
+            </div>
+            <p class="team-card__name">Dra. María Fernández</p>
+            <p class="team-card__role">Curadora Principal</p>
+            <p class="team-card__specialty">Arte Colonial Latinoamericano</p>
+          </div>
+
+          <div class="team-card">
+            <div class="team-card__avatar" style="background-color:#1C4694;">
+              <div class="team-card__initial">M</div>
+            </div>
+            <p class="team-card__name">Dr. Carlos Mendoza</p>
+            <p class="team-card__role">Investigador Senior</p>
+            <p class="team-card__specialty">Historia Social Colonial</p>
+          </div>
+
+          <div class="team-card">
+            <div class="team-card__avatar" style="background-color:#263D69;">
+              <div class="team-card__initial">T</div>
+            </div>
+            <p class="team-card__name">Lic. Ana Torres</p>
+            <p class="team-card__role">Coordinadora de Educación</p>
+            <p class="team-card__specialty">Mediación Cultural</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════ FOOTER ═══════ -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <a href="../index.html" class="footer__logo">EX</a>
+        <span class="footer__copy">© 2026 Exposición Virtual</span>
+      </div>
+      <div class="footer__social">
+        <a href="#" class="footer__social-btn" aria-label="Facebook">
+          <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+        </a>
+        <a href="#" class="footer__social-btn" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+        </a>
+        <a href="#" class="footer__social-btn" aria-label="Twitter">
+          <svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+        </a>
+        <a href="mailto:contacto@presencias.org" class="footer__social-btn" aria-label="Email">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../js/artworks.js"></script>
+  <script src="../js/main.js"></script>
+  <!-- Planimetría interactiva (carga hotspots sobre museum-plan.png) -->
+  <script src="../js/museum-plan.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,1370 @@
+/* =============================================================================
+   PRESENCIAS — Exposición Virtual de Arte Colonial
+   main.css — Hoja de estilos principal
+   Basado en el design system Vovex (Oswald + Raleway, paleta dark-gold)
+   ============================================================================= */
+
+/* ─── Google Fonts ─────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap');
+
+/* ─── Design Tokens (variables CSS del design system) ───────────────────────── */
+:root {
+  /* Tipografías */
+  --font-primary:   'Oswald',  sans-serif;   /* Títulos, labels, stats */
+  --font-secondary: 'Raleway', sans-serif;   /* Cuerpo, botones, nav */
+
+  /* Fondos oscuros */
+  --bg-950: #0C0B09;
+  --bg-900: #191613;   /* Fondo principal del sitio */
+  --bg-800: #2A2620;   /* Cards, inputs */
+  --bg-700: #3D3830;   /* Hover states, acordeones abiertos */
+  --bg-600: #4D4840;   /* Bordes de inputs */
+  --bg-500: #6A6460;   /* Texto muted */
+  --bg-400: #8A8480;   /* Texto muy sutil */
+
+  /* Acento dorado */
+  --gold-600: #9B7630;
+  --gold-500: #B8924A;  /* Color principal de acento */
+  --gold-400: #CCA761;
+  --gold-300: #DEC087;
+
+  /* Neutros cálidos */
+  --warm-500: #A68F7B;
+  --warm-400: #D9CEC5;
+  --warm-300: #F2F2F2;
+  --warm-200: #F7F5F2;
+  --warm-100: #FFFFFF;
+
+  /* Azules (secciones especiales) */
+  --navy-900: #0D1440;
+  --navy-800: #1C4694;   /* Sección planimetría, info museo */
+  --navy-700: #212B3F;   /* Sección narrativa especialistas */
+  --navy-600: #263D69;
+
+  /* Color crema de secciones About */
+  --cream: #FFEEC9;
+
+  /* Textos */
+  --text-primary:   #FFFFFF;
+  --text-secondary: #D9CEC5;
+  --text-tertiary:  #A68F7B;
+  --text-muted:     #6A6460;
+
+  /* Escala de espaciado */
+  --space-xs:  4px;
+  --space-sm:  8px;
+  --space-md:  16px;
+  --space-lg:  32px;
+  --space-xl:  64px;
+  --space-2xl: 96px;
+  --space-3xl: 160px;
+
+  /* Radios de borde */
+  --radius-none: 0px;
+  --radius-sm:   2px;
+  --radius-md:   4px;
+  --radius-lg:   8px;
+  --radius-xl:   12px;
+  --radius-full: 9999px;
+
+  /* Transiciones estándar */
+  --transition-fast:   150ms ease-out;
+  --transition-base:   300ms ease-out;
+  --transition-slow:   500ms ease-out;
+  --transition-reveal: 600ms ease-out;
+  --transition-hero:  1000ms ease-out;
+
+  /* Navbar height (para padding de páginas) */
+  --navbar-h: 80px;
+}
+
+/* ─── Reset & Base ──────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-900);
+  color: var(--text-primary);
+  font-family: var(--font-secondary);
+  font-size: 16px;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Tipografía global ──────────────────────────────────────────────────────── */
+h1, h2, h3 {
+  font-family: var(--font-primary);
+  font-weight: 700;
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
+h1 { font-size: clamp(2.5rem, 6vw, 4rem); }
+h2 { font-size: clamp(2rem,  5vw, 3rem); }
+h3 { font-size: clamp(1.25rem, 3vw, 1.75rem); }
+
+p {
+  font-family: var(--font-secondary);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--transition-base);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: var(--font-secondary);
+}
+
+/* ─── Utilidades de layout ──────────────────────────────────────────────────── */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--space-xl);   /* 64px laterales en desktop */
+}
+
+@media (max-width: 768px) {
+  .container { padding: 0 var(--space-lg); }  /* 32px en mobile */
+}
+
+/* Eyebrow label (etiqueta sobre títulos: "COLECCIÓN • ARTE") */
+.eyebrow {
+  font-family: var(--font-secondary);
+  font-weight: 500;
+  font-size: 0.6875rem;        /* 11px */
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--gold-500);
+  display: block;
+  margin-bottom: var(--space-sm);
+}
+
+/* Línea dorada decorativa bajo títulos de sección */
+.gold-rule {
+  width: 64px;
+  height: 4px;
+  background-color: var(--gold-500);
+  margin-top: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+/* ─── NAVBAR ────────────────────────────────────────────────────────────────── */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 1.5rem 0;
+  transition: background-color var(--transition-base),
+              padding        var(--transition-base),
+              box-shadow     var(--transition-base);
+}
+
+/* Estado "scrolled": fondo crema, texto oscuro */
+.navbar.scrolled {
+  background-color: var(--warm-200);
+  padding: 1rem 0;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.15);
+}
+
+.navbar__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--space-xl);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Logo "EX" */
+.navbar__logo {
+  font-family: var(--font-primary);
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  transition: color var(--transition-base);
+  letter-spacing: 0.05em;
+}
+
+.navbar.scrolled .navbar__logo {
+  color: var(--bg-900);
+}
+
+/* Links de navegación */
+.navbar__links {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  list-style: none;
+}
+
+.navbar__links a {
+  font-family: var(--font-secondary);
+  font-weight: 500;
+  font-size: 0.6875rem;    /* 11px */
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--text-primary);
+  transition: color var(--transition-base);
+  padding-bottom: 2px;
+  border-bottom: 1px solid transparent;
+}
+
+.navbar.scrolled .navbar__links a {
+  color: var(--bg-600);
+}
+
+.navbar__links a:hover,
+.navbar__links a.active {
+  color: var(--gold-500);
+  border-bottom-color: var(--gold-500);
+}
+
+.navbar.scrolled .navbar__links a:hover,
+.navbar.scrolled .navbar__links a.active {
+  color: var(--gold-600);
+  border-bottom-color: var(--gold-600);
+}
+
+/* Botón hamburguesa (mobile) */
+.navbar__toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  padding: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.navbar__toggle span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background-color: var(--text-primary);
+  transition: transform var(--transition-base),
+              opacity   var(--transition-base);
+}
+
+.navbar.scrolled .navbar__toggle span {
+  background-color: var(--bg-900);
+}
+
+/* Estado abierto del hamburguesa */
+.navbar__toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.navbar__toggle.open span:nth-child(2) { opacity: 0; }
+.navbar__toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Menú mobile */
+.navbar__mobile {
+  display: none;
+  background-color: var(--warm-200);
+  border-top: 1px solid var(--warm-400);
+  padding: 1rem 0;
+}
+
+.navbar__mobile.open {
+  display: block;
+}
+
+.navbar__mobile a {
+  display: block;
+  padding: 0.75rem var(--space-xl);
+  font-family: var(--font-secondary);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--bg-600);
+  transition: color var(--transition-base);
+}
+
+.navbar__mobile a:hover,
+.navbar__mobile a.active {
+  color: var(--gold-500);
+}
+
+@media (max-width: 900px) {
+  .navbar__links  { display: none; }
+  .navbar__toggle { display: flex; }
+}
+
+/* ─── FOOTER ─────────────────────────────────────────────────────────────────── */
+.footer {
+  background-color: var(--warm-200);
+  color: var(--bg-900);
+  border-top: 1px solid var(--warm-400);
+  padding: 2rem 0;
+}
+
+.footer__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--space-xl);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.footer__brand {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.footer__logo {
+  font-family: var(--font-primary);
+  font-weight: 700;
+  font-size: 1.75rem;
+  color: var(--bg-900);
+}
+
+.footer__copy {
+  font-size: 0.6875rem;
+  color: var(--bg-500);
+}
+
+.footer__social {
+  display: flex;
+  gap: 0.75rem;
+}
+
+/* Botón de red social (círculo con borde) */
+.footer__social-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--bg-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--bg-500);
+  transition: background-color var(--transition-base),
+              color             var(--transition-base),
+              border-color      var(--transition-base);
+}
+
+.footer__social-btn:hover {
+  background-color: var(--gold-500);
+  color: var(--warm-100);
+  border-color: var(--gold-500);
+}
+
+.footer__social-btn svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ─── BOTONES ─────────────────────────────────────────────────────────────────── */
+
+/* Botón primario (dorado sólido) */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  font-family: var(--font-secondary);
+  font-weight: 500;
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-base);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn--primary {
+  background-color: var(--gold-500);
+  color: var(--bg-900);
+  border: 1px solid var(--gold-500);
+}
+
+.btn--primary:hover {
+  background-color: var(--gold-400);
+  border-color: var(--gold-400);
+  color: var(--bg-900);
+}
+
+/* Botón outline (borde dorado) */
+.btn--outline {
+  background-color: transparent;
+  color: var(--gold-500);
+  border: 1px solid var(--gold-500);
+}
+
+.btn--outline:hover {
+  background-color: var(--gold-500);
+  color: var(--bg-900);
+}
+
+/* Botón outline claro (para fondos oscuros) */
+.btn--outline-light {
+  background-color: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--bg-500);
+}
+
+.btn--outline-light:hover {
+  border-color: var(--gold-500);
+  color: var(--gold-500);
+}
+
+/* ─── BADGES & TAGS ───────────────────────────────────────────────────────────── */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  font-family: var(--font-secondary);
+  font-size: 0.5625rem;   /* 9px */
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  border-radius: var(--radius-sm);
+}
+
+.badge--secular   { background-color: var(--gold-500);  color: var(--bg-900); }
+.badge--religious { background-color: var(--bg-700);    color: var(--gold-400); }
+.badge--portrait  { background-color: var(--bg-800);    color: var(--warm-400); }
+.badge--castas    { background-color: var(--gold-600);  color: var(--warm-100); }
+.badge--featured  { background-color: var(--gold-300);  color: var(--bg-900); }
+
+.badge--outline {
+  background-color: transparent;
+  border: 1px solid var(--gold-500);
+  color: var(--gold-400);
+}
+
+/* ─── CARDS DE OBRA ───────────────────────────────────────────────────────────── */
+
+.artwork-card {
+  position: relative;
+  background-color: var(--bg-800);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform var(--transition-base),
+              box-shadow var(--transition-base);
+}
+
+.artwork-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+/* Barra dorada de acento en borde superior */
+.artwork-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 3px;
+  background-color: var(--gold-500);
+  z-index: 2;
+  transition: width var(--transition-base);
+}
+
+.artwork-card:hover::before {
+  width: 100%;
+}
+
+/* Imagen con aspect ratio fijo */
+.artwork-card__img {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background-color: var(--bg-700);
+}
+
+.artwork-card__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-slow);
+}
+
+.artwork-card:hover .artwork-card__img img {
+  transform: scale(1.05);
+}
+
+/* Overlay de hover con info */
+.artwork-card__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(25, 22, 19, 0.95) 0%,
+    rgba(25, 22, 19, 0.2)  50%,
+    transparent            100%
+  );
+  opacity: 0;
+  transition: opacity var(--transition-base);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.5rem;
+}
+
+.artwork-card:hover .artwork-card__overlay {
+  opacity: 1;
+}
+
+.artwork-card__overlay h3 {
+  font-family: var(--font-secondary);
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--warm-400);
+  margin-bottom: 0.25rem;
+}
+
+.artwork-card__overlay .artist {
+  font-family: var(--font-primary);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: var(--warm-500);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.artwork-card__overlay .year {
+  font-family: var(--font-secondary);
+  font-size: 0.6875rem;
+  color: var(--bg-400);
+  margin-top: 0.25rem;
+}
+
+/* ─── ACORDEÓN ────────────────────────────────────────────────────────────────── */
+
+.accordion__item {
+  border-bottom: 1px solid var(--warm-500);
+  overflow: hidden;
+}
+
+.accordion__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1.25rem 1.5rem;
+  text-align: left;
+  font-family: var(--font-secondary);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--bg-900);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.accordion__trigger:hover {
+  color: var(--bg-600);
+}
+
+/* Ícono de chevron que rota */
+.accordion__icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform var(--transition-base);
+}
+
+.accordion__trigger.open .accordion__icon {
+  transform: rotate(180deg);
+}
+
+/* Panel de contenido (oculto por defecto, animado con JS) */
+.accordion__body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height var(--transition-slow);
+}
+
+.accordion__body.open {
+  max-height: 500px;
+}
+
+.accordion__content {
+  padding: 0 1.5rem 1.25rem;
+  font-family: var(--font-secondary);
+  font-size: 0.875rem;
+  color: var(--bg-600);
+  line-height: 1.75;
+}
+
+/* Variante oscura del acordeón (para fondos dark) */
+.accordion--dark .accordion__item {
+  border-bottom-color: var(--bg-700);
+}
+
+.accordion--dark .accordion__trigger {
+  color: var(--warm-400);
+}
+
+.accordion--dark .accordion__trigger.open {
+  color: var(--gold-400);
+}
+
+.accordion--dark .accordion__content {
+  color: var(--warm-400);
+}
+
+/* ─── ANIMACIONES DE SCROLL (reveal) ──────────────────────────────────────────── */
+
+/* Clase inicial: elemento invisible y desplazado hacia abajo */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity var(--transition-hero),
+              transform var(--transition-hero);
+}
+
+/* Clase añadida por JS cuando el elemento entra al viewport */
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Variante con delay (para escalonar múltiples elementos) */
+.reveal--delay-1 { transition-delay: 100ms; }
+.reveal--delay-2 { transition-delay: 200ms; }
+.reveal--delay-3 { transition-delay: 300ms; }
+.reveal--delay-4 { transition-delay: 400ms; }
+
+/* Animación fadeIn simple (para tooltips, overlays) */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* Animación fadeInUp más suave para secciones */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* ─── SECCIONES CON CLIP PATH (polígono diagonal) ────────────────────────────── */
+
+/* Clip superior: corte en ángulo en la parte de arriba */
+.clip-top {
+  clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 100%);
+  padding-top: 5%;   /* compensar el espacio recortado */
+}
+
+/* Clip inferior: corte en ángulo en la parte de abajo */
+.clip-bottom {
+  clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%);
+  padding-bottom: 5%;
+}
+
+/* Clip ambos lados */
+.clip-both {
+  clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);
+  padding-top: 5%;
+  padding-bottom: 5%;
+}
+
+/* ─── SECTION HEADER PATTERN (eyebrow + h2 + gold rule) ─────────────────────── */
+.section-header {
+  margin-bottom: var(--space-xl);
+}
+
+.section-header h2 {
+  margin-top: 0.5rem;
+}
+
+/* ─── INFO CARDS (para página Info) ──────────────────────────────────────────── */
+.info-card {
+  background-color: var(--navy-800);
+  border: 1px solid rgba(184, 146, 74, 0.2);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  transition: border-color var(--transition-base);
+  display: flex;
+  gap: 1rem;
+}
+
+.info-card:hover {
+  border-color: rgba(184, 146, 74, 0.5);
+}
+
+.info-card__icon {
+  color: var(--gold-500);
+  flex-shrink: 0;
+}
+
+.info-card__icon svg {
+  width: 24px;
+  height: 24px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.info-card__title {
+  font-family: var(--font-primary);
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.info-card__content {
+  font-family: var(--font-secondary);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* ─── TEAM MEMBER CARDS ──────────────────────────────────────────────────────── */
+.team-card {
+  cursor: pointer;
+}
+
+.team-card__avatar {
+  height: 260px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  transition: filter var(--transition-base);
+}
+
+.team-card:hover .team-card__avatar {
+  filter: brightness(1.1);
+}
+
+.team-card__initial {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-full);
+  background: rgba(184, 146, 74, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--bg-700);
+}
+
+.team-card__name {
+  font-family: var(--font-primary);
+  font-size: 1.125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--bg-900);
+  margin-bottom: 0.25rem;
+}
+
+.team-card__role {
+  font-family: var(--font-secondary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--gold-500);
+  margin-bottom: 0.5rem;
+}
+
+.team-card__specialty {
+  font-family: var(--font-secondary);
+  font-size: 0.75rem;
+  color: var(--bg-600);
+}
+
+/* ─── VISIT CARDS (Info page — Visítanos) ────────────────────────────────────── */
+.visit-card {
+  border: 1px solid rgba(184, 146, 74, 0.3);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  transition: border-color var(--transition-base);
+}
+
+.visit-card:hover {
+  border-color: rgba(184, 146, 74, 0.6);
+}
+
+.visit-card__icon {
+  color: var(--gold-500);
+  margin-bottom: 1rem;
+}
+
+.visit-card__icon svg {
+  width: 32px;
+  height: 32px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.visit-card__title {
+  font-family: var(--font-primary);
+  font-size: 1.125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+}
+
+.visit-card__content {
+  font-family: var(--font-secondary);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+/* ─── FILTROS DE CATEGORÍA (Colección) ───────────────────────────────────────── */
+.category-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  border-bottom: 1px solid var(--bg-500);
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+}
+
+.filter-btn {
+  font-family: var(--font-primary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--bg-500);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding-bottom: 0.5rem;
+  position: relative;
+  transition: color var(--transition-fast);
+}
+
+.filter-btn::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--gold-500);
+  transform: scaleX(0);
+  transition: transform var(--transition-base);
+}
+
+.filter-btn:hover {
+  color: var(--warm-400);
+}
+
+.filter-btn.active {
+  color: var(--gold-500);
+}
+
+.filter-btn.active::after {
+  transform: scaleX(1);
+}
+
+/* ─── GRID DE OBRAS (Colección) ──────────────────────────────────────────────── */
+.artworks-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+@media (max-width: 1024px) {
+  .artworks-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .artworks-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+}
+
+/* Transición de filtrado */
+.artwork-grid-item {
+  transition: opacity var(--transition-base), transform var(--transition-base);
+}
+
+.artwork-grid-item.hidden {
+  opacity: 0;
+  transform: scale(0.9);
+  pointer-events: none;
+  position: absolute;
+}
+
+/* ─── GITHUB BANNER (Documentación) ─────────────────────────────────────────── */
+.github-banner {
+  background-color: var(--gold-500);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: var(--space-xl);
+}
+
+.github-banner__title {
+  font-family: var(--font-primary);
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--bg-900);
+  margin-bottom: 0.25rem;
+}
+
+.github-banner__subtitle {
+  font-family: var(--font-secondary);
+  font-size: 0.875rem;
+  color: rgba(25, 22, 19, 0.8);
+}
+
+.github-banner__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--bg-900);
+  color: var(--text-primary);
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-lg);
+  font-family: var(--font-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: background-color var(--transition-base);
+}
+
+.github-banner__btn:hover {
+  background-color: var(--bg-800);
+  color: var(--text-primary);
+}
+
+.github-banner__btn svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+}
+
+/* ─── SIDEBAR DE DOCUMENTACIÓN ───────────────────────────────────────────────── */
+.doc-layout {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.doc-sidebar {
+  width: 256px;
+  flex-shrink: 0;
+  position: sticky;
+  top: calc(var(--navbar-h) + 2rem);
+}
+
+.doc-sidebar__nav {
+  background-color: var(--navy-700);
+  border: 1px solid rgba(184, 146, 74, 0.2);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+}
+
+.doc-sidebar__title {
+  font-family: var(--font-primary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gold-500);
+  margin-bottom: 1rem;
+}
+
+.doc-sidebar__link {
+  display: block;
+  font-family: var(--font-secondary);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  padding: 0.375rem 0;
+  transition: color var(--transition-fast);
+}
+
+.doc-sidebar__link:hover,
+.doc-sidebar__link.active {
+  color: var(--gold-500);
+  font-weight: 600;
+}
+
+.doc-content {
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 1024px) {
+  .doc-sidebar { display: none; }
+}
+
+/* ─── RESOURCE CARDS (Documentación — Recursos Descargables) ─────────────────── */
+.resource-card {
+  background-color: var(--bg-800);
+  border: 1px solid var(--bg-700);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  transition: border-color var(--transition-base);
+}
+
+.resource-card:hover {
+  border-color: var(--gold-500);
+}
+
+.resource-card__icon {
+  color: var(--gold-500);
+  flex-shrink: 0;
+}
+
+.resource-card__icon svg {
+  width: 24px;
+  height: 24px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+}
+
+.resource-card__title {
+  font-family: var(--font-primary);
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.resource-card__desc {
+  font-family: var(--font-secondary);
+  font-size: 0.875rem;
+  color: var(--text-tertiary);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+/* ─── NARRATIVE CARDS (Narrativas page) ──────────────────────────────────────── */
+.narrative-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 3rem;
+  cursor: pointer;
+  transition: filter var(--transition-base);
+}
+
+.narrative-card__bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform var(--transition-slow);
+}
+
+.narrative-card:hover .narrative-card__bg {
+  transform: scale(1.04);
+}
+
+.narrative-card__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.85) 0%,
+    rgba(0,0,0,0.4)  50%,
+    rgba(0,0,0,0.2)  100%
+  );
+  transition: opacity var(--transition-base);
+}
+
+.narrative-card:hover .narrative-card__overlay {
+  opacity: 0.9;
+}
+
+/*
+  Slide-up mechanic:
+  En reposo: el bloque está desplazado ~160px hacia abajo con translateY(160px),
+  de modo que desc + btn quedan fuera del borde inferior (overflow:hidden los oculta)
+  y sólo label + título son visibles, pegados al fondo de la card.
+  En hover: translateY(0) revela todo el bloque.
+*/
+.narrative-card__content {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  padding: 2rem 2.75rem 2.75rem;
+  transform: translateY(160px);
+  transition: transform 440ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  /* Gradiente para que el título sea legible sobre la imagen */
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.72) 0%,
+    rgba(0,0,0,0.45) 55%,
+    transparent 100%
+  );
+}
+
+.narrative-card:hover .narrative-card__content {
+  transform: translateY(0);
+}
+
+.narrative-card__label {
+  font-family: var(--font-secondary);
+  font-size: 0.625rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--gold-400);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.narrative-card__title {
+  font-family: var(--font-primary);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  line-height: 1.0;
+  margin-bottom: 0;
+}
+
+.narrative-card__desc {
+  font-family: var(--font-secondary);
+  font-size: 0.9375rem;
+  color: var(--warm-400);
+  line-height: 1.7;
+  max-width: 480px;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  transition: opacity 280ms 180ms ease-out;
+}
+
+.narrative-card:hover .narrative-card__desc {
+  opacity: 1;
+}
+
+/* Botón sólido dorado — siempre legible */
+.narrative-card__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.5rem;
+  font-family: var(--font-secondary);
+  font-weight: 600;
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  border: none;
+  border-radius: 2px;
+  background: var(--gold-500);
+  color: var(--bg-900);
+  opacity: 0;
+  transition: opacity 260ms 200ms ease-out,
+              background 150ms, transform 150ms;
+}
+
+.narrative-card:hover .narrative-card__btn {
+  opacity: 1;
+}
+
+.narrative-card__btn:hover {
+  background: var(--gold-400);
+  transform: translateX(3px);
+}
+
+/* ─── CARRUSEL HORIZONTAL ────────────────────────────────────────────────────── */
+.carousel {
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -ms-overflow-style: none;   /* IE/Edge: ocultar scrollbar */
+  scrollbar-width: none;       /* Firefox: ocultar scrollbar */
+}
+
+.carousel::-webkit-scrollbar {
+  display: none;   /* Chrome/Safari: ocultar scrollbar */
+}
+
+.carousel__track {
+  display: flex;
+  gap: 1.5rem;
+  padding-bottom: 1rem;
+}
+
+.carousel__item {
+  flex-shrink: 0;
+  /* ~4 items visibles + pico de la 5a */
+  width: 300px;
+}
+
+.carousel__nav {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.carousel__btn {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--bg-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  transition: all var(--transition-fast);
+}
+
+.carousel__btn:hover {
+  border-color: var(--gold-500);
+  color: var(--gold-500);
+}
+
+.carousel__btn svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ─── QUOTES SECTION (Narrativas) ────────────────────────────────────────────── */
+.quote-section {
+  background-color: var(--bg-800);
+  padding: var(--space-2xl) 0;
+}
+
+.quote-card {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.quote-icon {
+  font-family: Georgia, serif;
+  font-size: 5rem;
+  line-height: 0.5;
+  color: var(--gold-500);
+  display: block;
+  margin-bottom: 2rem;
+}
+
+.quote-text {
+  font-family: var(--font-secondary);
+  font-size: clamp(1rem, 2.5vw, 1.375rem);
+  font-style: italic;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-bottom: 2rem;
+}
+
+.quote-author {
+  font-family: var(--font-primary);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gold-500);
+}
+
+.quote-role {
+  font-family: var(--font-secondary);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+.quote-dots {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.quote-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background-color: var(--bg-500);
+  border: none;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.quote-dot.active {
+  background-color: var(--gold-500);
+}
+
+/* ─── PAGE HERO (heading de páginas interiores) ───────────────────────────────── */
+.page-hero {
+  padding-top: calc(var(--navbar-h) + 5rem);
+  padding-bottom: 3rem;
+}
+
+/* ─── RESPONSIVE HELPERS ─────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  :root { --navbar-h: 64px; }
+  .footer__inner { flex-direction: column; text-align: center; }
+  .category-filters { gap: 1rem; }
+}

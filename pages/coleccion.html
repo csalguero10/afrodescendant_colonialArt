@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Colección — Presencias</title>
+  <meta name="description" content="Galería de las 15 obras de la exposición con filtros por categoría." />
+  <link rel="stylesheet" href="../css/main.css" />
+  <style>
+
+    /* ════════════════════════════════════════════════════════
+       VIEWER — ocupa inset:0, scrollable verticalmente
+       La imagen principal llena al menos 100vh de alto
+       Después, al hacer scroll, aparecen las obras relacionadas
+    ════════════════════════════════════════════════════════ */
+    .viewer {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #0C0B09;
+      z-index: 200;
+      overflow-y: auto;          /* scroll vertical para "obras relacionadas" */
+      overflow-x: hidden;
+    }
+    .viewer.open { display: block; }
+
+    /* ── Sección 1: imagen a pantalla completa ── */
+    .viewer__hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;              /* exactamente la ventana */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0C0B09;
+      overflow: hidden;           /* contiene la imagen sin desbordarse */
+    }
+
+    /* La imagen ocupa el máximo posible sin salirse */
+    .viewer__image {
+      display: block;
+      max-width: calc(100% - 120px);  /* espacio para flechas */
+      max-height: calc(100vh - 80px); /* espacio para toolbar */
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      transform-origin: center center;
+      user-select: none;
+      will-change: transform;
+      transition: transform 80ms ease-out;
+    }
+
+    /* Cuando hay panel abierto, la imagen se desplaza a la izquierda */
+    .viewer__hero.panel-open .viewer__image {
+      max-width: calc(100% - 420px); /* deja espacio al panel */
+      margin-right: 0;
+    }
+
+    /* ── Botón volver ── */
+    .viewer__back {
+      position: fixed;
+      top: 1.25rem;
+      left: 1.25rem;
+      z-index: 220;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(12,11,9,0.7);
+      backdrop-filter: blur(8px);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 150ms;
+    }
+    .viewer__back:hover { background: rgba(12,11,9,0.95); }
+    .viewer__back svg { width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round; }
+
+    /* ── Flechas prev / next ── */
+    .viewer__arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 210;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(12,11,9,0.55);
+      backdrop-filter: blur(6px);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 150ms, opacity 150ms;
+      opacity: 0;              /* ocultas por defecto, se muestran al hover del hero */
+    }
+    .viewer__hero:hover .viewer__arrow { opacity: 1; }
+    .viewer__arrow--prev { left: 1rem; }
+    .viewer__arrow--next { right: 1rem; }
+    .viewer__hero.panel-open .viewer__arrow--next { right: 405px; }
+    .viewer__arrow:hover { background: rgba(12,11,9,0.9); }
+    .viewer__arrow svg { width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round; }
+
+    /* ── Caption de título (parte inferior de la imagen) ── */
+    .viewer__caption {
+      position: absolute;
+      bottom: 5.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(12,11,9,0.72);
+      backdrop-filter: blur(8px);
+      border-radius: 8px;
+      padding: 0.6rem 1.25rem;
+      text-align: center;
+      pointer-events: none;
+      white-space: nowrap;
+      transition: opacity 300ms;
+    }
+    .viewer__caption.hidden { opacity: 0; }
+    .viewer__caption .c-artist {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.625rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: #A68F7B;
+      margin-bottom: 2px;
+    }
+    .viewer__caption .c-title {
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.875rem;
+      color: #D9CEC5;
+    }
+
+    /* ── Toolbar de zoom + acciones ── */
+    .viewer__toolbar {
+      position: fixed;
+      bottom: 1.25rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 220;
+      display: flex;
+      gap: 0.5rem;
+      background: rgba(12,11,9,0.75);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 40px;
+      padding: 0.4rem 0.75rem;
+    }
+    .viewer__tool {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: none;
+      background: transparent;
+      color: rgba(255,255,255,0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: color 150ms, background 150ms;
+    }
+    .viewer__tool:hover,
+    .viewer__tool.active { color: #B8924A; background: rgba(184,146,74,0.12); }
+    .viewer__tool svg { width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round; }
+    /* Separador entre grupos de botones */
+    .viewer__tool-sep {
+      width: 1px;
+      background: rgba(255,255,255,0.12);
+      margin: 6px 2px;
+    }
+
+    /* ════════════════════════════════════════════════════════
+       PANEL LATERAL — Info y Detalles
+    ════════════════════════════════════════════════════════ */
+    .viewer__panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 400px;
+      max-width: 100vw;
+      background: rgba(25,22,19,0.94);
+      backdrop-filter: blur(16px);
+      border-left: 1px solid rgba(255,255,255,0.07);
+      overflow-y: auto;
+      z-index: 215;
+      display: none;        /* JS pone display:flex o block */
+      flex-direction: column;
+      padding: 2rem 1.75rem 2rem;
+    }
+    .viewer__panel.open { display: flex; }
+
+    .panel__close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255,255,255,0.07);
+      color: rgba(255,255,255,0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 150ms;
+    }
+    .panel__close:hover { background: rgba(255,255,255,0.15); }
+    .panel__close svg { width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round; }
+
+    /* Cabecera del panel: artista + título + año */
+    .panel__meta { margin-bottom: 1.5rem; padding-top: 0.5rem; }
+    .panel__meta .p-artist {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.625rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: #A68F7B;
+      margin-bottom: 6px;
+    }
+    .panel__meta .p-title {
+      font-family: 'Raleway', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #D9CEC5;
+      line-height: 1.3;
+      margin-bottom: 4px;
+      text-transform: none;
+    }
+    .panel__meta .p-year {
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.8125rem;
+      color: #6A6460;
+    }
+
+    .panel__section-label {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: #A68F7B;
+      margin-bottom: 0.6rem;
+    }
+    .panel__desc {
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.875rem;
+      color: #D9CEC5;
+      line-height: 1.8;
+    }
+    .panel__sep {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      margin: 1.5rem 0;
+    }
+    .panel__row {
+      display: flex;
+      justify-content: space-between;
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.8125rem;
+      margin-bottom: 0.6rem;
+    }
+    .panel__row dt { color: #6A6460; }
+    .panel__row dd { color: #D9CEC5; text-align: right; }
+
+    /* ════════════════════════════════════════════════════════
+       PANEL DETALLES — filmstrip + zoom en la imagen
+    ════════════════════════════════════════════════════════ */
+
+    /* Filmstrip horizontal de thumbnails */
+    .filmstrip {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+    }
+    .filmstrip__thumb {
+      width: 68px;
+      height: 68px;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 2px solid transparent;
+      cursor: pointer;
+      opacity: 0.45;
+      transition: opacity 200ms, border-color 200ms;
+      flex-shrink: 0;
+      background: #2A2620;
+      position: relative;
+    }
+    .filmstrip__thumb:hover { opacity: 0.75; }
+    .filmstrip__thumb.active {
+      border-color: #B8924A;
+      opacity: 1;
+    }
+    /* Imagen del thumb — muestro la zona de zoom usando clip */
+    .filmstrip__thumb img {
+      position: absolute;
+      /* transform se establece por JS para recortar la zona */
+      transform-origin: top left;
+    }
+
+    /* Contador "3 de 4" */
+    .detail__counter {
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.75rem;
+      color: #6A6460;
+      margin-bottom: 0.5rem;
+    }
+    .detail__title {
+      font-family: 'Raleway', sans-serif;
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: #D9CEC5;
+      margin-bottom: 1rem;
+      text-transform: none;
+    }
+    .detail__text {
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.875rem;
+      color: #D9CEC5;
+      line-height: 1.8;
+    }
+
+    /* Dots de navegación en detalles */
+    .detail__dots {
+      display: flex;
+      gap: 0.4rem;
+      justify-content: center;
+      margin-top: 1.5rem;
+    }
+    .detail__dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      border: none;
+      background: #6A6460;
+      cursor: pointer;
+      transition: background 150ms, transform 150ms;
+    }
+    .detail__dot.active {
+      background: #B8924A;
+      transform: scale(1.25);
+    }
+
+    /* ════════════════════════════════════════════════════════
+       OBRAS RELACIONADAS — debajo del hero, scroll para ver
+    ════════════════════════════════════════════════════════ */
+    .viewer__related {
+      background: #191613;
+      padding: 3.5rem 4rem 4rem;
+      border-top: 1px solid rgba(106,100,96,0.2);
+    }
+    .viewer__related h3 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.375rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: #fff;
+      margin-bottom: 1.75rem;
+    }
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 1rem;
+    }
+    @media (max-width: 1200px) { .related-grid { grid-template-columns: repeat(4, 1fr); } }
+    @media (max-width: 768px)  { .related-grid { grid-template-columns: repeat(3, 1fr); } }
+
+    /* ── Toast compartir ── */
+    #share-toast {
+      position: fixed;
+      bottom: 5rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(10px);
+      background: #3D3830;
+      color: #fff;
+      padding: 0.5rem 1.5rem;
+      border-radius: 9999px;
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.875rem;
+      opacity: 0;
+      transition: opacity 200ms, transform 200ms;
+      pointer-events: none;
+      z-index: 300;
+    }
+
+    /* ════════════════════════════════════════════════════════
+       GRID PAGE (colección)
+    ════════════════════════════════════════════════════════ */
+    .grid-page { min-height: 100vh; }
+
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════ NAVBAR ══════════ -->
+  <nav class="navbar" role="navigation" aria-label="Navegación principal">
+    <div class="navbar__inner">
+      <a href="../index.html" class="navbar__logo">EX</a>
+      <ul class="navbar__links">
+        <li><a href="../index.html">HOME</a></li>
+        <li><a href="about.html">ABOUT</a></li>
+        <li><a href="narrativas.html">NARRATIVAS</a></li>
+        <li><a href="coleccion.html" class="active">COLECCIÓN</a></li>
+        <li><a href="info.html">INFO</a></li>
+        <li><a href="documentacion.html">DOCUMENTACIÓN</a></li>
+      </ul>
+      <button class="navbar__toggle" aria-label="Abrir menú" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="navbar__mobile">
+      <a href="../index.html">HOME</a>
+      <a href="about.html">ABOUT</a>
+      <a href="narrativas.html">NARRATIVAS</a>
+      <a href="coleccion.html" class="active">COLECCIÓN</a>
+      <a href="info.html">INFO</a>
+      <a href="documentacion.html">DOCUMENTACIÓN</a>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════ GRID PAGE ═══════════ -->
+  <div id="grid-page" class="grid-page">
+    <main class="container" style="padding-top:calc(var(--navbar-h) + 3rem); padding-bottom:4rem;">
+
+      <div class="reveal" style="margin-bottom:2rem;">
+        <span class="eyebrow">GALERÍA • ARTE</span>
+        <h1>COLECCIÓN</h1>
+        <div class="gold-rule"></div>
+      </div>
+
+      <!-- Filtros -->
+      <div class="category-filters reveal" role="group" aria-label="Filtrar por categoría">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="secular">Secular</button>
+        <button class="filter-btn" data-filter="religious">Religioso</button>
+        <button class="filter-btn" data-filter="portrait">Retratos</button>
+        <button class="filter-btn" data-filter="castas">Castas</button>
+      </div>
+
+      <!-- Grid -->
+      <div class="artworks-grid reveal" id="artworks-grid"></div>
+
+      <div id="empty-msg" style="display:none;text-align:center;padding:5rem 0;">
+        <p style="color:var(--bg-500);font-size:1.125rem;">No hay obras en esta categoría.</p>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer__inner">
+        <div class="footer__brand">
+          <a href="../index.html" class="footer__logo">EX</a>
+          <span class="footer__copy">© 2026 Exposición Virtual</span>
+        </div>
+        <div class="footer__social">
+          <a href="#" class="footer__social-btn" aria-label="Facebook">
+            <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+          </a>
+          <a href="#" class="footer__social-btn" aria-label="Instagram">
+            <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path></svg>
+          </a>
+          <a href="mailto:contacto@presencias.org" class="footer__social-btn" aria-label="Email">
+            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+          </a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ VIEWER ══════════════ -->
+  <div id="artwork-viewer" class="viewer" role="dialog" aria-modal="true">
+
+    <!-- Botón volver al grid (fixed, siempre visible) -->
+    <button id="btn-back" class="viewer__back" aria-label="Volver a la colección">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </button>
+
+    <!-- ── Hero: imagen a pantalla completa ── -->
+    <div id="viewer-hero" class="viewer__hero">
+
+      <!-- Flechas prev / next -->
+      <button id="btn-prev" class="viewer__arrow viewer__arrow--prev" aria-label="Obra anterior">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+      <button id="btn-next" class="viewer__arrow viewer__arrow--next" aria-label="Obra siguiente">
+        <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"></polyline></svg>
+      </button>
+
+      <!-- Imagen principal -->
+      <img id="viewer-image" class="viewer__image" src="" alt="" draggable="false" />
+
+      <!-- Caption -->
+      <div id="viewer-caption" class="viewer__caption">
+        <p class="c-artist" id="cap-artist"></p>
+        <p class="c-title"  id="cap-title"></p>
+      </div>
+    </div>
+
+    <!-- ── Toolbar de acciones (fixed en la parte inferior) ── -->
+    <div class="viewer__toolbar">
+      <!-- Zoom in -->
+      <button id="btn-zoom-in" class="viewer__tool" aria-label="Zoom in">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+      </button>
+      <!-- Zoom out -->
+      <button id="btn-zoom-out" class="viewer__tool" aria-label="Zoom out">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+      </button>
+      <!-- Reset zoom -->
+      <button id="btn-zoom-reset" class="viewer__tool" aria-label="Restablecer zoom">
+        <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 .49-3.58"></path></svg>
+      </button>
+
+      <div class="viewer__tool-sep"></div>
+
+      <!-- Info -->
+      <button id="btn-info" class="viewer__tool" aria-label="Información">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+      </button>
+      <!-- Detalles iconográficos -->
+      <button id="btn-details" class="viewer__tool" aria-label="Detalles iconográficos">
+        <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+      </button>
+
+      <div class="viewer__tool-sep"></div>
+
+      <!-- Compartir -->
+      <button id="btn-share" class="viewer__tool" aria-label="Compartir">
+        <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+      </button>
+    </div>
+
+    <!-- ══════════════════════════════════ PANEL INFO ══════════════ -->
+    <aside id="panel-info" class="viewer__panel" aria-label="Información de la obra">
+      <button class="panel__close" id="close-info" aria-label="Cerrar">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+
+      <div class="panel__meta">
+        <p class="p-artist" id="info-artist"></p>
+        <p class="p-title"  id="info-title"></p>
+        <p class="p-year"   id="info-year"></p>
+      </div>
+
+      <p class="panel__section-label">Descripción</p>
+      <p class="panel__desc" id="info-desc"></p>
+
+      <hr class="panel__sep" />
+
+      <p class="panel__section-label">Detalles Técnicos</p>
+      <dl>
+        <div class="panel__row"><dt>Artista</dt>   <dd id="info-artist-val"></dd></div>
+        <div class="panel__row"><dt>Periodo</dt>   <dd id="info-year-val"></dd></div>
+        <div class="panel__row"><dt>Categoría</dt> <dd id="info-cat-val"></dd></div>
+      </dl>
+    </aside>
+
+    <!-- ══════════════════════════════════ PANEL DETALLES ═════════ -->
+    <aside id="panel-details" class="viewer__panel" aria-label="Detalles iconográficos">
+      <button class="panel__close" id="close-details" aria-label="Cerrar">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+
+      <!-- Filmstrip de thumbnails -->
+      <div class="filmstrip" id="filmstrip"></div>
+
+      <!-- Texto del detalle activo -->
+      <p class="detail__counter" id="detail-counter"></p>
+      <p class="detail__title"   id="detail-title"></p>
+      <p class="detail__text"    id="detail-text"></p>
+
+      <!-- Dots de navegación -->
+      <div class="detail__dots" id="detail-dots"></div>
+    </aside>
+
+    <!-- ══════════════════════════════════ OBRAS RELACIONADAS ═════ -->
+    <div id="viewer-related" class="viewer__related" style="display:none;">
+      <h3>Obras Relacionadas</h3>
+      <div class="related-grid" id="related-grid"></div>
+    </div>
+
+  </div><!-- /viewer -->
+
+  <!-- Toast compartir -->
+  <div id="share-toast" role="status" aria-live="polite"></div>
+
+  <!-- ════════════════════════════════════════════════ SCRIPTS ════════════ -->
+  <script src="../js/artworks.js"></script>
+  <script src="../js/main.js"></script>
+
+  <script>
+  /* ═══════════════════════════════════════════════════════════════════════
+     VIEWER — lógica completa
+  ═══════════════════════════════════════════════════════════════════════ */
+  (function () {
+
+    /* ── Referencias DOM ── */
+    var viewer      = document.getElementById('artwork-viewer');
+    var gridPage    = document.getElementById('grid-page');
+    var hero        = document.getElementById('viewer-hero');
+    var mainImg     = document.getElementById('viewer-image');
+    var capArtist   = document.getElementById('cap-artist');
+    var capTitle    = document.getElementById('cap-title');
+    var caption     = document.getElementById('viewer-caption');
+
+    var btnBack     = document.getElementById('btn-back');
+    var btnPrev     = document.getElementById('btn-prev');
+    var btnNext     = document.getElementById('btn-next');
+    var btnZoomIn   = document.getElementById('btn-zoom-in');
+    var btnZoomOut  = document.getElementById('btn-zoom-out');
+    var btnZoomReset= document.getElementById('btn-zoom-reset');
+    var btnInfo     = document.getElementById('btn-info');
+    var btnDetails  = document.getElementById('btn-details');
+    var btnShare    = document.getElementById('btn-share');
+
+    var panelInfo   = document.getElementById('panel-info');
+    var panelDet    = document.getElementById('panel-details');
+    var closeInfo   = document.getElementById('close-info');
+    var closeDet    = document.getElementById('close-details');
+
+    var infoArtist  = document.getElementById('info-artist');
+    var infoArtVal  = document.getElementById('info-artist-val');
+    var infoTitle   = document.getElementById('info-title');
+    var infoYear    = document.getElementById('info-year');
+    var infoYearVal = document.getElementById('info-year-val');
+    var infoDesc    = document.getElementById('info-desc');
+    var infoCat     = document.getElementById('info-cat-val');
+
+    var filmstrip   = document.getElementById('filmstrip');
+    var detCounter  = document.getElementById('detail-counter');
+    var detTitle    = document.getElementById('detail-title');
+    var detText     = document.getElementById('detail-text');
+    var detDots     = document.getElementById('detail-dots');
+
+    var relatedSec  = document.getElementById('viewer-related');
+    var relatedGrid = document.getElementById('related-grid');
+
+    var shareToast  = document.getElementById('share-toast');
+
+    /* ── Estado del viewer ── */
+    var currentId     = null;
+    var zoomLevel     = 1;
+    var panX = 0, panY = 0;
+    var isDragging    = false;
+    var lastMX = 0, lastMY = 0;
+    var detailIndex   = 0;
+    var artworks      = window.ARTWORKS || [];
+
+    var CAT_LABELS = {
+      secular:'Obras Seculares', religious:'Obras Religiosas',
+      portrait:'Retratos', castas:'Pinturas de Castas'
+    };
+
+    /* ─────────────────────────────────────────────────
+       ABRIR / CERRAR VIEWER
+    ───────────────────────────────────────────────── */
+    function openViewer(id) {
+      currentId = id;
+      viewer.classList.add('open');
+      gridPage.style.display = 'none';
+      document.body.style.overflow = 'hidden'; /* bloquea scroll del grid */
+      viewer.scrollTop = 0;                    /* siempre al tope */
+      loadArtwork(id);
+      history.pushState({ obra: id }, '', '?obra=' + id);
+    }
+
+    function closeViewer() {
+      viewer.classList.remove('open');
+      gridPage.style.display = 'block';
+      document.body.style.overflow = '';
+      closeAllPanels();
+      resetZoom();
+      history.pushState({}, '', 'coleccion.html');
+    }
+
+    btnBack.addEventListener('click', closeViewer);
+
+    document.addEventListener('keydown', function (e) {
+      if (!viewer.classList.contains('open')) return;
+      if (e.key === 'Escape') { closeViewer(); return; }
+      if (e.key === 'ArrowLeft')  { navigate(-1); return; }
+      if (e.key === 'ArrowRight') { navigate(1);  return; }
+    });
+
+    /* ─────────────────────────────────────────────────
+       CARGAR OBRA
+    ───────────────────────────────────────────────── */
+    function loadArtwork(id) {
+      var art = window.getArtworkById(id);
+      if (!art) return;
+
+      /* Reset estado */
+      resetZoom();
+      closeAllPanels();
+      detailIndex = 0;
+
+      /* Imagen */
+      mainImg.src = art.imageUrl;
+      mainImg.alt = art.title;
+
+      /* Caption */
+      capArtist.textContent = art.artist;
+      capTitle.textContent  = art.title;
+      caption.classList.remove('hidden');
+
+      /* Panel Info */
+      infoArtist.textContent  = art.artist;
+      infoArtVal.textContent  = art.artist;
+      infoTitle.textContent   = art.title;
+      infoYear.textContent    = art.year;
+      infoYearVal.textContent = art.year;
+      infoDesc.textContent    = art.description || '';
+      infoCat.textContent     = CAT_LABELS[art.category] || art.category;
+
+      /* Panel Detalles */
+      buildFilmstrip(art);
+
+      /* Obras relacionadas */
+      buildRelated(art);
+
+      /* Navegación prev/next */
+      var idx = artworks.findIndex(function (a) { return a.id === id; });
+      btnPrev.onclick = function () { navigate(-1); };
+      btnNext.onclick = function () { navigate(1); };
+
+      function navigate(dir) {
+        var newIdx = (idx + dir + artworks.length) % artworks.length;
+        currentId = artworks[newIdx].id;
+        history.replaceState({ obra: currentId }, '', '?obra=' + currentId);
+        loadArtwork(currentId);
+      }
+    }
+
+    /* ─────────────────────────────────────────────────
+       ZOOM + PANNING
+    ───────────────────────────────────────────────── */
+    function applyZoom() {
+      mainImg.style.transform =
+        'scale(' + zoomLevel + ') translate(' +
+        (panX / zoomLevel) + 'px,' +
+        (panY / zoomLevel) + 'px)';
+      hero.style.cursor = zoomLevel > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default';
+    }
+
+    function resetZoom() {
+      zoomLevel = 1; panX = 0; panY = 0;
+      if (mainImg) { mainImg.style.transform = 'scale(1) translate(0,0)'; }
+      if (hero)    { hero.style.cursor = 'default'; }
+    }
+
+    btnZoomIn.addEventListener('click',    function () { zoomLevel = Math.min(4, zoomLevel + 0.6); applyZoom(); });
+    btnZoomOut.addEventListener('click',   function () { zoomLevel = Math.max(1, zoomLevel - 0.6); if (zoomLevel<=1){ panX=0; panY=0; } applyZoom(); });
+    btnZoomReset.addEventListener('click', function () { resetZoom(); });
+
+    /* Zoom con rueda */
+    hero.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      var delta = e.deltaY * -0.0012;
+      zoomLevel = Math.min(4, Math.max(1, zoomLevel + delta));
+      if (zoomLevel <= 1) { panX = 0; panY = 0; }
+      applyZoom();
+    }, { passive: false });
+
+    /* Panning */
+    hero.addEventListener('mousedown', function (e) {
+      if (zoomLevel > 1) { isDragging = true; lastMX = e.clientX; lastMY = e.clientY; }
+    });
+    window.addEventListener('mousemove', function (e) {
+      if (!isDragging) return;
+      panX += e.clientX - lastMX; panY += e.clientY - lastMY;
+      lastMX = e.clientX; lastMY = e.clientY;
+      mainImg.style.transition = 'none';
+      applyZoom();
+    });
+    window.addEventListener('mouseup', function () {
+      if (isDragging) { isDragging = false; mainImg.style.transition = ''; applyZoom(); }
+    });
+
+    /* ─────────────────────────────────────────────────
+       PANELES
+    ───────────────────────────────────────────────── */
+    function closeAllPanels() {
+      panelInfo.classList.remove('open');
+      panelDet.classList.remove('open');
+      hero.classList.remove('panel-open');
+      btnInfo.classList.remove('active');
+      btnDetails.classList.remove('active');
+    }
+
+    btnInfo.addEventListener('click', function () {
+      var isOpen = panelInfo.classList.contains('open');
+      closeAllPanels();
+      if (!isOpen) {
+        panelInfo.classList.add('open');
+        hero.classList.add('panel-open');
+        btnInfo.classList.add('active');
+        caption.classList.add('hidden');  /* ocultar caption cuando info abierto */
+      } else {
+        caption.classList.remove('hidden');
+      }
+    });
+
+    btnDetails.addEventListener('click', function () {
+      var art = window.getArtworkById(currentId);
+      var isOpen = panelDet.classList.contains('open');
+      closeAllPanels();
+      if (!isOpen) {
+        panelDet.classList.add('open');
+        hero.classList.add('panel-open');
+        btnDetails.classList.add('active');
+        caption.classList.add('hidden');
+        if (art && art.details && art.details.length) {
+          showDetail(art, 0);  /* activar primer detalle */
+        }
+      } else {
+        resetZoom();
+        caption.classList.remove('hidden');
+      }
+    });
+
+    closeInfo.addEventListener('click', function () {
+      closeAllPanels();
+      caption.classList.remove('hidden');
+    });
+    closeDet.addEventListener('click', function () {
+      closeAllPanels();
+      resetZoom();
+      caption.classList.remove('hidden');
+    });
+
+    /* ─────────────────────────────────────────────────
+       FILMSTRIP + DETALLES ICONOGRÁFICOS
+    ───────────────────────────────────────────────── */
+    function buildFilmstrip(art) {
+      filmstrip.innerHTML  = '';
+      detCounter.textContent = '';
+      detTitle.textContent   = '';
+      detText.textContent    = '';
+      detDots.innerHTML      = '';
+
+      if (!art.details || !art.details.length) {
+        detText.textContent = 'Esta obra no tiene detalles iconográficos disponibles.';
+        detText.style.color = '#6A6460';
+        return;
+      }
+      detText.style.color = '';
+
+      art.details.forEach(function (d, i) {
+        /* Thumbnail */
+        var thumb = document.createElement('button');
+        thumb.className = 'filmstrip__thumb' + (i === 0 ? ' active' : '');
+        thumb.setAttribute('aria-label', d.title);
+        thumb.setAttribute('data-index', i);
+
+        var tImg = document.createElement('img');
+        tImg.src = art.imageUrl;
+        tImg.alt = d.title;
+        /* Calcular transform para mostrar la zona del zoom en el thumbnail 68×68 */
+        /* El thumb tiene 68px; la imagen completa se escala a zoom.scale * 68px,
+           luego desplazamos el porcentaje correspondiente */
+        var s = d.zoom.scale;
+        var tx = -(d.zoom.x / 100) * 68 * s;
+        var ty = -(d.zoom.y / 100) * 68 * s;
+        tImg.style.width  = (68 * s) + 'px';
+        tImg.style.height = (68 * s) + 'px';
+        tImg.style.transform = 'translate(' + tx + 'px,' + ty + 'px)';
+        tImg.style.maxWidth = 'none';
+
+        thumb.appendChild(tImg);
+        thumb.addEventListener('click', function () { showDetail(art, i); });
+        filmstrip.appendChild(thumb);
+
+        /* Dot */
+        var dot = document.createElement('button');
+        dot.className = 'detail__dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', 'Detalle ' + (i + 1));
+        dot.addEventListener('click', function () { showDetail(art, i); });
+        detDots.appendChild(dot);
+      });
+    }
+
+    function showDetail(art, index) {
+      if (!art.details || !art.details[index]) return;
+      detailIndex = index;
+      var d = art.details[index];
+
+      /* Actualizar texto */
+      detCounter.textContent = (index + 1) + ' de ' + art.details.length;
+      detTitle.textContent   = d.title;
+      detText.textContent    = d.description;
+
+      /* Activar thumb y dot */
+      filmstrip.querySelectorAll('.filmstrip__thumb').forEach(function (t, i) {
+        t.classList.toggle('active', i === index);
+      });
+      detDots.querySelectorAll('.detail__dot').forEach(function (dot, i) {
+        dot.classList.toggle('active', i === index);
+      });
+
+      /* Aplicar zoom a la imagen principal para enfocar el detalle */
+      zoomLevel = d.zoom.scale;
+      /* Centrar en la zona del zoom: x/y son porcentajes del origen del recorte */
+      var imgW = mainImg.naturalWidth  || mainImg.offsetWidth  || 800;
+      var imgH = mainImg.naturalHeight || mainImg.offsetHeight || 600;
+      panX = -(d.zoom.x / 100) * imgW  * (zoomLevel - 1) * (mainImg.offsetWidth  / imgW);
+      panY = -(d.zoom.y / 100) * imgH  * (zoomLevel - 1) * (mainImg.offsetHeight / imgH);
+      applyZoom();
+    }
+
+    /* ─────────────────────────────────────────────────
+       OBRAS RELACIONADAS
+    ───────────────────────────────────────────────── */
+    function buildRelated(art) {
+      var related = artworks
+        .filter(function (a) { return a.id !== art.id && a.category === art.category; })
+        .slice(0, 6);
+
+      if (!related.length) {
+        /* Si no hay de la misma categoría, mostrar las primeras 6 distintas */
+        related = artworks.filter(function (a) { return a.id !== art.id; }).slice(0, 6);
+      }
+
+      relatedGrid.innerHTML = related.map(function (a) {
+        return [
+          '<div class="artwork-card" role="button" tabindex="0"',
+          ' data-id="' + a.id + '" aria-label="' + a.title + '">',
+          '<div class="artwork-card__img">',
+            '<img src="' + a.imageUrl + '" alt="' + a.title + '" loading="lazy"/>',
+            '<div class="artwork-card__overlay">',
+              '<h3>' + a.title + '</h3>',
+              '<span class="artist">' + a.artist + '</span>',
+              '<span class="year">'   + a.year   + '</span>',
+            '</div>',
+          '</div>',
+          '</div>'
+        ].join('');
+      }).join('');
+
+      /* Eventos click en relacionadas */
+      relatedGrid.querySelectorAll('.artwork-card').forEach(function (card) {
+        card.addEventListener('click', function () {
+          viewer.scrollTop = 0;
+          loadArtwork(card.dataset.id);
+          currentId = card.dataset.id;
+          history.replaceState({ obra: currentId }, '', '?obra=' + currentId);
+        });
+      });
+
+      if (related.length) {
+        relatedSec.style.display = 'block';
+      }
+    }
+
+    /* ─────────────────────────────────────────────────
+       COMPARTIR
+    ───────────────────────────────────────────────── */
+    btnShare.addEventListener('click', function () {
+      var art = window.getArtworkById(currentId);
+      if (!art) return;
+      var url = window.location.href;
+      if (navigator.share) {
+        navigator.share({ title: art.title + ' — Presencias', url: url });
+      } else if (navigator.clipboard) {
+        navigator.clipboard.writeText(url).then(function () { showToast('Enlace copiado'); });
+      }
+    });
+
+    function showToast(msg) {
+      shareToast.textContent = msg;
+      shareToast.style.opacity = '1';
+      shareToast.style.transform = 'translateX(-50%) translateY(0)';
+      setTimeout(function () {
+        shareToast.style.opacity = '0';
+        shareToast.style.transform = 'translateX(-50%) translateY(10px)';
+      }, 2200);
+    }
+
+    /* ─────────────────────────────────────────────────
+       GRID — filtros + apertura
+    ───────────────────────────────────────────────── */
+    var grid       = document.getElementById('artworks-grid');
+    var emptyMsg   = document.getElementById('empty-msg');
+    var filterBtns = document.querySelectorAll('.filter-btn');
+
+    function buildGrid(filter) {
+      var list = filter === 'all' ? artworks
+        : artworks.filter(function (a) { return a.category === filter; });
+
+      if (!list.length) { grid.innerHTML = ''; emptyMsg.style.display = 'block'; return; }
+      emptyMsg.style.display = 'none';
+
+      grid.innerHTML = list.map(function (art) {
+        return [
+          '<div class="artwork-grid-item artwork-card" role="button" tabindex="0"',
+          ' data-id="' + art.id + '" aria-label="Ver: ' + art.title + '">',
+          '<div class="artwork-card__img">',
+            '<img src="' + art.imageUrl + '" alt="' + art.title + '" loading="lazy"/>',
+            '<div class="artwork-card__overlay">',
+              '<h3>' + art.title + '</h3>',
+              '<span class="artist">' + art.artist + '</span>',
+              '<span class="year">'   + art.year   + '</span>',
+            '</div>',
+          '</div>',
+          '</div>'
+        ].join('');
+      }).join('');
+
+      grid.querySelectorAll('.artwork-grid-item').forEach(function (card) {
+        function open() { openViewer(card.dataset.id); }
+        card.addEventListener('click', open);
+        card.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
+        });
+      });
+    }
+
+    filterBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        filterBtns.forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        buildGrid(btn.dataset.filter);
+      });
+    });
+
+    /* ─────────────────────────────────────────────────
+       INIT — leer ?obra= de la URL
+    ───────────────────────────────────────────────── */
+    buildGrid('all');
+
+    var params  = new URLSearchParams(window.location.search);
+    var obraId  = params.get('obra');
+    if (obraId) {
+      /* pequeño delay para que el grid esté montado */
+      setTimeout(function () { openViewer(obraId); }, 30);
+    }
+
+    /* Botón volver del navegador */
+    window.addEventListener('popstate', function (e) {
+      if (e.state && e.state.obra) {
+        openViewer(e.state.obra);
+      } else {
+        closeViewer();
+      }
+    });
+
+  })();
+  </script>
+
+</body>
+</html>
