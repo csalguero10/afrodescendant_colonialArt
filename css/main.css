@@ -29,7 +29,7 @@
   --gold-300: #DEC087;
 
   /* Neutros cálidos */
-  --warm-500: #A68F7B;
+  --warm-500: #a68f7b;
   --warm-400: #D9CEC5;
   --warm-300: #F2F2F2;
   --warm-200: #F7F5F2;
@@ -197,18 +197,28 @@ button {
   justify-content: space-between;
 }
 
-/* Logo "EX" */
+/* Logo "AFRO" */
 .navbar__logo {
-  font-family: var(--font-primary);
-  font-weight: 700;
-  font-size: 1.5rem;
-  color: var(--text-primary);
-  transition: color var(--transition-base);
-  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: opacity var(--transition-base);
 }
 
-.navbar.scrolled .navbar__logo {
-  color: var(--bg-900);
+.navbar__logo:hover {
+  opacity: 0.85;
+}
+
+/* Imagen del logo SVG */
+.navbar__logo-img {
+  height: 36px;        /* altura fija — el ancho se ajusta automáticamente */
+  width: auto;
+  display: block;
+}
+
+/* Cuando el navbar tiene fondo claro (scrolled), volvemos al color original */
+.navbar.scrolled .navbar__logo-img {
+  filter: invert(0);   /* negro sobre fondo crema */
 }
 
 /* Links de navegación */
@@ -336,10 +346,22 @@ button {
 }
 
 .footer__logo {
-  font-family: var(--font-primary);
-  font-weight: 700;
-  font-size: 1.75rem;
-  color: var(--bg-900);
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+/* El footer tiene fondo claro (#F7F5F2) — el SVG negro se ve directo sin filtro */
+.footer__logo-img {
+  height: 32px;
+  width: auto;
+  display: block;
+  filter: invert(0);   /* negro sobre fondo claro del footer */
+  transition: opacity var(--transition-base);
+}
+
+.footer__logo:hover .footer__logo-img {
+  opacity: 0.7;
 }
 
 .footer__copy {

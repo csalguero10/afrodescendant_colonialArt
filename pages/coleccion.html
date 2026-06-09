@@ -395,6 +395,18 @@
     ════════════════════════════════════════════════════════ */
     .grid-page { min-height: 100vh; }
 
+    /* ── Animación de entrada de las cards del grid ── */
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(20px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0)    scale(1); }
+    }
+
+    /* La clase se aplica a cada card; el delay escalonado lo pone JS */
+    .artwork-grid-item {
+      opacity: 0;
+      animation: cardIn 380ms ease-out forwards;
+    }
+
   </style>
 </head>
 <body>
@@ -402,7 +414,7 @@
   <!-- ═══════════════════════════════════════════════════ NAVBAR ══════════ -->
   <nav class="navbar" role="navigation" aria-label="Navegación principal">
     <div class="navbar__inner">
-      <a href="../index.html" class="navbar__logo">EX</a>
+      <a href="../index.html" class="navbar__logo"><img src="../assets/images/logo-afro.svg" alt="Presencias" class="navbar__logo-img" /></a>
       <ul class="navbar__links">
         <li><a href="../index.html">HOME</a></li>
         <li><a href="about.html">ABOUT</a></li>
@@ -455,7 +467,7 @@
     <footer class="footer">
       <div class="footer__inner">
         <div class="footer__brand">
-          <a href="../index.html" class="footer__logo">EX</a>
+          <a href="../index.html" class="footer__logo"><img src="../assets/images/logo-afro.svg" alt="Presencias" class="footer__logo-img" /></a>
           <span class="footer__copy">© 2026 Exposición Virtual</span>
         </div>
         <div class="footer__social">
@@ -1011,7 +1023,10 @@
         ].join('');
       }).join('');
 
-      grid.querySelectorAll('.artwork-grid-item').forEach(function (card) {
+      grid.querySelectorAll('.artwork-grid-item').forEach(function (card, i) {
+        /* Delay escalonado: cada card entra 40ms después de la anterior (máx 400ms) */
+        card.style.animationDelay = Math.min(i * 40, 400) + 'ms';
+
         function open() { openViewer(card.dataset.id); }
         card.addEventListener('click', open);
         card.addEventListener('keydown', function (e) {
