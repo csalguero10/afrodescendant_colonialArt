@@ -6,608 +6,24 @@
   <title>Ecos de la Herencia — Público General · Presencias</title>
   <meta name="description" content="Un recorrido narrativo que conecta el arte colonial con nuestra realidad contemporánea." />
   <link rel="stylesheet" href="../css/main.css" />
-
-  <style>
-    /* ═══════════════════════════════════════════════════════════
-       TOKENS LOCALES — extienden el design system Vovex
-    ═══════════════════════════════════════════════════════════ */
-    :root {
-      --serif:    'Oswald', sans-serif;   /* títulos del design system */
-      --sans-nar: 'Raleway', sans-serif;  /* cuerpo del design system */
-      --grain-opacity: 0.035;
-    }
-
-    /* Grain de película sobre toda la página */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      z-index: 1000;
-      pointer-events: none;
-      opacity: var(--grain-opacity);
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      background-repeat: repeat;
-      background-size: 128px;
-    }
-
-    /* ─── HERO — apertura del recorrido ─── */
-    .pg-hero {
-      position: relative;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding-bottom: 7vh;
-      overflow: hidden;
-      background: #0f0d0a;
-    }
-
-    /* Imagen de fondo con gradiente oscuro */
-    .pg-hero__bg {
-      position: absolute;
-      inset: 0;
-      background-image: url('../assets/images/banner-hero.jpg');
-      background-size: cover;
-      background-position: center 30%;
-      filter: brightness(0.35) saturate(0.7);
-      transform: scale(1.04);
-      transition: transform 12s ease-out;
-    }
-    .pg-hero__bg.loaded { transform: scale(1); }
-
-    /* Gradiente de abajo hacia arriba */
-    .pg-hero__vignette {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        to top,
-        rgba(10, 8, 5, 0.98)  0%,
-        rgba(10, 8, 5, 0.6)  45%,
-        rgba(10, 8, 5, 0.15) 100%
-      );
-    }
-
-    .pg-hero__content {
-      position: relative;
-      z-index: 2;
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 4rem;
-      width: 100%;
-    }
-
-    .pg-hero__eyebrow {
-      font-family: var(--font-secondary);
-      font-size: 0.625rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.25em;
-      color: var(--gold-400);
-      display: block;
-      margin-bottom: 1.25rem;
-      opacity: 0;
-      animation: fadeUp 800ms 200ms ease-out forwards;
-    }
-
-    .pg-hero__title {
-      font-family: var(--font-primary);
-      font-style: normal;
-      font-weight: 700;
-      font-size: 90px;
-      line-height: 1.0;
-      letter-spacing: -0.3752px;
-      color: #fff;
-      text-transform: none;
-      margin-bottom: 1.5rem;
-      opacity: 0;
-      animation: fadeUp 900ms 350ms ease-out forwards;
-    }
-
-    .pg-hero__subtitle {
-      font-family: var(--font-secondary);
-      font-size: clamp(0.9375rem, 1.5vw, 1.0625rem);
-      font-weight: 300;
-      line-height: 1.8;
-      color: rgba(255,255,255,0.65);
-      max-width: 55ch;
-      margin-bottom: 2.5rem;
-      opacity: 0;
-      animation: fadeUp 900ms 500ms ease-out forwards;
-    }
-
-    .pg-hero__cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.75rem;
-      font-family: var(--font-secondary);
-      font-size: 0.6875rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      color: var(--bg-900);
-      background: var(--gold-500);
-      padding: 0.85rem 2rem;
-      border-radius: 1px;
-      text-decoration: none;
-      opacity: 0;
-      animation: fadeUp 800ms 700ms ease-out forwards;
-      transition: background 200ms;
-    }
-    .pg-hero__cta:hover { background: var(--gold-400); color: var(--bg-900); }
-    .pg-hero__cta svg { width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round; }
-
-    /* Indicador de scroll */
-    .pg-hero__scroll {
-      position: absolute;
-      bottom: 2.5rem;
-      right: 4rem;
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-      opacity: 0;
-      animation: fadeIn 600ms 1200ms ease-out forwards;
-    }
-    .pg-hero__scroll span {
-      font-family: var(--font-secondary);
-      font-size: 0.5625rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.3);
-      writing-mode: vertical-rl;
-    }
-    .pg-hero__scroll-line {
-      width: 1px;
-      height: 60px;
-      background: linear-gradient(to bottom, rgba(184,146,74,0.7), transparent);
-      animation: scrollLine 2s 1.5s ease-out infinite;
-    }
-
-    /* ─── AUDIO INTRO — cita de bienvenida ─── */
-    .audio-intro {
-      background: #0a0805;
-      padding: 6rem 0;
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* Línea dorada vertical decorativa */
-    .audio-intro::before {
-      content: '';
-      position: absolute;
-      left: 50%;
-      top: 0;
-      bottom: 0;
-      width: 1px;
-      background: linear-gradient(to bottom, transparent, rgba(184,146,74,0.3) 30%, rgba(184,146,74,0.3) 70%, transparent);
-    }
-
-    .audio-intro__inner {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 0 4rem;
-      text-align: center;
-    }
-
-    .audio-intro__label {
-      font-family: var(--font-secondary);
-      font-size: 0.5625rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--gold-500);
-      display: block;
-      margin-bottom: 2rem;
-    }
-
-    .audio-intro__quote {
-      font-family: var(--font-primary);
-      font-style: italic;
-      font-size: clamp(1.25rem, 2.5vw, 1.625rem);
-      font-weight: 400;
-      line-height: 1.75;
-      color: rgba(255,255,255,0.85);
-      margin-bottom: 2rem;
-      position: relative;
-    }
-
-    /* Comillas grandes decorativas */
-    .audio-intro__quote::before {
-      content: '\201C';
-      font-family: var(--font-primary);
-      font-size: 8rem;
-      line-height: 0;
-      position: absolute;
-      top: 2.5rem;
-      left: -3rem;
-      color: rgba(184,146,74,0.15);
-    }
-
-    .audio-intro__rule {
-      width: 48px;
-      height: 2px;
-      background: var(--gold-500);
-      margin: 0 auto;
-    }
-
-    /* ─── SALA — parada de recorrido (scrollytelling) ─── */
-    .sala {
-      position: relative;
-    }
-
-    /* Cada parada tiene imagen sticky + panel de texto scrollable */
-    .sala__scrollytelling {
-      display: grid;
-      grid-template-columns: 55% 45%;
-      min-height: 100vh;
-      position: relative;
-    }
-
-    /* Marco sticky de la pintura */
-    .sala__frame {
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      overflow: hidden;
-      background: #080705;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .sala__painting {
-      max-width: 90%;
-      max-height: 85vh;
-      object-fit: contain;
-      /* Transición de zoom hacia detalle */
-      transition: transform 900ms cubic-bezier(0.4, 0, 0.2, 1),
-                  transform-origin 900ms cubic-bezier(0.4, 0, 0.2, 1);
-      transform-origin: 50% 50%;
-      display: block;
-    }
-
-    /* Pie de foto de la pintura */
-    .sala__figcaption {
-      position: absolute;
-      bottom: 1.5rem;
-      left: 1.5rem;           /* alineado a la izquierda, no centrado */
-      right: 1.5rem;
-      text-align: left;
-      /* Cápsula con fondo oscuro semitransparente */
-      background: rgba(10, 8, 5, 0.72);
-      backdrop-filter: blur(8px);
-      border-radius: 3px;
-      padding: 0.6rem 1rem;
-      border-left: 2px solid rgba(184,146,74,0.5);
-    }
-    .sala__figcaption .attribution {
-      display: block;
-      font-family: var(--font-secondary);
-      font-size: 0.625rem;    /* más grande */
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: rgba(184,146,74,0.85);  /* dorado en lugar de blanco muy tenue */
-      margin-bottom: 4px;
-    }
-    .sala__figcaption cite {
-      font-family: var(--font-secondary);
-      font-style: normal;
-      font-weight: 500;
-      font-size: 0.9375rem;   /* de 0.8125 a 0.9375rem */
-      color: rgba(255,255,255,0.88);
-    }
-
-    /* ─── PANEL de texto scrollable ─── */
-    .sala__panels {
-      background: #0f0d0a;
-      border-left: 1px solid rgba(255,255,255,0.05);
-    }
-
-    /* Encabezado de sala */
-    .sala__header {
-      padding: 12vh 3rem 4vh;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .sala__number {
-      font-family: var(--sans-nar);
-      font-size: 0.7rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--gold-500);
-      display: block;
-      margin-bottom: 0.75rem;
-    }
-
-    .sala__sala-title {
-      font-family: var(--font-primary);
-      font-weight: 700;
-      font-size: clamp(1.75rem, 3.5vw, 2.75rem);
-      color: #fff;
-      line-height: 1.15;
-      text-transform: uppercase;
-      margin-bottom: 1rem;
-    }
-
-    .sala__sala-subtitle {
-      font-family: var(--sans-nar);
-      font-size: 0.8rem;
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--bg-500);
-    }
-
-    /* Panel individual de texto (1 por detalle de la obra) */
-    .scroll-panel {
-      min-height: 80vh;
-      padding: 10vh 3rem;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      opacity: 0.25;
-      transition: opacity 450ms ease;
-    }
-
-    .scroll-panel.active { opacity: 1; }
-
-    .scroll-panel__index {
-      font-family: var(--font-secondary);
-      font-size: 0.8rem;
-      font-weight: 500;
-      letter-spacing: 0.2em;
-      color: var(--gold-600);
-      text-transform: uppercase;
-      margin-bottom: 2rem;
-    }
-
-    .scroll-panel__title {
-      font-family: var(--font-primary);
-      font-weight: 700;
-      font-size: clamp(1.5rem, 3vw, 2rem);
-      color: #fff;
-      line-height: 1.2;
-      text-transform: uppercase;
-      margin-bottom: 1.25rem;
-    }
-
-    /* Texto de reflexión contemporánea */
-    .scroll-panel__body {
-      font-family: var(--font-secondary);
-      font-weight: 400;       /* 400 en lugar de 300 para mejor legibilidad */
-      font-size: 1rem;   /* 17px */
-      line-height: 1.6;
-      color: var(--warm-400);
-      max-width: 42ch;
-    }
-
-    /* Highlight — conexión con el presente */
-    .scroll-panel__body strong {
-      color: rgba(255,255,255,0.92);
-      font-weight: 500;
-    }
-
-    /* Cita en bloque dentro del panel */
-    .scroll-panel__pullquote {
-      margin: 1.5rem 0;
-      padding-left: 1.25rem;
-      border-left: 2px solid var(--gold-500);
-      font-family: var(--font-primary);
-      font-style: italic;
-      font-size: 1rem;
-      color: rgba(255,255,255,0.75);
-      line-height: 1.7;
-    }
-
-    /* ─── SEPARADOR DE SALA — transición entre paradas ─── */
-    .sala-sep {
-      position: relative;
-      z-index: 20;            /* siempre sobre las imágenes sticky */
-      height: 70px;      
-      margin-top: 1rem;     /* más alto para no quedar aplastado */
-      background: #0a0805;    /* fondo sólido, opaco */
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-top: 2px solid #8d7662;
-      border-bottom: 2px solid #8d7662;
-    }
-
-    .sala-sep::before {
-      content: attr(data-label);
-      font-family: var(--font-secondary);
-      font-size: 0.9rem;
-      font-weight: 700;
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      color: rgba(184,146,74,0.7);
-      white-space: nowrap;
-    }
-
-    /* ─── CIERRE DEL RECORRIDO ─── */
-    .pg-cierre {
-      background: #0a0805;
-      padding: 8rem 0;
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* Fondo sutil con gradiente dorado */
-    .pg-cierre::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 600px;
-      height: 400px;
-      background: radial-gradient(ellipse, rgba(184,146,74,0.06) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .pg-cierre__inner {
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 0 4rem;
-      text-align: center;
-      position: relative;
-      z-index: 1;
-    }
-
-    .pg-cierre__eyebrow {
-      font-family: var(--font-secondary);
-      font-size: 0.5625rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--gold-500);
-      display: block;
-      margin-bottom: 1.5rem;
-    }
-
-    .pg-cierre__title {
-      font-family: var(--font-primary);
-      font-style: italic;
-      font-size: clamp(2rem, 4vw, 3.25rem);
-      font-weight: 600;
-      color: #fff;
-      line-height: 1.15;
-      text-transform: none;
-      margin-bottom: 2rem;
-    }
-
-    .pg-cierre__body {
-      font-family: var(--font-secondary);
-      font-weight: 300;
-      font-size: 1rem;
-      line-height: 1.9;
-      color: rgba(255,255,255,0.65);
-      margin-bottom: 3rem;
-    }
-
-    .pg-cierre__actions {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    /* ─── PROGRESS BAR — indicador de avance del recorrido ─── */
-    .pg-progress {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      z-index: 500;
-      background: rgba(184,146,74,0.1);
-    }
-    .pg-progress__fill {
-      height: 100%;
-      background: var(--gold-500);
-      width: 0%;
-      transition: width 100ms linear;
-    }
-
-    /* ─── NAV LATERAL — sala tracker ─── */
-    .sala-tracker {
-      position: fixed;
-      right: 2rem;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 100;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .tracker-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.2);
-      border: none;
-      cursor: pointer;
-      transition: background 200ms, transform 200ms;
-    }
-
-    .tracker-dot.active {
-      background: var(--gold-500);
-      transform: scale(1.4);
-    }
-
-    .tracker-dot:hover { background: rgba(255,255,255,0.5); }
-
-    /* ─── MOBILE ─── */
-    @media (max-width: 900px) {
-      .sala__scrollytelling {
-        grid-template-columns: 1fr;
-      }
-      .sala__frame {
-        position: relative;
-        height: 55vw;
-        min-height: 260px;
-        max-height: 400px;
-      }
-      .sala__panels { border-left: none; border-top: 1px solid rgba(255,255,255,0.06); }
-      .scroll-panel { min-height: auto; padding: 4rem 2rem; }
-      .scroll-panel__body { max-width: 100%; }
-      .pg-hero__content { padding: 0 1.5rem; }
-      .audio-intro__inner { padding: 0 1.5rem; }
-      .pg-hero__scroll { display: none; }
-      .sala-tracker { display: none; }
-      .sala__figcaption { display: none; }
-      .audio-intro__quote::before { display: none; }
-      .pg-cierre__inner { padding: 0 1.5rem; }
-      .sala__header { padding: 4rem 2rem 2rem; }
-    }
-
-    /* ─── ANIMACIONES GLOBALES ─── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
-    @keyframes scrollLine {
-      0%   { transform: scaleY(0); transform-origin: top; }
-      50%  { transform: scaleY(1); transform-origin: top; }
-      51%  { transform: scaleY(1); transform-origin: bottom; }
-      100% { transform: scaleY(0); transform-origin: bottom; }
-    }
-
-    /* Reveal por IntersectionObserver */
-    .reveal-up {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 700ms ease-out, transform 700ms ease-out;
-    }
-    .reveal-up.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .reveal-up.delay-1 { transition-delay: 100ms; }
-    .reveal-up.delay-2 { transition-delay: 220ms; }
-  </style>
+  <link rel="stylesheet" href="../css/recorridos.css" />
 </head>
-<body style="background:#0a0805; overflow-x:hidden;">
+<body class="recorrido" style="background:#0a0805; overflow-x:hidden;">
 
-  <!-- Barra de progreso del recorrido -->
+  <!-- Progreso -->
   <div class="pg-progress" aria-hidden="true">
     <div class="pg-progress__fill" id="progress-fill"></div>
   </div>
 
-  <!-- Tracker lateral de salas -->
+  <!-- Tracker lateral — 4 salas -->
   <nav class="sala-tracker" aria-label="Navegación de salas">
     <button class="tracker-dot active" data-target="sala-1" aria-label="Sala 1"></button>
-    <button class="tracker-dot" data-target="sala-2" aria-label="Sala 2"></button>
-    <button class="tracker-dot" data-target="sala-3" aria-label="Sala 3"></button>
-    <button class="tracker-dot" data-target="sala-4" aria-label="Sala 4"></button>
+    <button class="tracker-dot"        data-target="sala-2" aria-label="Sala 2"></button>
+    <button class="tracker-dot"        data-target="sala-3" aria-label="Sala 3"></button>
+    <button class="tracker-dot"        data-target="sala-4" aria-label="Sala 4"></button>
   </nav>
 
-  <!-- ═══════════════════════════════════════════ NAVBAR ══════════ -->
+  <!-- NAVBAR -->
   <nav class="navbar" role="navigation" aria-label="Navegación principal">
     <div class="navbar__inner">
       <a href="../index.html" class="navbar__logo">
@@ -635,11 +51,11 @@
     </div>
   </nav>
 
-  <!-- ═══════════════════════════════════════════ HERO ══════════ -->
+  <!-- ═══ HERO ═══ -->
   <header class="pg-hero" id="hero">
-    <div class="pg-hero__bg" id="hero-bg"></div>
+    <div class="pg-hero__bg" id="hero-bg"
+         style="background-image:url('../assets/images/banner-hero.jpg');"></div>
     <div class="pg-hero__vignette"></div>
-
     <div class="pg-hero__content">
       <span class="pg-hero__eyebrow">Recorrido · Público General</span>
       <h1 class="pg-hero__title">ECOS DE LA HERENCIA</h1>
@@ -652,14 +68,13 @@
         <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
       </a>
     </div>
-
     <div class="pg-hero__scroll" aria-hidden="true">
       <span>Scroll</span>
       <div class="pg-hero__scroll-line"></div>
     </div>
   </header>
 
-  <!-- ═══════════════════════════════════════════ AUDIO INTRO ══ -->
+  <!-- ═══ AUDIO INTRO ═══ -->
   <section class="audio-intro reveal-up" aria-label="Cita de bienvenida">
     <div class="audio-intro__inner">
       <span class="audio-intro__label">Bienvenida al Recorrido</span>
@@ -672,30 +87,23 @@
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════ SALA 1 ════════ -->
+  <!-- ═══ SALA 1 — Pintura Religiosa ═══ -->
   <div class="sala-sep" data-label="Parada 1 · Sala Religiosa"></div>
 
   <section class="sala" id="sala-1" aria-labelledby="sala1-title">
     <div class="sala__scrollytelling">
-
-      <!-- Marco sticky con la pintura -->
       <div class="sala__frame">
         <figure>
-          <img
-            id="painting-1"
-            class="sala__painting"
-            src="../assets/images/religious-11484.jpg"
-            alt="Santo Domingo y la familia de los condes de Casa Bayona — óleo colonial"
-            loading="lazy"
-          />
+          <img class="sala__painting"
+               src="../assets/images/religious-11484.jpg"
+               alt="Santo Domingo y la familia de los condes de Casa Bayona — óleo colonial"
+               loading="lazy" />
           <figcaption class="sala__figcaption">
             <span class="attribution">José Nicolás de la Escalera · c. 1760–1780</span>
             <cite>Santo Domingo y Casa Bayona</cite>
           </figcaption>
         </figure>
       </div>
-
-      <!-- Paneles de texto scrollables -->
       <div class="sala__panels">
         <div class="sala__header">
           <span class="sala__number">01 / 04</span>
@@ -703,10 +111,7 @@
           <p class="sala__sala-subtitle">Sala de Pintura Religiosa</p>
         </div>
 
-        <!-- Panel 1-A: Descripción general -->
-        <div class="scroll-panel active"
-             data-zoom="1"
-             data-origin="50% 50%">
+        <div class="scroll-panel active" data-zoom="1" data-origin="50% 50%">
           <span class="scroll-panel__index">Obra</span>
           <h3 class="scroll-panel__title">Santo Domingo y los<br>condes de Casa Bayona</h3>
           <p class="scroll-panel__body">
@@ -717,10 +122,7 @@
           </p>
         </div>
 
-        <!-- Panel 1-B: La representación importa -->
-        <div class="scroll-panel"
-             data-zoom="1.8"
-             data-origin="35% 40%">
+        <div class="scroll-panel" data-zoom="1.8" data-origin="35% 40%">
           <span class="scroll-panel__index">Reflexión</span>
           <h3 class="scroll-panel__title">La representación<br>importa</h3>
           <p class="scroll-panel__body">
@@ -738,10 +140,7 @@
           </p>
         </div>
 
-        <!-- Panel 1-C: Conexión contemporánea -->
-        <div class="scroll-panel"
-             data-zoom="2.2"
-             data-origin="65% 55%">
+        <div class="scroll-panel" data-zoom="2.2" data-origin="65% 55%">
           <span class="scroll-panel__index">Hoy</span>
           <h3 class="scroll-panel__title">Baltasar nos<br>llega desde el siglo XVIII</h3>
           <p class="scroll-panel__body">
@@ -758,27 +157,23 @@
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════ SALA 2 ════════ -->
+  <!-- ═══ SALA 2 — Escenas Seculares ═══ -->
   <div class="sala-sep" data-label="Parada 2 · Escenas Seculares"></div>
 
   <section class="sala" id="sala-2" aria-labelledby="sala2-title">
     <div class="sala__scrollytelling">
       <div class="sala__frame">
         <figure>
-          <img
-            id="painting-2"
-            class="sala__painting"
-            src="../assets/images/castas-3406.jpg"
-            alt="De Negro e India, Cambuja — pintura de castas colonial"
-            loading="lazy"
-          />
+          <img class="sala__painting"
+               src="../assets/images/castas-3406.jpg"
+               alt="De Negro e India, Cambuja — pintura de castas colonial"
+               loading="lazy" />
           <figcaption class="sala__figcaption">
             <span class="attribution">Anónimo · c. 1760–1780</span>
             <cite>De Negro e India, Cambuja</cite>
           </figcaption>
         </figure>
       </div>
-
       <div class="sala__panels">
         <div class="sala__header">
           <span class="sala__number">02 / 04</span>
@@ -786,9 +181,7 @@
           <p class="sala__sala-subtitle">Escenas Seculares</p>
         </div>
 
-        <div class="scroll-panel active"
-             data-zoom="1"
-             data-origin="50% 50%">
+        <div class="scroll-panel active" data-zoom="1" data-origin="50% 50%">
           <span class="scroll-panel__index">Obra</span>
           <h3 class="scroll-panel__title">Día de mercado,<br>resistencia cotidiana</h3>
           <p class="scroll-panel__body">
@@ -798,9 +191,7 @@
           </p>
         </div>
 
-        <div class="scroll-panel"
-             data-zoom="2.0"
-             data-origin="42% 55%">
+        <div class="scroll-panel" data-zoom="2.0" data-origin="42% 55%">
           <span class="scroll-panel__index">Vestimenta</span>
           <h3 class="scroll-panel__title">La ropa como<br>documento social</h3>
           <p class="scroll-panel__body">
@@ -815,9 +206,7 @@
           </p>
         </div>
 
-        <div class="scroll-panel"
-             data-zoom="1.7"
-             data-origin="60% 65%">
+        <div class="scroll-panel" data-zoom="1.7" data-origin="60% 65%">
           <span class="scroll-panel__index">Hoy</span>
           <h3 class="scroll-panel__title">Bailamos<br>resistencia</h3>
           <p class="scroll-panel__body">
@@ -834,27 +223,23 @@
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════ SALA 3 ════════ -->
+  <!-- ═══ SALA 3 — Pintura de Castas ═══ -->
   <div class="sala-sep" data-label="Parada 3 · Pintura de Castas"></div>
 
   <section class="sala" id="sala-3" aria-labelledby="sala3-title">
     <div class="sala__scrollytelling">
       <div class="sala__frame">
         <figure>
-          <img
-            id="painting-3"
-            class="sala__painting"
-            src="../assets/images/castas-1365.jpg"
-            alt="Negro de Guinea y Española — pintura de castas"
-            loading="lazy"
-          />
+          <img class="sala__painting"
+               src="../assets/images/castas-1365.jpg"
+               alt="Negro de Guinea y Española — pintura de castas"
+               loading="lazy" />
           <figcaption class="sala__figcaption">
             <span class="attribution">Anónimo · c. 1750–1780</span>
             <cite>Negro de Guinea y Española</cite>
           </figcaption>
         </figure>
       </div>
-
       <div class="sala__panels">
         <div class="sala__header">
           <span class="sala__number">03 / 04</span>
@@ -862,9 +247,7 @@
           <p class="sala__sala-subtitle">Pintura de Castas</p>
         </div>
 
-        <div class="scroll-panel active"
-             data-zoom="1"
-             data-origin="50% 50%">
+        <div class="scroll-panel active" data-zoom="1" data-origin="50% 50%">
           <span class="scroll-panel__index">Obra</span>
           <h3 class="scroll-panel__title">Un catálogo<br>de la desigualdad</h3>
           <p class="scroll-panel__body">
@@ -878,9 +261,7 @@
           </p>
         </div>
 
-        <div class="scroll-panel"
-             data-zoom="2.2"
-             data-origin="30% 25%">
+        <div class="scroll-panel" data-zoom="2.2" data-origin="30% 25%">
           <span class="scroll-panel__index">El orgullo visible</span>
           <h3 class="scroll-panel__title">Joyería, dignidad<br>y posición social</h3>
           <p class="scroll-panel__body">
@@ -890,9 +271,7 @@
           </p>
         </div>
 
-        <div class="scroll-panel"
-             data-zoom="1.3"
-             data-origin="50% 50%">
+        <div class="scroll-panel" data-zoom="1.3" data-origin="50% 50%">
           <span class="scroll-panel__index">El espejo más duro</span>
           <h3 class="scroll-panel__title">El colorismo<br>sigue operando</h3>
           <p class="scroll-panel__body">
@@ -913,27 +292,23 @@
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════ SALA 4 ════════ -->
+  <!-- ═══ SALA 4 — Retrato e Identidad ═══ -->
   <div class="sala-sep" data-label="Parada 4 · Retrato e Identidad"></div>
 
   <section class="sala" id="sala-4" aria-labelledby="sala4-title">
     <div class="sala__scrollytelling">
       <div class="sala__frame">
         <figure>
-          <img
-            id="painting-4"
-            class="sala__painting"
-            src="../assets/images/castas-1364.jpg"
-            alt="Pintura de Castas II — retrato colonial"
-            loading="lazy"
-          />
+          <img class="sala__painting"
+               src="../assets/images/castas-1364.jpg"
+               alt="Pintura de Castas II — retrato colonial"
+               loading="lazy" />
           <figcaption class="sala__figcaption">
             <span class="attribution">Anónimo · c. 1760–1790</span>
             <cite>Pintura de Castas II</cite>
           </figcaption>
         </figure>
       </div>
-
       <div class="sala__panels">
         <div class="sala__header">
           <span class="sala__number">04 / 04</span>
@@ -941,9 +316,7 @@
           <p class="sala__sala-subtitle">Retrato e Identidad</p>
         </div>
 
-        <div class="scroll-panel active"
-             data-zoom="1"
-             data-origin="50% 50%">
+        <div class="scroll-panel active" data-zoom="1" data-origin="50% 50%">
           <span class="scroll-panel__index">Obra</span>
           <h3 class="scroll-panel__title">Mirando a los ojos<br>a un hombre libre</h3>
           <p class="scroll-panel__body">
@@ -957,9 +330,7 @@
           </p>
         </div>
 
-        <div class="scroll-panel"
-             data-zoom="1.6"
-             data-origin="50% 35%">
+        <div class="scroll-panel" data-zoom="1.6" data-origin="50% 35%">
           <span class="scroll-panel__index">Legado</span>
           <h3 class="scroll-panel__title">Somos el resultado<br>de esta resistencia</h3>
           <p class="scroll-panel__body">
@@ -975,7 +346,7 @@
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════ CIERRE ════════ -->
+  <!-- ═══ CIERRE ═══ -->
   <section class="pg-cierre reveal-up" aria-label="Cierre del recorrido">
     <div class="pg-cierre__inner">
       <span class="pg-cierre__eyebrow">Fin del recorrido</span>
@@ -993,7 +364,7 @@
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════ FOOTER ════════ -->
+  <!-- FOOTER -->
   <footer class="footer">
     <div class="footer__inner">
       <div class="footer__brand">
@@ -1013,107 +384,13 @@
     </div>
   </footer>
 
-  <!-- ═══════════════════════════════════════════ SCRIPTS ════════ -->
+  <!-- SCRIPTS -->
   <script src="../js/main.js"></script>
   <script>
-  (function () {
-
-    /* ── Hero: animación de entrada de la imagen de fondo ── */
-    var heroBg = document.getElementById('hero-bg');
-    if (heroBg) {
-      var tempImg = new Image();
-      tempImg.onload = function () { heroBg.classList.add('loaded'); };
-      tempImg.src = heroBg.style.backgroundImage.replace(/url\(['"]?|['"]?\)/g, '');
-    }
-
-    /* ── Barra de progreso ── */
-    var progressFill = document.getElementById('progress-fill');
-    function updateProgress() {
-      var scrollTop = window.scrollY;
-      var docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      var pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-      if (progressFill) progressFill.style.width = pct.toFixed(1) + '%';
-    }
-    window.addEventListener('scroll', updateProgress, { passive: true });
-
-    /* ── Scrollytelling: zoom en la pintura sticky + panel activo ── */
-    var salas = ['sala-1', 'sala-2', 'sala-3', 'sala-4'];
-
-    salas.forEach(function (salaId, salaIdx) {
-      var sala = document.getElementById(salaId);
-      if (!sala) return;
-
-      var painting = sala.querySelector('.sala__painting');
-      var panels   = sala.querySelectorAll('.scroll-panel');
-
-      /* IntersectionObserver por panel */
-      var panelObserver = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-
-          /* Desactivar todos, activar el actual */
-          panels.forEach(function (p) { p.classList.remove('active'); });
-          entry.target.classList.add('active');
-
-          /* Aplicar zoom a la pintura */
-          var zoom   = parseFloat(entry.target.dataset.zoom   || '1');
-          var origin = entry.target.dataset.origin || '50% 50%';
-          if (painting) {
-            painting.style.transformOrigin = origin;
-            painting.style.transform = 'scale(' + zoom + ')';
-          }
-        });
-      }, { threshold: 0.5, rootMargin: '0px' });
-
-      panels.forEach(function (p) { panelObserver.observe(p); });
-
-      /* Tracker lateral — activar punto según sala visible */
-      var trackerDots = document.querySelectorAll('.tracker-dot');
-      var salaObserver = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            trackerDots.forEach(function (dot, i) {
-              dot.classList.toggle('active', i === salaIdx);
-            });
-          }
-        });
-      }, { threshold: 0.25 });
-
-      salaObserver.observe(sala);
-    });
-
-    /* ── Tracker dots: click → scroll a sala ── */
-    document.querySelectorAll('.tracker-dot').forEach(function (dot) {
-      dot.addEventListener('click', function () {
-        var target = document.getElementById(dot.dataset.target);
-        if (target) target.scrollIntoView({ behavior: 'smooth' });
-      });
-    });
-
-    /* ── Reveal por scroll para secciones no-scrollytelling ── */
-    var revealEls = document.querySelectorAll('.reveal-up');
-    var revealObs = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          revealObs.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.15 });
-    revealEls.forEach(function (el) { revealObs.observe(el); });
-
-    /* ── CTA hero: smooth scroll ── */
-    var heroCta = document.querySelector('.pg-hero__cta');
-    if (heroCta) {
-      heroCta.addEventListener('click', function (e) {
-        e.preventDefault();
-        var target = document.getElementById('sala-1');
-        if (target) target.scrollIntoView({ behavior: 'smooth' });
-      });
-    }
-
-  })();
+    /* IDs de salas para recorridos.js */
+    window.SALA_IDS = ['sala-1', 'sala-2', 'sala-3', 'sala-4'];
   </script>
+  <script src="../js/recorridos.js"></script>
 
 </body>
 </html>
