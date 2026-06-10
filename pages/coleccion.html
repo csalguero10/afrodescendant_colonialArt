@@ -123,16 +123,16 @@
     .viewer__caption.hidden { opacity: 0; }
     .viewer__caption .c-artist {
       font-family: 'Oswald', sans-serif;
-      font-size: 0.625rem;
+      font-size: 0.7rem;
       text-transform: uppercase;
       letter-spacing: 0.18em;
-      color: #A68F7B;
+      color: var(--gold-500);
       margin-bottom: 2px;
     }
     .viewer__caption .c-title {
       font-family: 'Raleway', sans-serif;
       font-size: 0.875rem;
-      color: #D9CEC5;
+      color: var(--warm-300);
     }
 
     /* ── Toolbar de zoom + acciones ── */
@@ -164,7 +164,7 @@
       transition: color 150ms, background 150ms;
     }
     .viewer__tool:hover,
-    .viewer__tool.active { color: #B8924A; background: rgba(184,146,74,0.12); }
+    .viewer__tool.active { color: var(--gold-500); background: rgba(184,146,74,0.12); }
     .viewer__tool svg { width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round; }
     /* Separador entre grupos de botones */
     .viewer__tool-sep {
@@ -217,10 +217,10 @@
     .panel__meta { margin-bottom: 1.5rem; padding-top: 0.5rem; }
     .panel__meta .p-artist {
       font-family: 'Oswald', sans-serif;
-      font-size: 0.625rem;
+      font-size: 0.7rem;
       text-transform: uppercase;
       letter-spacing: 0.2em;
-      color: #A68F7B;
+      color: var(--gold-600);
       margin-bottom: 6px;
     }
     .panel__meta .p-title {
@@ -235,27 +235,27 @@
     .panel__meta .p-year {
       font-family: 'Raleway', sans-serif;
       font-size: 0.8125rem;
-      color: #6A6460;
+      color: var(--warm-400);
     }
 
     .panel__section-label {
       font-family: 'Oswald', sans-serif;
-      font-size: 0.6rem;
-      font-weight: 700;
+      font-size: 0.7rem;
+      font-weight: 500;
       text-transform: uppercase;
       letter-spacing: 0.2em;
-      color: #A68F7B;
+      color: var(--gold-500);
       margin-bottom: 0.6rem;
     }
     .panel__desc {
       font-family: 'Raleway', sans-serif;
       font-size: 0.875rem;
-      color: #D9CEC5;
+      color: var(--warm-300);
       line-height: 1.8;
     }
     .panel__sep {
       border: none;
-      border-top: 1px solid rgba(255,255,255,0.08);
+      border-top: 1px solid var(--bg-400);
       margin: 1.5rem 0;
     }
     .panel__row {
@@ -265,8 +265,8 @@
       font-size: 0.8125rem;
       margin-bottom: 0.6rem;
     }
-    .panel__row dt { color: #6A6460; }
-    .panel__row dd { color: #D9CEC5; text-align: right; }
+    .panel__row dt { color: var(--warm-400); }
+    .panel__row dd { color: var(--warm-300); text-align: right; }
 
     /* ════════════════════════════════════════════════════════
        PANEL DETALLES — filmstrip + zoom en la imagen
@@ -294,7 +294,7 @@
     }
     .filmstrip__thumb:hover { opacity: 0.75; }
     .filmstrip__thumb.active {
-      border-color: #B8924A;
+      border-color: var(--gold-500);
       opacity: 1;
     }
     /* Imagen del thumb — muestro la zona de zoom usando clip */
@@ -343,7 +343,7 @@
       transition: background 150ms, transform 150ms;
     }
     .detail__dot.active {
-      background: #B8924A;
+      background: var(--gold-500);
       transform: scale(1.25);
     }
 
@@ -464,25 +464,26 @@
       </div>
     </main>
 
-    <footer class="footer">
-      <div class="footer__inner">
-        <div class="footer__brand">
-          <a href="../index.html" class="footer__logo"><img src="../assets/images/logo-afro.svg" alt="Presencias" class="footer__logo-img" /></a>
-          <span class="footer__copy">© 2026 Exposición Virtual</span>
-        </div>
-        <div class="footer__social">
-          <a href="#" class="footer__social-btn" aria-label="Facebook">
-            <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
-          </a>
-          <a href="#" class="footer__social-btn" aria-label="Instagram">
-            <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path></svg>
-          </a>
-          <a href="mailto:contacto@presencias.org" class="footer__social-btn" aria-label="Email">
-            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-          </a>
-        </div>
+<!-- ═══════════════════════════════════════════════════════ FOOTER ═══════ -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <a href="../index.html" class="footer__logo"><img src="../assets/images/logo-afro.svg" alt="Presencias" class="footer__logo-img" /></a>
+        <span class="footer__copy">© 2026 Exposición Virtual</span>
       </div>
-    </footer>
+      <div class="footer__social">
+        <a href="#" class="footer__social-btn" aria-label="Facebook">
+          <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+        </a>
+        <a href="#" class="footer__social-btn" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path></svg>
+        </a>
+        <a href="mailto:contacto@presencias.org" class="footer__social-btn" aria-label="Email">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+        </a>
+      </div>
+    </div>
+  </footer>
   </div>
 
   <!-- ═══════════════════════════════════════════════ VIEWER ══════════════ -->

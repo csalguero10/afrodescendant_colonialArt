@@ -20,13 +20,14 @@
   --bg-700: #3D3830;   /* Hover states, acordeones abiertos */
   --bg-600: #4D4840;   /* Bordes de inputs */
   --bg-500: #6A6460;   /* Texto muted */
-  --bg-400: #8A8480;   /* Texto muy sutil */
+  --bg-400: #8A8480;
+  --bg-300: #59122C;    /* Texto muy sutil */
 
   /* Acento dorado */
-  --gold-600: #9B7630;
-  --gold-500: #B8924A;  /* Color principal de acento */
-  --gold-400: #CCA761;
-  --gold-300: #DEC087;
+  --gold-600: #ec6648;
+  --gold-500: #BF6550;  /* Color principal de acento */
+  --gold-400: #f4dbab;
+  --gold-300: #F2CBC2;
 
   /* Neutros cálidos */
   --warm-500: #a68f7b;
@@ -35,20 +36,21 @@
   --warm-200: #F7F5F2;
   --warm-100: #FFFFFF;
 
-  /* Azules (secciones especiales) */
-  --navy-900: #0D1440;
-  --navy-800: #1C4694;   /* Sección planimetría, info museo */
-  --navy-700: #212B3F;   /* Sección narrativa especialistas */
-  --navy-600: #263D69;
+  /* Colores (secciones especiales) */
+  --navy-900: #437379;
+  --navy-800: #3B5659;   /* Sección planimetría, info museo */
+  --navy-700: #BF6550;   /* Sección narrativa especialistas */
+  --navy-600: #F2CBC2;
 
   /* Color crema de secciones About */
-  --cream: #FFEEC9;
+  --cream: #f4dbab; 
 
   /* Textos */
   --text-primary:   #FFFFFF;
   --text-secondary: #D9CEC5;
   --text-tertiary:  #A68F7B;
   --text-muted:     #6A6460;
+  --text-black:     #0C0B09;
 
   /* Escala de espaciado */
   --space-xs:  4px;
@@ -248,13 +250,11 @@ button {
 .navbar__links a:hover,
 .navbar__links a.active {
   color: var(--gold-500);
-  border-bottom-color: var(--gold-500);
 }
 
 .navbar.scrolled .navbar__links a:hover,
 .navbar.scrolled .navbar__links a.active {
   color: var(--gold-600);
-  border-bottom-color: var(--gold-600);
 }
 
 /* Botón hamburguesa (mobile) */
@@ -563,7 +563,7 @@ button {
 
 .artwork-card__overlay h3 {
   font-family: var(--font-secondary);
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: 600;
   text-transform: none;
   letter-spacing: normal;
@@ -573,17 +573,17 @@ button {
 
 .artwork-card__overlay .artist {
   font-family: var(--font-primary);
-  font-size: 0.6875rem;
+  font-size: 0.8rem;
   font-weight: 500;
-  color: var(--warm-500);
+  color: var(--gold-500);
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.13em;
 }
 
 .artwork-card__overlay .year {
   font-family: var(--font-secondary);
-  font-size: 0.6875rem;
-  color: var(--bg-400);
+  font-size: 0.8rem;
+  color: var(--warm-400);
   margin-top: 0.25rem;
 }
 
@@ -653,7 +653,7 @@ button {
 
 /* Variante oscura del acordeón (para fondos dark) */
 .accordion--dark .accordion__item {
-  border-bottom-color: var(--bg-700);
+  border-bottom-color: var(--gold-400);
 }
 
 .accordion--dark .accordion__trigger {
@@ -742,7 +742,7 @@ button {
 
 /* ─── INFO CARDS (para página Info) ──────────────────────────────────────────── */
 .info-card {
-  background-color: var(--navy-800);
+  background-color: var(--bg-900);
   border: 1px solid rgba(184, 146, 74, 0.2);
   border-radius: var(--radius-lg);
   padding: 1.5rem;
@@ -963,7 +963,7 @@ button {
 
 /* ─── GITHUB BANNER (Documentación) ─────────────────────────────────────────── */
 .github-banner {
-  background-color: var(--gold-500);
+  background-color: var(--gold-400);
   border-radius: var(--radius-lg);
   padding: 2rem;
   display: flex;
@@ -1033,7 +1033,7 @@ button {
 }
 
 .doc-sidebar__nav {
-  background-color: var(--navy-700);
+  background-color: var(--navy-900);
   border: 1px solid rgba(184, 146, 74, 0.2);
   border-radius: var(--radius-lg);
   padding: 1.5rem;
@@ -1045,7 +1045,7 @@ button {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--gold-500);
+  color: var(--gold-400);
   margin-bottom: 1rem;
 }
 
@@ -1053,14 +1053,14 @@ button {
   display: block;
   font-family: var(--font-secondary);
   font-size: 0.875rem;
-  color: var(--text-secondary);
+  color: var(--text-primary);
   padding: 0.375rem 0;
   transition: color var(--transition-fast);
 }
 
 .doc-sidebar__link:hover,
 .doc-sidebar__link.active {
-  color: var(--gold-500);
+  color: var(--gold-400);
   font-weight: 600;
 }
 
@@ -1313,7 +1313,7 @@ button {
 
 /* ─── QUOTES SECTION (Narrativas) ────────────────────────────────────────────── */
 .quote-section {
-  background-color: var(--bg-800);
+  background-color: var(--bg-300);
   padding: var(--space-2xl) 0;
 }
 
@@ -1353,7 +1353,7 @@ button {
 .quote-role {
   font-family: var(--font-secondary);
   font-size: 0.75rem;
-  color: var(--text-muted);
+  color: var(--text-primary);
   margin-top: 0.25rem;
 }
 
@@ -1368,7 +1368,7 @@ button {
   width: 8px;
   height: 8px;
   border-radius: var(--radius-full);
-  background-color: var(--bg-500);
+  background-color: var(--warm-300);
   border: none;
   cursor: pointer;
   transition: background-color var(--transition-fast);
