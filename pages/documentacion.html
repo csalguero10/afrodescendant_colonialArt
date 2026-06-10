@@ -6,290 +6,6 @@
   <title>Documentación — Presencias</title>
   <meta name="description" content="Recursos académicos, metodología y fuentes de la exposición Presencias." />
   <link rel="stylesheet" href="../css/main.css" />
-  <style>
-    /* ── Layout de documentación: sidebar + contenido ── */
-    .doc-page {
-      padding-top: calc(var(--navbar-h) + 3rem);
-      padding-bottom: 6rem;
-    }
-
-    /* Secciones de contenido con ID para el sidebar */
-    .doc-section {
-      scroll-margin-top: calc(var(--navbar-h) + 2rem); /* offset del navbar fijo */
-      padding: 5rem 0;
-      border-bottom: 1px solid var(--bg-700);
-    }
-
-    .doc-section:last-child {
-      border-bottom: none;
-    }
-
-    /* ── Sección Contexto (fondo azul) ── */
-    .doc-section--blue {
-      background-color: var(--bg-900);
-      border-radius: var(--radius-xl);
-      padding: 3.5rem;
-      margin-bottom: 2rem;
-    }
-
-    /* ── Sección Metodología (fondo dark) ── */
-    .doc-section--dark {
-      background-color: var(--bg-900);
-      border-radius: var(--radius-xl);
-      padding: 3.5rem;
-      margin-bottom: 2rem;
-    }
-
-    /* Párrafo de contenido en secciones académicas */
-    .doc-text {
-      font-family: var(--font-secondary);
-      font-size: 0.9375rem;
-      color: var(--text-secondary);
-      line-height: 1.85;
-      max-width: 72ch; /* ancho de línea cómodo para lectura */
-    }
-
-    .doc-text + .doc-text {
-      margin-top: 1rem;
-    }
-
-    /* ── Grids ── */
-    .method-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      margin-top: 2rem;
-    }
-
-    @media (max-width: 768px) {
-      .method-grid { grid-template-columns: 1fr; }
-    }
-
-    /* Tarjeta de metodología (numerada) */
-    .method-card {
-      border-left: 3px solid var(--gold-500);
-      padding-left: 1.5rem;
-    }
-
-    .method-card__num {
-      font-family: var(--font-primary);
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--gold-500);
-      line-height: 1;
-      margin-bottom: 0.75rem;
-    }
-
-    .method-card__title {
-      font-family: var(--font-primary);
-      font-size: 1rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--text-primary);
-      margin-bottom: 0.75rem;
-    }
-
-    .method-card__text {
-      font-family: var(--font-secondary);
-      font-size: 0.875rem;
-      color: var(--text-secondary);
-      line-height: 1.75;
-    }
-
-    /* ── Recursos descargables ── */
-    .resources-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.25rem;
-      margin-top: 2rem;
-    }
-
-    @media (max-width: 768px) { .resources-grid { grid-template-columns: 1fr; } }
-
-    /* ── Referencias bibliográficas ── */
-    .references-list {
-      margin-top: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
-    }
-
-    .reference-item {
-      padding: 1.25rem;
-      background-color: var(--bg-800);
-      border-radius: var(--radius-md);
-      border-left: 2px solid var(--bg-600);
-      transition: border-color var(--transition-fast);
-    }
-
-    .reference-item:hover {
-      border-left-color: var(--gold-500);
-    }
-
-    .reference-item p {
-      font-family: var(--font-secondary);
-      font-size: 0.875rem;
-      color: var(--text-secondary);
-      line-height: 1.7;
-    }
-
-    .reference-item .ref-author {
-      font-weight: 600;
-      color: var(--text-primary);
-    }
-
-    .reference-item .ref-year {
-      color: var(--gold-400);
-      font-weight: 500;
-    }
-
-    /* ── Créditos ── */
-    .credits-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-      margin-top: 2rem;
-    }
-
-    @media (max-width: 900px) { .credits-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 560px) { .credits-grid { grid-template-columns: 1fr; } }
-
-    .credit-card {
-      background-color: var(--bg-800);
-      border-radius: var(--radius-lg);
-      padding: 1.5rem;
-    }
-
-    .credit-card__role {
-      font-family: var(--font-primary);
-      font-size: 0.6875rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--gold-500);
-      margin-bottom: 0.5rem;
-    }
-
-    .credit-card__name {
-      font-family: var(--font-secondary);
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: 0.25rem;
-    }
-
-    .credit-card__institution {
-      font-family: var(--font-secondary);
-      font-size: 0.8125rem;
-      color: var(--text-tertiary);
-    }
-
-    /* ── Timeline de la investigación ── */
-    .timeline {
-      margin-top: 2rem;
-      position: relative;
-      padding-left: 2rem;
-    }
-
-    /* Línea vertical */
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0.5rem;
-      bottom: 0;
-      width: 2px;
-      background: linear-gradient(to bottom, var(--gold-500), transparent);
-    }
-
-    .timeline-item {
-      position: relative;
-      margin-bottom: 2rem;
-    }
-
-    /* Punto en la línea */
-    .timeline-item::before {
-      content: '';
-      position: absolute;
-      left: -2rem;
-      top: 0.4rem;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background-color: var(--gold-500);
-      transform: translateX(-4px);
-    }
-
-    .timeline-item__date {
-      font-family: var(--font-primary);
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--gold-400);
-      margin-bottom: 0.25rem;
-    }
-
-    .timeline-item__title {
-      font-family: var(--font-primary);
-      font-size: 1rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      color: var(--text-primary);
-      margin-bottom: 0.5rem;
-    }
-
-    .timeline-item__text {
-      font-family: var(--font-secondary);
-      font-size: 0.875rem;
-      color: var(--text-secondary);
-      line-height: 1.7;
-    }
-
-    /* ── Cita destacada ── */
-    .pull-quote {
-      border-left: 4px solid var(--gold-500);
-      padding: 1.5rem 2rem;
-      margin: 2.5rem 0;
-      background-color: var(--bg-800);
-      border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
-    }
-
-    .pull-quote p {
-      font-family: var(--font-secondary);
-      font-size: 1.125rem;
-      font-style: italic;
-      color: var(--text-secondary);
-      line-height: 1.8;
-    }
-
-    .pull-quote cite {
-      display: block;
-      margin-top: 1rem;
-      font-family: var(--font-primary);
-      font-size: 0.75rem;
-      font-style: normal;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--gold-400);
-    }
-
-    /* ── Nota del código fuente ── */
-    .code-note {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-family: 'Courier New', monospace;
-      font-size: 0.8125rem;
-      color: var(--gold-300);
-      background: var(--bg-950);
-      padding: 0.25rem 0.75rem;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--bg-600);
-    }
-  </style>
 </head>
 <body>
 
@@ -326,14 +42,14 @@
       <span class="eyebrow">RECURSOS • INVESTIGACIÓN</span>
       <h1>DOCUMENTACIÓN</h1>
       <div class="gold-rule"></div>
-      <p style="font-family:var(--font-secondary);font-size:1.0625rem;color:var(--text-secondary);max-width:60ch;margin-top:1rem;">
+      <p class="doc-intro">
         Recursos académicos y metodológicos de la exposición. Contexto, fuentes, datos abiertos
         y créditos del proyecto <em>Presencias</em>.
       </p>
     </div>
 
     <!-- ══════════════════════════════════════ BANNER GITHUB ════════════════ -->
-    <div class="container" style="margin-top:3rem;">
+    <div class="container doc-block">
       <div class="github-banner reveal">
         <div>
           <p class="github-banner__title">Consulta todo el proyecto</p>
@@ -358,7 +74,7 @@
     </div>
 
     <!-- ══════════════════════════════════════ LAYOUT SIDEBAR + CONTENIDO ══ -->
-    <div class="container" style="margin-top:3rem;">
+    <div class="container doc-block">
       <div class="doc-layout">
 
         <!-- ── Sidebar de navegación (sticky) ── -->
@@ -384,7 +100,7 @@
             <div class="doc-section--blue">
               <span class="eyebrow">01 / CONTEXTO</span>
               <h2 id="contexto-heading">CONTEXTO DEL PROYECTO</h2>
-              <div class="gold-rule" style="margin-bottom:2rem;"></div>
+              <div class="gold-rule"></div>
 
               <p class="doc-text">
                 <em>Presencias</em> es una exposición virtual que complementa la muestra física y
@@ -392,7 +108,7 @@
                 de manera computacional al estudio de las representaciones de afrodescendientes en el
                 arte colonial latinoamericano (siglos XVI–XIX).
               </p>
-              <p class="doc-text" style="margin-top:1rem;">
+              <p class="doc-text">
                 El proyecto se enmarca en la intersección de la Historia del Arte, las Humanidades
                 Digitales y la Visión por Computador. Parte del corpus del archivo ARCA (Universidad
                 de los Andes, Bogotá) e incorpora técnicas de análisis visual asistido por modelos
@@ -409,7 +125,7 @@
               </div>
 
               <!-- Timeline del proyecto -->
-              <h3 style="font-family:var(--font-primary);font-size:1.25rem;text-transform:uppercase;margin-bottom:1.5rem;margin-top:2rem;">
+              <h3 class="doc-heading doc-heading--lg">
                 Línea de tiempo del proyecto
               </h3>
 
@@ -453,14 +169,14 @@
             <div class="doc-section--dark">
               <span class="eyebrow">02 / METODOLOGÍA</span>
               <h2 id="metodologia-heading">METODOLOGÍA</h2>
-              <div class="gold-rule" style="margin-bottom:2rem;"></div>
+              <div class="gold-rule"></div>
 
               <p class="doc-text">
                 La investigación aplica el modelo de tres niveles de Panofsky —descripción
                 pre-iconográfica, análisis iconográfico e interpretación iconológica— como
                 marco conceptual para el diseño del pipeline de visión computacional.
               </p>
-              <p class="doc-text" style="margin-top:1rem;">
+              <p class="doc-text">
                 Cada nivel se corresponde con una capa de extracción de características:
                 la detección de objetos y figuras (nivel 1), la clasificación de atributos
                 simbólicos (nivel 2) y la inferencia de roles sociales y relaciones de poder
@@ -512,11 +228,11 @@
               </div>
 
               <!-- Nota técnica del stack -->
-              <div style="margin-top:2.5rem;padding:1.5rem;background:var(--bg-900);border-radius:var(--radius-lg);border:1px solid var(--bg-600);">
-                <p style="font-family:var(--font-primary);font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--gold-500);margin-bottom:1rem;">
+              <div class="doc-callout doc-callout--stack">
+                <p class="doc-callout__label">
                   Stack Técnico
                 </p>
-                <div style="display:flex;flex-wrap:wrap;gap:0.625rem;">
+                <div class="doc-callout__tags">
                   <span class="code-note">Python 3.11</span>
                   <span class="code-note">Playwright</span>
                   <span class="code-note">gspread</span>
@@ -541,11 +257,11 @@
           <div class="doc-section--dark">
             <span class="eyebrow">03 / RECURSOS</span>
             <h2 id="recursos-heading">RECURSOS DESCARGABLES</h2>
-            <div class="gold-rule" style="margin-bottom:1rem;"></div>
+            <div class="gold-rule gold-rule--mb-1"></div>
 
-            <p class="doc-text" style="margin-bottom:2rem;">
+            <p class="doc-text doc-text--mb-lg">
               Los siguientes materiales están disponibles bajo licencia
-              <strong style="color:var(--gold-400);">Creative Commons CC-BY 4.0</strong>.
+              <strong class="text-accent">Creative Commons CC-BY 4.0</strong>.
               Puedes usarlos, compartirlos y adaptarlos con atribución al proyecto.
             </p>
 
@@ -566,7 +282,7 @@
                     CSV con los metadatos de ~3 400 obras del archivo ARCA: título, artista,
                     fecha, categoría, dimensiones y URL de imagen.
                   </p>
-                  <a href="#" class="btn btn--outline" style="font-size:0.6875rem;">
+                  <a href="#" class="btn btn--outline">
                     Descargar CSV →
                   </a>
                 </div>
@@ -586,7 +302,7 @@
                     JSON con las anotaciones VLM validadas: indumentaria, gestos, objetos,
                     rol social inferido y nivel de confianza del modelo.
                   </p>
-                  <a href="#" class="btn btn--outline" style="font-size:0.6875rem;">
+                  <a href="#" class="btn btn--outline">
                     Descargar JSON →
                   </a>
                 </div>
@@ -609,7 +325,7 @@
                     PDF con la guía de lectura de las obras para docentes y mediadores culturales.
                     Incluye actividades pedagógicas y glosario.
                   </p>
-                  <a href="#" class="btn btn--outline" style="font-size:0.6875rem;">
+                  <a href="#" class="btn btn--outline">
                     Descargar PDF →
                   </a>
                 </div>
@@ -634,7 +350,6 @@
                     target="_blank"
                     rel="noopener noreferrer"
                     class="btn btn--outline"
-                    style="font-size:0.6875rem;"
                   >
                     Ver en GitHub →
                   </a>
@@ -656,10 +371,10 @@
           <div class="doc-section--dark">
             <span class="eyebrow">04 / FUENTES Y CRÉDITOS</span>
             <h2 id="creditos-heading">FUENTES Y CRÉDITOS</h2>
-            <div class="gold-rule" style="margin-bottom:1rem;"></div>
+            <div class="gold-rule gold-rule--mb-1"></div>
 
             <!-- Equipo -->
-            <h3 style="font-family:var(--font-primary);font-size:1rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-secondary);margin-bottom:1.5rem;">
+            <h3 class="doc-heading">
               Equipo del Proyecto
             </h3>
 
@@ -699,7 +414,7 @@
             </div>
 
             <!-- Bibliografía -->
-            <h3 style="font-family:var(--font-primary);font-size:1rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-secondary);margin-top:3rem;margin-bottom:1.5rem;">
+            <h3 class="doc-heading doc-heading--spaced">
               Referencias Bibliográficas Principales
             </h3>
 
@@ -751,11 +466,11 @@
             </div>
 
             <!-- Licencias de imagen -->
-            <div style="margin-top:3rem;padding:1.5rem;background:var(--bg-800);border-radius:var(--radius-lg);border:1px solid var(--bg-600);">
-              <p style="font-family:var(--font-primary);font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--gold-500);margin-bottom:0.75rem;">
+            <div class="doc-callout doc-callout--license">
+              <p class="doc-callout__label">
                 Nota sobre Licencias
               </p>
-              <p style="font-family:var(--font-secondary);font-size:0.875rem;color:var(--text-secondary);line-height:1.75;">
+              <p class="doc-callout__text">
                 Las imágenes de las pinturas de castas y la obra religiosa de José Nicolás de la Escalera
                 provienen del archivo ARCA (Universidad de los Andes) bajo licencia de uso académico.
                 Las imágenes de placeholder en la colección son de dominio público vía Unsplash.

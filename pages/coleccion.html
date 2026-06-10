@@ -6,408 +6,6 @@
   <title>Colección — Presencias</title>
   <meta name="description" content="Galería de las 15 obras de la exposición con filtros por categoría." />
   <link rel="stylesheet" href="../css/main.css" />
-  <style>
-
-    /* ════════════════════════════════════════════════════════
-       VIEWER — ocupa inset:0, scrollable verticalmente
-       La imagen principal llena al menos 100vh de alto
-       Después, al hacer scroll, aparecen las obras relacionadas
-    ════════════════════════════════════════════════════════ */
-    .viewer {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: #0C0B09;
-      z-index: 200;
-      overflow-y: auto;          /* scroll vertical para "obras relacionadas" */
-      overflow-x: hidden;
-    }
-    .viewer.open { display: block; }
-
-    /* ── Sección 1: imagen a pantalla completa ── */
-    .viewer__hero {
-      position: relative;
-      width: 100%;
-      height: 100vh;              /* exactamente la ventana */
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #0C0B09;
-      overflow: hidden;           /* contiene la imagen sin desbordarse */
-    }
-
-    /* La imagen ocupa el máximo posible sin salirse */
-    .viewer__image {
-      display: block;
-      max-width: calc(100% - 120px);  /* espacio para flechas */
-      max-height: calc(100vh - 80px); /* espacio para toolbar */
-      width: auto;
-      height: auto;
-      object-fit: contain;
-      transform-origin: center center;
-      user-select: none;
-      will-change: transform;
-      transition: transform 80ms ease-out;
-    }
-
-    /* Cuando hay panel abierto, la imagen se desplaza a la izquierda */
-    .viewer__hero.panel-open .viewer__image {
-      max-width: calc(100% - 420px); /* deja espacio al panel */
-      margin-right: 0;
-    }
-
-    /* ── Botón volver ── */
-    .viewer__back {
-      position: fixed;
-      top: 1.25rem;
-      left: 1.25rem;
-      z-index: 220;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: rgba(12,11,9,0.7);
-      backdrop-filter: blur(8px);
-      color: #fff;
-      border: 1px solid rgba(255,255,255,0.15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: background 150ms;
-    }
-    .viewer__back:hover { background: rgba(12,11,9,0.95); }
-    .viewer__back svg { width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round; }
-
-    /* ── Flechas prev / next ── */
-    .viewer__arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 210;
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: rgba(12,11,9,0.55);
-      backdrop-filter: blur(6px);
-      color: #fff;
-      border: 1px solid rgba(255,255,255,0.12);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: background 150ms, opacity 150ms;
-      opacity: 0;              /* ocultas por defecto, se muestran al hover del hero */
-    }
-    .viewer__hero:hover .viewer__arrow { opacity: 1; }
-    .viewer__arrow--prev { left: 1rem; }
-    .viewer__arrow--next { right: 1rem; }
-    .viewer__hero.panel-open .viewer__arrow--next { right: 405px; }
-    .viewer__arrow:hover { background: rgba(12,11,9,0.9); }
-    .viewer__arrow svg { width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round; }
-
-    /* ── Caption de título (parte inferior de la imagen) ── */
-    .viewer__caption {
-      position: absolute;
-      bottom: 5.5rem;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(12,11,9,0.72);
-      backdrop-filter: blur(8px);
-      border-radius: 8px;
-      padding: 0.6rem 1.25rem;
-      text-align: center;
-      pointer-events: none;
-      white-space: nowrap;
-      transition: opacity 300ms;
-    }
-    .viewer__caption.hidden { opacity: 0; }
-    .viewer__caption .c-artist {
-      font-family: 'Oswald', sans-serif;
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      color: var(--gold-500);
-      margin-bottom: 2px;
-    }
-    .viewer__caption .c-title {
-      font-family: 'Raleway', sans-serif;
-      font-size: 0.875rem;
-      color: var(--warm-300);
-    }
-
-    /* ── Toolbar de zoom + acciones ── */
-    .viewer__toolbar {
-      position: fixed;
-      bottom: 1.25rem;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 220;
-      display: flex;
-      gap: 0.5rem;
-      background: rgba(12,11,9,0.75);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 40px;
-      padding: 0.4rem 0.75rem;
-    }
-    .viewer__tool {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      border: none;
-      background: transparent;
-      color: rgba(255,255,255,0.7);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: color 150ms, background 150ms;
-    }
-    .viewer__tool:hover,
-    .viewer__tool.active { color: var(--gold-500); background: rgba(184,146,74,0.12); }
-    .viewer__tool svg { width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round; }
-    /* Separador entre grupos de botones */
-    .viewer__tool-sep {
-      width: 1px;
-      background: rgba(255,255,255,0.12);
-      margin: 6px 2px;
-    }
-
-    /* ════════════════════════════════════════════════════════
-       PANEL LATERAL — Info y Detalles
-    ════════════════════════════════════════════════════════ */
-    .viewer__panel {
-      position: fixed;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      width: 400px;
-      max-width: 100vw;
-      background: rgba(25,22,19,0.94);
-      backdrop-filter: blur(16px);
-      border-left: 1px solid rgba(255,255,255,0.07);
-      overflow-y: auto;
-      z-index: 215;
-      display: none;        /* JS pone display:flex o block */
-      flex-direction: column;
-      padding: 2rem 1.75rem 2rem;
-    }
-    .viewer__panel.open { display: flex; }
-
-    .panel__close {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      border: none;
-      background: rgba(255,255,255,0.07);
-      color: rgba(255,255,255,0.6);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: background 150ms;
-    }
-    .panel__close:hover { background: rgba(255,255,255,0.15); }
-    .panel__close svg { width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round; }
-
-    /* Cabecera del panel: artista + título + año */
-    .panel__meta { margin-bottom: 1.5rem; padding-top: 0.5rem; }
-    .panel__meta .p-artist {
-      font-family: 'Oswald', sans-serif;
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      color: var(--gold-600);
-      margin-bottom: 6px;
-    }
-    .panel__meta .p-title {
-      font-family: 'Raleway', sans-serif;
-      font-size: 1.4rem;
-      font-weight: 600;
-      color: #D9CEC5;
-      line-height: 1.3;
-      margin-bottom: 4px;
-      text-transform: none;
-    }
-    .panel__meta .p-year {
-      font-family: 'Raleway', sans-serif;
-      font-size: 0.8125rem;
-      color: var(--warm-400);
-    }
-
-    .panel__section-label {
-      font-family: 'Oswald', sans-serif;
-      font-size: 0.7rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      color: var(--gold-500);
-      margin-bottom: 0.6rem;
-    }
-    .panel__desc {
-      font-family: 'Raleway', sans-serif;
-      font-size: 0.875rem;
-      color: var(--warm-300);
-      line-height: 1.8;
-    }
-    .panel__sep {
-      border: none;
-      border-top: 1px solid var(--bg-400);
-      margin: 1.5rem 0;
-    }
-    .panel__row {
-      display: flex;
-      justify-content: space-between;
-      font-family: 'Raleway', sans-serif;
-      font-size: 0.8125rem;
-      margin-bottom: 0.6rem;
-    }
-    .panel__row dt { color: var(--warm-400); }
-    .panel__row dd { color: var(--warm-300); text-align: right; }
-
-    /* ════════════════════════════════════════════════════════
-       PANEL DETALLES — filmstrip + zoom en la imagen
-    ════════════════════════════════════════════════════════ */
-
-    /* Filmstrip horizontal de thumbnails */
-    .filmstrip {
-      display: flex;
-      gap: 0.5rem;
-      margin-bottom: 1.25rem;
-      flex-wrap: wrap;
-    }
-    .filmstrip__thumb {
-      width: 68px;
-      height: 68px;
-      border-radius: 4px;
-      overflow: hidden;
-      border: 2px solid transparent;
-      cursor: pointer;
-      opacity: 0.45;
-      transition: opacity 200ms, border-color 200ms;
-      flex-shrink: 0;
-      background: #2A2620;
-      position: relative;
-    }
-    .filmstrip__thumb:hover { opacity: 0.75; }
-    .filmstrip__thumb.active {
-      border-color: var(--gold-500);
-      opacity: 1;
-    }
-    /* Imagen del thumb — muestro la zona de zoom usando clip */
-    .filmstrip__thumb img {
-      position: absolute;
-      /* transform se establece por JS para recortar la zona */
-      transform-origin: top left;
-    }
-
-    /* Contador "3 de 4" */
-    .detail__counter {
-      font-family: 'Raleway', sans-serif;
-      font-size: 0.75rem;
-      color: #6A6460;
-      margin-bottom: 0.5rem;
-    }
-    .detail__title {
-      font-family: 'Raleway', sans-serif;
-      font-size: 1.125rem;
-      font-weight: 600;
-      color: #D9CEC5;
-      margin-bottom: 1rem;
-      text-transform: none;
-    }
-    .detail__text {
-      font-family: 'Raleway', sans-serif;
-      font-size: 0.875rem;
-      color: #D9CEC5;
-      line-height: 1.8;
-    }
-
-    /* Dots de navegación en detalles */
-    .detail__dots {
-      display: flex;
-      gap: 0.4rem;
-      justify-content: center;
-      margin-top: 1.5rem;
-    }
-    .detail__dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      border: none;
-      background: #6A6460;
-      cursor: pointer;
-      transition: background 150ms, transform 150ms;
-    }
-    .detail__dot.active {
-      background: var(--gold-500);
-      transform: scale(1.25);
-    }
-
-    /* ════════════════════════════════════════════════════════
-       OBRAS RELACIONADAS — debajo del hero, scroll para ver
-    ════════════════════════════════════════════════════════ */
-    .viewer__related {
-      background: #191613;
-      padding: 3.5rem 4rem 4rem;
-      border-top: 1px solid rgba(106,100,96,0.2);
-    }
-    .viewer__related h3 {
-      font-family: 'Oswald', sans-serif;
-      font-size: 1.375rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-      color: #fff;
-      margin-bottom: 1.75rem;
-    }
-    .related-grid {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 1rem;
-    }
-    @media (max-width: 1200px) { .related-grid { grid-template-columns: repeat(4, 1fr); } }
-    @media (max-width: 768px)  { .related-grid { grid-template-columns: repeat(3, 1fr); } }
-
-    /* ── Toast compartir ── */
-    #share-toast {
-      position: fixed;
-      bottom: 5rem;
-      left: 50%;
-      transform: translateX(-50%) translateY(10px);
-      background: #3D3830;
-      color: #fff;
-      padding: 0.5rem 1.5rem;
-      border-radius: 9999px;
-      font-family: 'Raleway', sans-serif;
-      font-size: 0.875rem;
-      opacity: 0;
-      transition: opacity 200ms, transform 200ms;
-      pointer-events: none;
-      z-index: 300;
-    }
-
-    /* ════════════════════════════════════════════════════════
-       GRID PAGE (colección)
-    ════════════════════════════════════════════════════════ */
-    .grid-page { min-height: 100vh; }
-
-    /* ── Animación de entrada de las cards del grid ── */
-    @keyframes cardIn {
-      from { opacity: 0; transform: translateY(20px) scale(0.97); }
-      to   { opacity: 1; transform: translateY(0)    scale(1); }
-    }
-
-    /* La clase se aplica a cada card; el delay escalonado lo pone JS */
-    .artwork-grid-item {
-      opacity: 0;
-      animation: cardIn 380ms ease-out forwards;
-    }
-
-  </style>
 </head>
 <body>
 
@@ -439,9 +37,9 @@
 
   <!-- ═══════════════════════════════════════════════ GRID PAGE ═══════════ -->
   <div id="grid-page" class="grid-page">
-    <main class="container" style="padding-top:calc(var(--navbar-h) + 3rem); padding-bottom:4rem;">
+    <main class="container collection-main">
 
-      <div class="reveal" style="margin-bottom:2rem;">
+      <div class="reveal reveal--mb-lg">
         <span class="eyebrow">GALERÍA • ARTE</span>
         <h1>COLECCIÓN</h1>
         <div class="gold-rule"></div>
@@ -459,8 +57,8 @@
       <!-- Grid -->
       <div class="artworks-grid reveal" id="artworks-grid"></div>
 
-      <div id="empty-msg" style="display:none;text-align:center;padding:5rem 0;">
-        <p style="color:var(--bg-500);font-size:1.125rem;">No hay obras en esta categoría.</p>
+      <div id="empty-msg" class="empty-msg">
+        <p class="empty-msg__text">No hay obras en esta categoría.</p>
       </div>
     </main>
 
@@ -593,7 +191,7 @@
     </aside>
 
     <!-- ══════════════════════════════════ OBRAS RELACIONADAS ═════ -->
-    <div id="viewer-related" class="viewer__related" style="display:none;">
+    <div id="viewer-related" class="viewer__related">
       <h3>Obras Relacionadas</h3>
       <div class="related-grid" id="related-grid"></div>
     </div>
@@ -859,7 +457,7 @@
 
       if (!art.details || !art.details.length) {
         detText.textContent = 'Esta obra no tiene detalles iconográficos disponibles.';
-        detText.style.color = '#6A6460';
+        detText.style.color = 'var(--text-muted)';
         return;
       }
       detText.style.color = '';
@@ -1005,8 +603,8 @@
       var list = filter === 'all' ? artworks
         : artworks.filter(function (a) { return a.category === filter; });
 
-      if (!list.length) { grid.innerHTML = ''; emptyMsg.style.display = 'block'; return; }
-      emptyMsg.style.display = 'none';
+      if (!list.length) { grid.innerHTML = ''; emptyMsg.classList.add('visible'); return; }
+      emptyMsg.classList.remove('visible');
 
       grid.innerHTML = list.map(function (art) {
         return [

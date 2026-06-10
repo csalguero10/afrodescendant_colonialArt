@@ -12,6 +12,7 @@
   /* Tipografías */
   --font-primary:   'Oswald',  sans-serif;   /* Títulos, labels, stats */
   --font-secondary: 'Raleway', sans-serif;   /* Cuerpo, botones, nav */
+  --font-mono:      'Courier New', monospace; /* Notas de código */
 
   /* Fondos oscuros */
   --bg-950: #0C0B09;
@@ -43,7 +44,12 @@
   --navy-600: #F2CBC2;
 
   /* Color crema de secciones About */
-  --cream: #f4dbab; 
+  --cream: #f4dbab;
+
+  /* Avatares del equipo curatorial (About) */
+  --avatar-1: #212B3F;
+  --avatar-2: #1C4694;
+  --avatar-3: #263D69;
 
   /* Textos */
   --text-primary:   #FFFFFF;
@@ -51,6 +57,12 @@
   --text-tertiary:  #A68F7B;
   --text-muted:     #6A6460;
   --text-black:     #0C0B09;
+
+  /* Variantes RGB (para usar con rgba() en overlays y transparencias) */
+  --bg-950-rgb:   12, 11, 9;
+  --bg-900-rgb:   25, 22, 19;
+  --bg-500-rgb:   106, 100, 96;
+  --warm-100-rgb: 255, 255, 255;
 
   /* Escala de espaciado */
   --space-xs:  4px;
@@ -169,6 +181,10 @@ button {
   margin-top: var(--space-md);
   margin-bottom: var(--space-lg);
 }
+
+/* Variantes de margen inferior (usadas para ajustar espacio antes del contenido) */
+.gold-rule--mb-1 { margin-bottom: 1rem; }
+.gold-rule--mb-3 { margin-bottom: 3rem; }
 
 /* ─── NAVBAR ────────────────────────────────────────────────────────────────── */
 .navbar {
@@ -690,6 +706,9 @@ button {
 .reveal--delay-3 { transition-delay: 300ms; }
 .reveal--delay-4 { transition-delay: 400ms; }
 
+/* Variante con margen inferior extra */
+.reveal--mb-lg { margin-bottom: var(--space-lg); }
+
 /* Animación fadeIn simple (para tooltips, overlays) */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
@@ -842,6 +861,96 @@ button {
   color: var(--bg-600);
 }
 
+/* Variantes de color de fondo para los avatares del equipo curatorial */
+.team-card__avatar--1 { background-color: var(--avatar-1); }
+.team-card__avatar--2 { background-color: var(--avatar-2); }
+.team-card__avatar--3 { background-color: var(--avatar-3); }
+
+/* ─── PÁGINA ABOUT ────────────────────────────────────────────────────────────── */
+
+/* Sección "Sobre la Exposición" (cream superior) */
+.about-cream {
+  position: relative;
+  background-color: var(--cream);
+  padding: 7rem 0;
+  margin-bottom: 5rem;
+  clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);
+}
+.about-cream .eyebrow { color: var(--gold-500); }
+.about-cream h2       { color: var(--bg-900); }
+
+.about-intro-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+.about-intro-grid p {
+  font-size: 0.875rem;
+  color: var(--bg-600);
+  line-height: 1.8;
+}
+
+@media (max-width: 768px) { .about-intro-grid { grid-template-columns: 1fr; } }
+
+/* Sección planimetría (fondo azul oscuro) */
+.plan-section {
+  position: relative;
+  background-color: var(--navy-800);
+  padding: 7rem 0;
+  margin-bottom: 5rem;
+  clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);
+}
+
+/* Contenedor relativo de la imagen del plano (para posicionar hotspots) */
+.plan-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.plan-wrapper img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Instrucción de uso del plano */
+.plan-hint {
+  font-family: var(--font-secondary);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-top: 1rem;
+}
+
+/* Contenedor del plano interactivo (museum-plan.js inserta los hotspots dentro) */
+.museum-plan {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(184, 146, 74, 0.3);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  padding: var(--space-md);
+}
+
+/* Sección equipo curatorial (cream) */
+.team-section {
+  position: relative;
+  background-color: var(--cream);
+  padding: 7rem 0;
+  clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 100%);
+}
+.team-section h2 { color: var(--bg-900); }
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+@media (max-width: 900px)  { .team-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px)  { .team-grid { grid-template-columns: 1fr; } }
+
 /* ─── VISIT CARDS (Info page — Visítanos) ────────────────────────────────────── */
 .visit-card {
   border: 1px solid rgba(184, 146, 74, 0.3);
@@ -949,8 +1058,16 @@ button {
   .artworks-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
 }
 
-/* Transición de filtrado */
+/* Animación de entrada (delay escalonado aplicado por JS vía animation-delay) */
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)    scale(1); }
+}
+
+/* Transición de filtrado + animación de entrada */
 .artwork-grid-item {
+  opacity: 0;
+  animation: cardIn 380ms ease-out forwards;
   transition: opacity var(--transition-base), transform var(--transition-base);
 }
 
@@ -959,6 +1076,434 @@ button {
   transform: scale(0.9);
   pointer-events: none;
   position: absolute;
+}
+
+/* ─── VISOR DE OBRA (Colección — lightbox a pantalla completa) ───────────────── */
+
+/* Página de grid: se oculta (display:none vía JS) cuando el visor está abierto */
+.grid-page { min-height: 100vh; }
+
+/* Contenedor del visor — ocupa toda la pantalla, scrollable verticalmente
+   (la imagen principal llena 100vh; al hacer scroll aparecen obras relacionadas) */
+.viewer {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: var(--bg-950);
+  z-index: 200;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.viewer.open { display: block; }
+
+/* Hero: imagen a pantalla completa */
+.viewer__hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-950);
+  overflow: hidden;
+}
+
+/* La imagen ocupa el máximo posible sin salirse */
+.viewer__image {
+  display: block;
+  max-width: calc(100% - 120px);  /* espacio para flechas */
+  max-height: calc(100vh - 80px); /* espacio para toolbar */
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  transform-origin: center center;
+  user-select: none;
+  will-change: transform;
+  transition: transform 80ms ease-out;
+}
+
+/* Cuando hay panel abierto, la imagen se desplaza a la izquierda */
+.viewer__hero.panel-open .viewer__image {
+  max-width: calc(100% - 420px); /* deja espacio al panel */
+  margin-right: 0;
+}
+
+/* Botón volver al grid */
+.viewer__back {
+  position: fixed;
+  top: 1.25rem;
+  left: 1.25rem;
+  z-index: 220;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  background: rgba(var(--bg-950-rgb), 0.7);
+  backdrop-filter: blur(8px);
+  color: var(--text-primary);
+  border: 1px solid rgba(var(--warm-100-rgb), 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 150ms;
+}
+.viewer__back:hover { background: rgba(var(--bg-950-rgb), 0.95); }
+.viewer__back svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Flechas prev / next (visibles al hover del hero) */
+.viewer__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 210;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  background: rgba(var(--bg-950-rgb), 0.55);
+  backdrop-filter: blur(6px);
+  color: var(--text-primary);
+  border: 1px solid rgba(var(--warm-100-rgb), 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 150ms, opacity 150ms;
+  opacity: 0;
+}
+.viewer__hero:hover .viewer__arrow { opacity: 1; }
+.viewer__arrow--prev { left: 1rem; }
+.viewer__arrow--next { right: 1rem; }
+.viewer__hero.panel-open .viewer__arrow--next { right: 405px; }
+.viewer__arrow:hover { background: rgba(var(--bg-950-rgb), 0.9); }
+.viewer__arrow svg {
+  width: 22px;
+  height: 22px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Caption de título (parte inferior de la imagen) */
+.viewer__caption {
+  position: absolute;
+  bottom: 5.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(var(--bg-950-rgb), 0.72);
+  backdrop-filter: blur(8px);
+  border-radius: var(--radius-lg);
+  padding: 0.6rem 1.25rem;
+  text-align: center;
+  pointer-events: none;
+  white-space: nowrap;
+  transition: opacity 300ms;
+}
+.viewer__caption.hidden { opacity: 0; }
+.viewer__caption .c-artist {
+  font-family: var(--font-primary);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--gold-500);
+  margin-bottom: 2px;
+}
+.viewer__caption .c-title {
+  font-family: var(--font-secondary);
+  font-size: 0.875rem;
+  color: var(--warm-300);
+}
+
+/* Toolbar de zoom + acciones */
+.viewer__toolbar {
+  position: fixed;
+  bottom: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 220;
+  display: flex;
+  gap: 0.5rem;
+  background: rgba(var(--bg-950-rgb), 0.75);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(var(--warm-100-rgb), 0.1);
+  border-radius: 40px;
+  padding: 0.4rem 0.75rem;
+}
+.viewer__tool {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-full);
+  border: none;
+  background: transparent;
+  color: rgba(var(--warm-100-rgb), 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: color 150ms, background 150ms;
+}
+.viewer__tool:hover,
+.viewer__tool.active { color: var(--gold-500); background: rgba(184, 146, 74, 0.12); }
+.viewer__tool svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+/* Separador entre grupos de botones */
+.viewer__tool-sep {
+  width: 1px;
+  background: rgba(var(--warm-100-rgb), 0.12);
+  margin: 6px 2px;
+}
+
+/* ── Panel lateral — Info y Detalles ── */
+.viewer__panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 400px;
+  max-width: 100vw;
+  background: rgba(var(--bg-900-rgb), 0.94);
+  backdrop-filter: blur(16px);
+  border-left: 1px solid rgba(var(--warm-100-rgb), 0.07);
+  overflow-y: auto;
+  z-index: 215;
+  display: none;        /* JS pone display:flex */
+  flex-direction: column;
+  padding: 2rem 1.75rem 2rem;
+}
+.viewer__panel.open { display: flex; }
+
+.panel__close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-full);
+  border: none;
+  background: rgba(var(--warm-100-rgb), 0.07);
+  color: rgba(var(--warm-100-rgb), 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 150ms;
+}
+.panel__close:hover { background: rgba(var(--warm-100-rgb), 0.15); }
+.panel__close svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Cabecera del panel: artista + título + año */
+.panel__meta { margin-bottom: 1.5rem; padding-top: 0.5rem; }
+.panel__meta .p-artist {
+  font-family: var(--font-primary);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--gold-600);
+  margin-bottom: 6px;
+}
+.panel__meta .p-title {
+  font-family: var(--font-secondary);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--warm-400);
+  line-height: 1.3;
+  margin-bottom: 4px;
+  text-transform: none;
+}
+.panel__meta .p-year {
+  font-family: var(--font-secondary);
+  font-size: 0.8125rem;
+  color: var(--warm-400);
+}
+
+.panel__section-label {
+  font-family: var(--font-primary);
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--gold-500);
+  margin-bottom: 0.6rem;
+}
+.panel__desc {
+  font-family: var(--font-secondary);
+  font-size: 0.875rem;
+  color: var(--warm-300);
+  line-height: 1.8;
+}
+.panel__sep {
+  border: none;
+  border-top: 1px solid var(--bg-400);
+  margin: 1.5rem 0;
+}
+.panel__row {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-secondary);
+  font-size: 0.8125rem;
+  margin-bottom: 0.6rem;
+}
+.panel__row dt { color: var(--warm-400); }
+.panel__row dd { color: var(--warm-300); text-align: right; }
+
+/* ── Panel Detalles — filmstrip + zoom en la imagen ── */
+
+/* Filmstrip horizontal de thumbnails */
+.filmstrip {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+.filmstrip__thumb {
+  width: 68px;
+  height: 68px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 2px solid transparent;
+  cursor: pointer;
+  opacity: 0.45;
+  transition: opacity 200ms, border-color 200ms;
+  flex-shrink: 0;
+  background: var(--bg-800);
+  position: relative;
+}
+.filmstrip__thumb:hover { opacity: 0.75; }
+.filmstrip__thumb.active {
+  border-color: var(--gold-500);
+  opacity: 1;
+}
+/* La imagen del thumb usa transform (vía JS) para recortar la zona de zoom */
+.filmstrip__thumb img {
+  position: absolute;
+  transform-origin: top left;
+}
+
+/* Contador "3 de 4" */
+.detail__counter {
+  font-family: var(--font-secondary);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+.detail__title {
+  font-family: var(--font-secondary);
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--warm-400);
+  margin-bottom: 1rem;
+  text-transform: none;
+}
+.detail__text {
+  font-family: var(--font-secondary);
+  font-size: 0.875rem;
+  color: var(--warm-400);
+  line-height: 1.8;
+}
+
+/* Dots de navegación en detalles */
+.detail__dots {
+  display: flex;
+  gap: 0.4rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+.detail__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: var(--radius-full);
+  border: none;
+  background: var(--bg-500);
+  cursor: pointer;
+  transition: background 150ms, transform 150ms;
+}
+.detail__dot.active {
+  background: var(--gold-500);
+  transform: scale(1.25);
+}
+
+/* ── Obras relacionadas — debajo del hero, aparecen al hacer scroll ── */
+.viewer__related {
+  display: none;
+  background: var(--bg-900);
+  padding: 3.5rem 4rem 4rem;
+  border-top: 1px solid rgba(var(--bg-500-rgb), 0.2);
+}
+.viewer__related.visible { display: block; }
+.viewer__related h3 {
+  font-family: var(--font-primary);
+  font-size: 1.375rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--text-primary);
+  margin-bottom: 1.75rem;
+}
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1rem;
+}
+@media (max-width: 1200px) { .related-grid { grid-template-columns: repeat(4, 1fr); } }
+@media (max-width: 768px)  { .related-grid { grid-template-columns: repeat(3, 1fr); } }
+
+/* Toast "Enlace copiado" */
+#share-toast {
+  position: fixed;
+  bottom: 5rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  background: var(--bg-700);
+  color: var(--text-primary);
+  padding: 0.5rem 1.5rem;
+  border-radius: var(--radius-full);
+  font-family: var(--font-secondary);
+  font-size: 0.875rem;
+  opacity: 0;
+  transition: opacity 200ms, transform 200ms;
+  pointer-events: none;
+  z-index: 300;
+}
+
+/* Cabecera de página + estado vacío de filtros */
+.collection-main {
+  padding-top: calc(var(--navbar-h) + 3rem);
+  padding-bottom: 4rem;
+}
+
+.empty-msg {
+  display: none;
+  text-align: center;
+  padding: 5rem 0;
+}
+.empty-msg.visible { display: block; }
+.empty-msg__text {
+  color: var(--bg-500);
+  font-size: 1.125rem;
 }
 
 /* ─── GITHUB BANNER (Documentación) ─────────────────────────────────────────── */
@@ -1116,6 +1661,375 @@ button {
   color: var(--text-tertiary);
   line-height: 1.6;
   margin-bottom: 1rem;
+}
+
+/* ─── PÁGINA DOCUMENTACIÓN ────────────────────────────────────────────────────── */
+
+/* Layout de documentación: sidebar + contenido */
+.doc-page {
+  padding-top: calc(var(--navbar-h) + 3rem);
+  padding-bottom: 6rem;
+}
+
+/* Bloque con separación superior (banner GitHub, layout sidebar) */
+.doc-block {
+  margin-top: 3rem;
+}
+
+/* Texto introductorio del page-hero */
+.doc-intro {
+  font-family: var(--font-secondary);
+  font-size: 1.0625rem;
+  color: var(--text-secondary);
+  max-width: 60ch;
+  margin-top: 1rem;
+}
+
+/* Secciones de contenido con ID para el sidebar */
+.doc-section {
+  scroll-margin-top: calc(var(--navbar-h) + 2rem); /* offset del navbar fijo */
+  padding: 5rem 0;
+  border-bottom: 1px solid var(--bg-700);
+}
+
+.doc-section:last-child {
+  border-bottom: none;
+}
+
+/* Sección Contexto (fondo azul) */
+.doc-section--blue {
+  background-color: var(--bg-900);
+  border-radius: var(--radius-xl);
+  padding: 3.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Sección Metodología (fondo dark) */
+.doc-section--dark {
+  background-color: var(--bg-900);
+  border-radius: var(--radius-xl);
+  padding: 3.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Párrafo de contenido en secciones académicas */
+.doc-text {
+  font-family: var(--font-secondary);
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  line-height: 1.85;
+  max-width: 72ch; /* ancho de línea cómodo para lectura */
+}
+
+.doc-text + .doc-text {
+  margin-top: 1rem;
+}
+
+.doc-text--mb-lg {
+  margin-bottom: var(--space-lg);
+}
+
+/* Encabezados secundarios dentro de las secciones */
+.doc-heading {
+  font-family: var(--font-primary);
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.doc-heading--lg {
+  font-size: 1.25rem;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+  margin-top: 2rem;
+}
+
+.doc-heading--spaced {
+  margin-top: 3rem;
+}
+
+/* Texto resaltado dentro de párrafos */
+.text-accent {
+  color: var(--gold-400);
+}
+
+/* Grids */
+.method-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+  .method-grid { grid-template-columns: 1fr; }
+}
+
+/* Tarjeta de metodología (numerada) */
+.method-card {
+  border-left: 3px solid var(--gold-500);
+  padding-left: 1.5rem;
+}
+
+.method-card__num {
+  font-family: var(--font-primary);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--gold-500);
+  line-height: 1;
+  margin-bottom: 0.75rem;
+}
+
+.method-card__title {
+  font-family: var(--font-primary);
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+.method-card__text {
+  font-family: var(--font-secondary);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.75;
+}
+
+/* Recuadro de nota destacada (stack técnico, licencias) */
+.doc-callout {
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--bg-600);
+}
+
+.doc-callout--stack {
+  margin-top: 2.5rem;
+  background-color: var(--bg-900);
+}
+
+.doc-callout--license {
+  margin-top: 3rem;
+  background-color: var(--bg-800);
+}
+
+.doc-callout__label {
+  font-family: var(--font-primary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gold-500);
+  margin-bottom: 1rem;
+}
+
+.doc-callout__text {
+  font-family: var(--font-secondary);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.75;
+}
+
+.doc-callout__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+}
+
+/* Recursos descargables */
+.resources-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+
+@media (max-width: 768px) { .resources-grid { grid-template-columns: 1fr; } }
+
+/* Referencias bibliográficas */
+.references-list {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.reference-item {
+  padding: 1.25rem;
+  background-color: var(--bg-800);
+  border-radius: var(--radius-md);
+  border-left: 2px solid var(--bg-600);
+  transition: border-color var(--transition-fast);
+}
+
+.reference-item:hover {
+  border-left-color: var(--gold-500);
+}
+
+.reference-item p {
+  font-family: var(--font-secondary);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.reference-item .ref-author {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.reference-item .ref-year {
+  color: var(--gold-400);
+  font-weight: 500;
+}
+
+/* Créditos */
+.credits-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+@media (max-width: 900px) { .credits-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .credits-grid { grid-template-columns: 1fr; } }
+
+.credit-card {
+  background-color: var(--bg-800);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+}
+
+.credit-card__role {
+  font-family: var(--font-primary);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gold-500);
+  margin-bottom: 0.5rem;
+}
+
+.credit-card__name {
+  font-family: var(--font-secondary);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.credit-card__institution {
+  font-family: var(--font-secondary);
+  font-size: 0.8125rem;
+  color: var(--text-tertiary);
+}
+
+/* Timeline de la investigación */
+.timeline {
+  margin-top: 2rem;
+  position: relative;
+  padding-left: 2rem;
+}
+
+/* Línea vertical */
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.5rem;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--gold-500), transparent);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+/* Punto en la línea */
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -2rem;
+  top: 0.4rem;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--gold-500);
+  transform: translateX(-4px);
+}
+
+.timeline-item__date {
+  font-family: var(--font-primary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gold-400);
+  margin-bottom: 0.25rem;
+}
+
+.timeline-item__title {
+  font-family: var(--font-primary);
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.timeline-item__text {
+  font-family: var(--font-secondary);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+/* Cita destacada */
+.pull-quote {
+  border-left: 4px solid var(--gold-500);
+  padding: 1.5rem 2rem;
+  margin: 2.5rem 0;
+  background-color: var(--bg-800);
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+}
+
+.pull-quote p {
+  font-family: var(--font-secondary);
+  font-size: 1.125rem;
+  font-style: italic;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+.pull-quote cite {
+  display: block;
+  margin-top: 1rem;
+  font-family: var(--font-primary);
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gold-400);
+}
+
+/* Nota del código fuente */
+.code-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--gold-300);
+  background: var(--bg-950);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--bg-600);
 }
 
 /* ─── NARRATIVE CARDS (Narrativas page) ──────────────────────────────────────── */

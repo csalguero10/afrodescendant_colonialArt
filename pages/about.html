@@ -6,80 +6,6 @@
   <title>About — Presencias</title>
   <meta name="description" content="Sobre la exposición: objetivos, contexto histórico, planimetría y equipo curatorial." />
   <link rel="stylesheet" href="../css/main.css" />
-  <style>
-    /* ── Sección planimetría (fondo azul oscuro) ── */
-    .plan-section {
-      position: relative;
-      background-color: var(--navy-800);
-      padding: 7rem 0;
-      margin-bottom: 5rem;
-      clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);
-    }
-
-    /* Contenedor relativo de la imagen del plano (para posicionar hotspots) */
-    .plan-wrapper {
-      position: relative;
-      display: inline-block;
-      width: 100%;
-    }
-
-    .plan-wrapper img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    /* Instrucción de uso del plano */
-    .plan-hint {
-      font-family: var(--font-secondary);
-      font-size: 0.875rem;
-      color: var(--text-secondary);
-      text-align: center;
-      margin-top: 1rem;
-    }
-
-    /* ── Sección equipo curatorial (cream) ── */
-    .team-section {
-      position: relative;
-      background-color: var(--cream);
-      padding: 7rem 0;
-      clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 100%);
-    }
-
-    .team-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
-    }
-
-    @media (max-width: 900px)  { .team-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 640px)  { .team-grid { grid-template-columns: 1fr; } }
-
-    /* ── Sección about / cream superior ── */
-    .about-cream {
-      position: relative;
-      background-color: var(--cream);
-      padding: 7rem 0;
-      margin-bottom: 5rem;
-      clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);
-    }
-    .about-cream .eyebrow { color: var(--gold-500); }
-    .about-cream h2       { color: var(--bg-900); }
-
-    .about-intro-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      margin-bottom: 3rem;
-    }
-    .about-intro-grid p {
-      font-size: 0.875rem;
-      color: var(--bg-600);
-      line-height: 1.8;
-    }
-
-    @media (max-width: 768px) { .about-intro-grid { grid-template-columns: 1fr; } }
-  </style>
 </head>
 <body>
 
@@ -216,12 +142,12 @@
     <section class="plan-section reveal" aria-labelledby="plan-heading">
       <div class="container">
         <h2 id="plan-heading">PLANIMETRÍA</h2>
-        <div class="gold-rule" style="margin-bottom:2rem;"></div>
+        <div class="gold-rule"></div>
 
         <!-- Contenedor del plano interactivo -->
         <div
           id="museum-plan"
-          style="background:rgba(255,255,255,0.1);border:2px solid rgba(184,146,74,0.3);border-radius:8px;overflow:hidden;padding:1rem;"
+          class="museum-plan"
         >
           <!-- .plan-wrapper es donde museum-plan.js inserta los hotspots -->
           <div class="plan-wrapper">
@@ -242,13 +168,13 @@
     <!-- ══════════════════════════════════════════════ EQUIPO CURATORIAL ════ -->
     <section class="team-section reveal" aria-labelledby="team-heading">
       <div class="container">
-        <h2 id="team-heading" style="color:var(--bg-900);">EQUIPO CURATORIAL</h2>
-        <div class="gold-rule" style="margin-bottom:3rem;"></div>
+        <h2 id="team-heading">EQUIPO CURATORIAL</h2>
+        <div class="gold-rule gold-rule--mb-3"></div>
 
         <div class="team-grid">
 
           <div class="team-card">
-            <div class="team-card__avatar" style="background-color:#212B3F;">
+            <div class="team-card__avatar team-card__avatar--1">
               <div class="team-card__initial">F</div>
             </div>
             <p class="team-card__name">Dra. María Fernández</p>
@@ -257,7 +183,7 @@
           </div>
 
           <div class="team-card">
-            <div class="team-card__avatar" style="background-color:#1C4694;">
+            <div class="team-card__avatar team-card__avatar--2">
               <div class="team-card__initial">M</div>
             </div>
             <p class="team-card__name">Dr. Carlos Mendoza</p>
@@ -266,7 +192,7 @@
           </div>
 
           <div class="team-card">
-            <div class="team-card__avatar" style="background-color:#263D69;">
+            <div class="team-card__avatar team-card__avatar--3">
               <div class="team-card__initial">T</div>
             </div>
             <p class="team-card__name">Lic. Ana Torres</p>
