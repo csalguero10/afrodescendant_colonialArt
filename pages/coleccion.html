@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Colección — Presencias</title>
+  <title>Collection — Afro-descendants</title>
   <meta name="description" content="Galería de las 15 obras de la exposición con filtros por categoría." />
   <link rel="stylesheet" href="../css/main.css" />
 </head>
@@ -16,10 +16,10 @@
       <ul class="navbar__links">
         <li><a href="../index.html">HOME</a></li>
         <li><a href="about.html">ABOUT</a></li>
-        <li><a href="narrativas.html">NARRATIVAS</a></li>
-        <li><a href="coleccion.html" class="active">COLECCIÓN</a></li>
+        <li><a href="narrativas.html">NARRATIVES</a></li>
+        <li><a href="coleccion.html" class="active">COLLECTION</a></li>
         <li><a href="info.html">INFO</a></li>
-        <li><a href="documentacion.html">DOCUMENTACIÓN</a></li>
+        <li><a href="documentacion.html">DOCUMENTATION</a></li>
       </ul>
       <button class="navbar__toggle" aria-label="Abrir menú" aria-expanded="false">
         <span></span><span></span><span></span>
@@ -28,10 +28,10 @@
     <div class="navbar__mobile">
       <a href="../index.html">HOME</a>
       <a href="about.html">ABOUT</a>
-      <a href="narrativas.html">NARRATIVAS</a>
-      <a href="coleccion.html" class="active">COLECCIÓN</a>
+      <a href="narrativas.html">NARRATIVES</a>
+      <a href="coleccion.html" class="active">COLLECTION</a>
       <a href="info.html">INFO</a>
-      <a href="documentacion.html">DOCUMENTACIÓN</a>
+      <a href="documentacion.html">DOCUMENTATION</a>
     </div>
   </nav>
 
@@ -40,8 +40,8 @@
     <main class="container collection-main">
 
       <div class="reveal reveal--mb-lg">
-        <span class="eyebrow">GALERÍA • ARTE</span>
-        <h1>COLECCIÓN</h1>
+        <span class="eyebrow">GALLERY • ART</span>
+        <h1>COLLECTION</h1>
         <div class="gold-rule"></div>
       </div>
 
@@ -49,8 +49,8 @@
       <div class="category-filters reveal" role="group" aria-label="Filtrar por categoría">
         <button class="filter-btn active" data-filter="all">All</button>
         <button class="filter-btn" data-filter="secular">Secular</button>
-        <button class="filter-btn" data-filter="religious">Religioso</button>
-        <button class="filter-btn" data-filter="portrait">Retratos</button>
+        <button class="filter-btn" data-filter="religious">Religious</button>
+        <button class="filter-btn" data-filter="portrait">Portraits</button>
         <button class="filter-btn" data-filter="castas">Castas</button>
       </div>
 
@@ -58,7 +58,7 @@
       <div class="artworks-grid reveal" id="artworks-grid"></div>
 
       <div id="empty-msg" class="empty-msg">
-        <p class="empty-msg__text">No hay obras en esta categoría.</p>
+        <p class="empty-msg__text">There are no works in this category.</p>
       </div>
     </main>
 
@@ -67,7 +67,7 @@
     <div class="footer__inner">
       <div class="footer__brand">
         <a href="../index.html" class="footer__logo"><img src="../assets/images/logo-afro.svg" alt="Presencias" class="footer__logo-img" /></a>
-        <span class="footer__copy">© 2026 Exposición Virtual</span>
+        <span class="footer__copy">© 2026 Virtual Exhibition</span>
       </div>
       <div class="footer__social">
         <a href="#" class="footer__social-btn" aria-label="Facebook">
@@ -159,16 +159,16 @@
         <p class="p-year"   id="info-year"></p>
       </div>
 
-      <p class="panel__section-label">Descripción</p>
+      <p class="panel__section-label">Description</p>
       <p class="panel__desc" id="info-desc"></p>
 
       <hr class="panel__sep" />
 
-      <p class="panel__section-label">Detalles Técnicos</p>
+      <p class="panel__section-label">Technical Details</p>
       <dl>
-        <div class="panel__row"><dt>Artista</dt>   <dd id="info-artist-val"></dd></div>
-        <div class="panel__row"><dt>Periodo</dt>   <dd id="info-year-val"></dd></div>
-        <div class="panel__row"><dt>Categoría</dt> <dd id="info-cat-val"></dd></div>
+        <div class="panel__row"><dt>Artist</dt>   <dd id="info-artist-val"></dd></div>
+        <div class="panel__row"><dt>Period</dt>   <dd id="info-year-val"></dd></div>
+        <div class="panel__row"><dt>Category</dt> <dd id="info-cat-val"></dd></div>
       </dl>
     </aside>
 
@@ -192,7 +192,7 @@
 
     <!-- ══════════════════════════════════ OBRAS RELACIONADAS ═════ -->
     <div id="viewer-related" class="viewer__related">
-      <h3>Obras Relacionadas</h3>
+      <h3>Related Works</h3>
       <div class="related-grid" id="related-grid"></div>
     </div>
 
@@ -264,8 +264,8 @@
     var artworks      = window.ARTWORKS || [];
 
     var CAT_LABELS = {
-      secular:'Obras Seculares', religious:'Obras Religiosas',
-      portrait:'Retratos', castas:'Pinturas de Castas'
+      secular:'Secular Works', religious:'Religious Works',
+      portrait:'Portraits', castas:'Casta Paintings'
     };
 
     /* ─────────────────────────────────────────────────
@@ -456,7 +456,7 @@
       detDots.innerHTML      = '';
 
       if (!art.details || !art.details.length) {
-        detText.textContent = 'Esta obra no tiene detalles iconográficos disponibles.';
+        detText.textContent = 'This artwork has no iconographic details available.';
         detText.style.color = 'var(--text-muted)';
         return;
       }
@@ -502,7 +502,7 @@
       var d = art.details[index];
 
       /* Actualizar texto */
-      detCounter.textContent = (index + 1) + ' de ' + art.details.length;
+      detCounter.textContent = (index + 1) + ' of ' + art.details.length;
       detTitle.textContent   = d.title;
       detText.textContent    = d.description;
 
@@ -578,7 +578,7 @@
       if (navigator.share) {
         navigator.share({ title: art.title + ' — Presencias', url: url });
       } else if (navigator.clipboard) {
-        navigator.clipboard.writeText(url).then(function () { showToast('Enlace copiado'); });
+        navigator.clipboard.writeText(url).then(function () { showToast('Link copied'); });
       }
     });
 
