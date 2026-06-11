@@ -6,102 +6,6 @@
   <title>Info — Presencias</title>
   <meta name="description" content="Información práctica: ubicación, horarios y contacto del museo." />
   <link rel="stylesheet" href="../css/main.css" />
-  <style>
-    /* ── Sección azul: Sobre el Museo ── */
-    .museum-section {
-      position: relative;
-      background-color: var(--navy-700);
-      padding: 7rem 0;
-      margin-bottom: 5rem;
-      clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%);
-    }
-
-    .museum-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-    }
-
-    .museum-text p {
-      font-size: 0.9375rem;
-      color: var(--text-secondary);
-      line-height: 1.8;
-      margin-bottom: 1rem;
-    }
-
-    @media (max-width: 900px) { .museum-grid { grid-template-columns: 1fr; gap: 2.5rem; } }
-
-    /* ── Sección galería (cream) ── */
-    .gallery-section {
-      position: relative;
-      background-color: var(--cream);
-      padding: 7rem 0;
-      margin-bottom: 5rem;
-      clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);
-    }
-
-    .gallery-section h2     { color: var(--bg-900); }
-    .gallery-section .eyebrow { color: var(--gold-600); }
-
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-      margin-top: 2rem;
-    }
-
-    @media (max-width: 900px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 560px) { .gallery-grid { grid-template-columns: 1fr; } }
-
-    /* Cada celda de la galería del museo */
-    .gallery-item {
-      height: 260px;
-      border-radius: var(--radius-lg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      cursor: pointer;
-      transition: filter var(--transition-base);
-    }
-
-    .gallery-item:hover { filter: brightness(1.15); }
-
-    .gallery-item p {
-      font-family: var(--font-primary);
-      font-size: 1.125rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--text-primary);
-    }
-
-    .gallery-note {
-      font-family: var(--font-secondary);
-      font-size: 0.75rem;
-      color: var(--bg-500);
-      text-align: center;
-      margin-top: 1.5rem;
-    }
-
-    /* ── Sección Visítanos (azul) ── */
-    .visit-section {
-      position: relative;
-      background-color: var(--navy-800);
-      padding: 7rem 0;
-      clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 100%);
-    }
-
-    .visit-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1.5rem;
-      margin-top: 3rem;
-    }
-
-    @media (max-width: 1024px) { .visit-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 560px)  { .visit-grid { grid-template-columns: 1fr; } }
-  </style>
 </head>
 <body>
 
@@ -148,7 +52,7 @@
           <!-- Textos descriptivos -->
           <div class="museum-text">
             <h2 id="museum-heading">SOBRE EL MUSEO</h2>
-            <div class="gold-rule" style="margin-bottom:2rem;"></div>
+            <div class="gold-rule"></div>
             <p>
               El museo se dedica a la preservación y difusión del arte colonial latinoamericano,
               con un enfoque especial en la representación de la diversidad cultural y social
@@ -162,7 +66,7 @@
           </div>
 
           <!-- Info cards laterales -->
-          <div style="display:flex;flex-direction:column;gap:1.25rem;">
+          <div class="museum-aside">
 
             <div class="info-card">
               <div class="info-card__icon">
@@ -207,22 +111,22 @@
         <div class="gold-rule"></div>
 
         <div class="gallery-grid">
-          <div class="gallery-item" style="background-color:#1C4694;">
+          <div class="gallery-item gallery-item--1">
             <p>Sala Principal</p>
           </div>
-          <div class="gallery-item" style="background-color:#212B3F;">
+          <div class="gallery-item gallery-item--2">
             <p>Sala de Exposiciones</p>
           </div>
-          <div class="gallery-item" style="background-color:#263D69;">
+          <div class="gallery-item gallery-item--3">
             <p>Área de Investigación</p>
           </div>
-          <div class="gallery-item" style="background-color:#614E26;">
+          <div class="gallery-item gallery-item--4">
             <p>Hall de Entrada</p>
           </div>
-          <div class="gallery-item" style="background-color:#946E1C;">
+          <div class="gallery-item gallery-item--5">
             <p>Biblioteca</p>
           </div>
-          <div class="gallery-item" style="background-color:#1C4694;">
+          <div class="gallery-item gallery-item--1">
             <p>Auditorio</p>
           </div>
         </div>
