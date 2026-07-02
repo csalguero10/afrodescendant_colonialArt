@@ -105,94 +105,47 @@
     </section>
 
     <!-- ══════════════════════════════════════════ DID YOU KNOW? (público) ═ -->
-    <section class="publico-section reveal" aria-labelledby="dyk-heading">
+    <section class="publico-section reveal" aria-label="Which theme speaks to you?">
       <div class="container">
-        <span class="eyebrow">DID YOU KNOW?</span>
-        <h2 id="dyk-heading">FACTS THAT TRANSFORM</h2>
-        <div class="gold-rule gold-rule--mb-3"></div>
+        <div class="dyk-layout">
 
-        <div class="did-you-know">
-
-          <!-- Columna izquierda: facts estadísticos -->
-          <div>
-            <div class="dyk-fact">
-              <div class="dyk-fact__number">40%</div>
-              <p class="dyk-fact__text">
-                Of the enslaved people who arrived in the Americas during the colonial period gained
-                their freedom during their lifetime, many through manumission or specialized work.
-              </p>
-            </div>
-            <div class="dyk-fact">
-              <div class="dyk-fact__number">16</div>
-              <p class="dyk-fact__text">
-                Distinct casta categories documented in 18th-century paintings, revealing the
-                complexity of the colonial racial classification system.
-              </p>
-            </div>
-            <div class="dyk-fact">
-              <div class="dyk-fact__number">17th c.</div>
-              <p class="dyk-fact__text">
-                Century of greatest casta painting production in New Spain, coinciding with the
-                rise of the Bourbon reforms and the Enlightenment's taxonomic drive.
-              </p>
-            </div>
+          <!-- Columna izquierda: título simple -->
+          <div class="dyk-heading-block">
+            <span class="eyebrow">COLLECTION • THEMES</span>
+            <h2>Which theme<br>speaks to you?</h2>
           </div>
 
-          <!-- Columna derecha: acordeón temático -->
-          <div class="accordion accordion--dark" role="list">
+          <!-- Columna derecha: tab navigation, fundida con el fondo -->
+          <div class="dyk-tabs-wrap" data-tabs>
 
-            <div class="accordion__item" role="listitem">
-              <button class="accordion__trigger" aria-expanded="false">
-                <span>What are casta paintings?</span>
-                <svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true">
-                  <polyline points="6 9 12 15 18 9"></polyline>
-                </svg>
+            <div class="dyk-tabs" role="tablist" aria-label="Categorías de la colección">
+              <button class="dyk-tab active" role="tab" aria-selected="true"
+                data-content="Casta paintings are a pictorial genre unique to the Viceroyalty of New Spain (Mexico) and the Viceroyalty of Peru, produced mainly in the 18th century. They document the racial mixtures recognized by the colonial system, depicting couples of different ethnic backgrounds together with their children. Five works in this collection belong to this genre.">
+                Castas
               </button>
-              <div class="accordion__body">
-                <div class="accordion__content">
-                  Casta paintings are a pictorial genre unique to the Viceroyalty of New Spain
-                  (Mexico) and the Viceroyalty of Peru, produced mainly in the 18th century. They
-                  document the 16 racial mixtures recognized by the colonial system, depicting
-                  couples of different ethnic backgrounds together with their children.
-                </div>
-              </div>
+              <button class="dyk-tab" role="tab" aria-selected="false"
+                data-content="Beyond the church and the racial ledger, secular scenes capture everyday life: markets, plantations, dances, and family outings. Free Afro-descendant people appear here as coachmen, musicians, and vendors — three works in this collection document these unguarded, ordinary moments.">
+                Secular
+              </button>
+              <button class="dyk-tab" role="tab" aria-selected="false"
+                data-content="Afro-descendant figures also appear within devotional painting — as saints, pages, attendants, and even as the Black Magus Balthazar. Four works in this collection place Black figures within the sacred visual language of colonial Catholicism.">
+                Religious
+              </button>
+              <button class="dyk-tab" role="tab" aria-selected="false"
+                data-content="Individual portraits mark a rare departure from the anonymity of casta typologies: named sitters such as Francisco de Arobe and Francis Williams claimed status and intellect through the same visual language used by the colonial elite. Three works in this collection are portraits.">
+                Portrait
+              </button>
             </div>
 
-            <div class="accordion__item" role="listitem">
-              <button class="accordion__trigger" aria-expanded="false">
-                <span>Social roles beyond slavery</span>
-                <svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true">
-                  <polyline points="6 9 12 15 18 9"></polyline>
-                </svg>
-              </button>
-              <div class="accordion__body">
-                <div class="accordion__content">
-                  Free Afro-descendant people in the colonial era worked as artisans, coachmen,
-                  street vendors, musicians, and even as militia members. In Cuba, Jamaica, and
-                  Peru, there were communities of freedmen who owned property and businesses of
-                  their own.
-                </div>
-              </div>
+            <div class="dyk-tab-panel" data-tab-panel>
+              Casta paintings are a pictorial genre unique to the Viceroyalty of New Spain
+              (Mexico) and the Viceroyalty of Peru, produced mainly in the 18th century. They
+              document the racial mixtures recognized by the colonial system, depicting couples
+              of different ethnic backgrounds together with their children. Five works in this
+              collection belong to this genre.
             </div>
 
-            <div class="accordion__item" role="listitem">
-              <button class="accordion__trigger" aria-expanded="false">
-                <span>Clothing as a social code</span>
-                <svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true">
-                  <polyline points="6 9 12 15 18 9"></polyline>
-                </svg>
-              </button>
-              <div class="accordion__body">
-                <div class="accordion__content">
-                  In colonial paintings, clothing is a social document: embroidery, fabric types,
-                  and accessories indicate the status of the person portrayed. An Afro-descendant
-                  coachman wearing a European redingote signals his integration into urban life
-                  and his role as a trusted servant of a wealthy family.
-                </div>
-              </div>
-            </div>
-
-          </div><!-- /accordion dark -->
+          </div><!-- /dyk-tabs-wrap -->
         </div>
       </div>
     </section>

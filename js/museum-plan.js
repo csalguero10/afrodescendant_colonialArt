@@ -21,22 +21,23 @@
 var HOTSPOTS = [
   // Sala izquierda — pared superior
   { id: "1",  x: 10,   y: 72,   number: 1  },
-  { id: "2",  x: 11.5, y: 60,   number: 2  },
-  { id: "3",  x: 13,   y: 48,   number: 3  },
-  // Sala izquierda — pared izquierda
-  { id: "4",  x: 14,   y: 32,   number: 4  },
-  { id: "5",  x: 25,   y: 32,   number: 5  },
-  { id: "6",  x: 32.5, y: 55.5, number: 6  },
+  { id: "6",  x: 11.5, y: 60,   number: 2  },
+  { id: "9",  x: 13,   y: 48,   number: 3  },
+  { id: "10",  x: 14,   y: 32,   number: 4  },
+  { id: "11",  x: 25,   y: 32,   number: 5  },
+
   // Sala izquierda — pared inferior
-  { id: "7",  x: 39.5, y: 55.5, number: 7  },
+  { id: "4",  x: 32.5, y: 55.5, number: 6  },
+  { id: "5",  x: 39.5, y: 55.5, number: 7  },
   { id: "8",  x: 46,   y: 55.5, number: 8  },
+
   // Sala central — cuadros superiores
-  { id: "9",  x: 61,   y: 55.5, number: 9  },
-  { id: "10", x: 65.5, y: 55.5, number: 10 },
-  { id: "11", x: 69.5, y: 55.5, number: 11 },
-  { id: "12", x: 73.5, y: 55.5, number: 12 },
+  { id: "2",  x: 61,   y: 55.5, number: 9  },
+  { id: "7", x: 65.5, y: 55.5, number: 10 },
+  { id: "12", x: 69.5, y: 55.5, number: 11 },
+  { id: "13", x: 73.5, y: 55.5, number: 12 },
   // Sala roja — pared
-  { id: "13", x: 85,   y: 55.5, number: 13 },
+  { id: "3", x: 85,   y: 55.5, number: 13 },
   { id: "14", x: 90,   y: 66.5, number: 14 },
   { id: "15", x: 85,   y: 75.5, number: 15 }
 ];

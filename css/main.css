@@ -666,7 +666,7 @@ button {
 }
 
 .accordion__body.open {
-  max-height: 500px;
+  max-height: 1200px;
 }
 
 .accordion__content {
@@ -1061,40 +1061,40 @@ button {
 
 /* Cada celda de la galería del museo */
 .gallery-item {
+  position: relative;
   height: 260px;
   border-radius: var(--radius-lg);
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   overflow: hidden;
   cursor: pointer;
-  transition: filter var(--transition-base);
+  background-color: var(--gallery-1);
+  background-size: cover;
+  background-position: center;
+  transition: filter var(--transition-base), transform var(--transition-base);
 }
 
-.gallery-item:hover { filter: brightness(1.15); }
+.gallery-item::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0.05) 55%, transparent 100%);
+}
+
+.gallery-item:hover { filter: brightness(1.1); transform: scale(1.02); }
 
 .gallery-item p {
+  position: relative;
+  z-index: 1;
   font-family: var(--font-primary);
   font-size: 1.125rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--text-primary);
-}
-
-/* Variantes de color de fondo (placeholders de la galería) */
-.gallery-item--1 { background-color: var(--gallery-1); }
-.gallery-item--2 { background-color: var(--gallery-2); }
-.gallery-item--3 { background-color: var(--gallery-3); }
-.gallery-item--4 { background-color: var(--gallery-4); }
-.gallery-item--5 { background-color: var(--gallery-5); }
-
-.gallery-note {
-  font-family: var(--font-secondary);
-  font-size: 0.75rem;
-  color: var(--bg-500);
-  text-align: center;
-  margin-top: 1.5rem;
+  color: #fff;
+  padding-bottom: 1.25rem;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
 }
 
 /* Sección Visítanos (azul) */
@@ -2349,45 +2349,91 @@ button {
   }
 }
 
-/* Tema "Did You Know?" — acordeón de datos */
+/* Tema "Which theme speaks to you?" — título + tab navigation, fundida con el fondo morado */
 .publico-section {
   background-color: var(--bg-300);
-  padding: 5rem 0;
+  padding: 6rem 0;
   margin-bottom: 5rem;
   clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);
 }
 
-.did-you-know {
+.dyk-layout {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem;
-  align-items: start;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 4rem;
+  align-items: center;
 }
 
 @media (max-width: 768px) {
-  .did-you-know { grid-template-columns: 1fr; }
+  .dyk-layout { grid-template-columns: 1fr; gap: 2.5rem; }
 }
 
-.dyk-fact {
-  padding: 1.5rem;
-  border-left: 3px solid var(--gold-500);
-  margin-bottom: 1.5rem;
+.dyk-heading-block .eyebrow {
+  display: block;
+  margin-bottom: 1rem;
 }
 
-.dyk-fact__number {
+.dyk-heading-block h2 {
   font-family: var(--font-primary);
-  font-size: 2.5rem;
+  font-size: clamp(2rem, 3.5vw, 2.75rem);
   font-weight: 700;
-  color: var(--gold-500);
-  line-height: 1;
-  margin-bottom: 0.5rem;
+  line-height: 1.15;
+  color: var(--text-primary);
 }
 
-.dyk-fact__text {
+/* Tab navigation por categoría, sin tarjeta: se funde con el fondo de la sección */
+.dyk-tabs-wrap {
+  width: 100%;
+}
+
+.dyk-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  border-bottom: 1px solid rgba(var(--warm-100-rgb), 0.15);
+  margin-bottom: 1.75rem;
+}
+
+.dyk-tab {
+  font-family: var(--font-primary);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--warm-500);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 0 0.85rem;
+  position: relative;
+  transition: color var(--transition-fast);
+}
+
+.dyk-tab::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--gold-500);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--transition-base);
+}
+
+.dyk-tab:hover { color: var(--warm-400); }
+
+.dyk-tab.active { color: var(--gold-400); }
+.dyk-tab.active::after { transform: scaleX(1); }
+
+.dyk-tab-panel {
   font-family: var(--font-secondary);
   font-size: 0.9375rem;
+  line-height: 1.8;
   color: var(--text-secondary);
-  line-height: 1.7;
+  min-height: 8.5rem;
+  transition: opacity 200ms ease-out;
 }
 
 /* Sección de obras destacadas (carrusel) */
@@ -2999,6 +3045,192 @@ body.recorrido::before {
   .sala__figcaption       { display: none; }
   .pg-cierre__inner       { padding: 0 1.5rem; }
   .sala__header           { padding: 4rem 2rem 2rem; }
+}
+
+/* ─── PÁGINA HOME (index.html) ────────────────────────────────────────────────── */
+
+/* Hero de pantalla completa */
+.hero {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  /* Clip diagonal inferior */
+  clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%);
+}
+
+.hero__bg {
+  position: absolute;
+  inset: 0;
+}
+
+.hero__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Efecto parallax ligero vía JS */
+  will-change: transform;
+}
+
+/* Overlay oscuro semitransparente */
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.60);
+}
+
+/* Contenido centrado del hero */
+.hero__content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 0 1.5rem;
+  max-width: 900px;
+}
+
+.hero__title {
+  font-size: clamp(3rem, 10vw, 7rem);
+  font-family: var(--font-primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 1.0;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  /* Animación de entrada */
+  animation: heroSlideUp 1.2s ease-out both;
+}
+
+.hero__subtitle {
+  font-family: var(--font-secondary);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: var(--warm-400);
+  animation: heroSlideUp 1.2s 200ms ease-out both;
+}
+
+/* Flecha de scroll al fondo del hero */
+.hero__scroll-hint {
+  position: absolute;
+  bottom: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  animation: bounce 2s infinite;
+}
+
+.hero__scroll-hint svg {
+  width: 24px;
+  height: 24px;
+  stroke: rgba(var(--warm-100-rgb), 0.5);
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@keyframes heroSlideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%       { transform: translateX(-50%) translateY(8px); }
+}
+
+/* Sección de obras destacadas (carrusel) — separación del contenedor superior */
+.featured-section .container {
+  margin-bottom: 3rem;
+}
+
+/* Espaciador entre el header de la sección y el carrusel (menor que el general) */
+.featured-section .container.carousel-lead {
+  margin-bottom: 1rem;
+}
+
+/* Sección About / Cream */
+.about-section {
+  position: relative;
+  background-color: var(--cream);
+  padding: 7rem 0;
+  margin: 0 0 5rem;
+  clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);
+}
+
+.about-section .eyebrow { color: var(--gold-500); }
+.about-section h2       { color: var(--bg-900); }
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.about-grid p {
+  font-size: 0.875rem;
+  color: var(--bg-600);
+  line-height: 1.8;
+}
+
+@media (max-width: 768px) {
+  .about-grid { grid-template-columns: 1fr; }
+}
+
+/* Notas al pie dentro del acordeón "About" */
+.accordion__content p + p { margin-top: 1rem; }
+
+.about-footnotes {
+  list-style: none;
+  margin: 1.25rem 0 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--warm-500);
+  font-size: 0.75rem;
+  line-height: 1.7;
+  color: var(--bg-500);
+}
+
+.about-footnotes li { margin-bottom: 0.5rem; }
+.about-footnotes li:last-child { margin-bottom: 0; }
+
+.about-footnotes a {
+  color: var(--gold-600);
+  text-decoration: underline;
+  word-break: break-word;
+}
+
+.about-footnotes a:hover { color: var(--gold-500); }
+
+/* Sección Narrativas (home) */
+.narratives-section {
+  padding-bottom: 6rem;
+  background-color: var(--bg-900);
+}
+
+.narratives-section .section-header {
+  padding: 0 var(--space-xl);
+  margin-bottom: 3rem;
+}
+
+.narratives-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /* Misma diagonal arriba que en narrativas.html */
+  clip-path: polygon(0 6%, 100% 0, 100% 100%, 0 100%);
+  margin-top: -1rem;
+}
+
+@media (max-width: 768px) {
+  .narratives-grid {
+    grid-template-columns: 1fr;
+    clip-path: polygon(0 3%, 100% 0, 100% 100%, 0 100%);
+  }
+  .narratives-section .section-header { padding: 0 var(--space-lg); }
 }
 
 /* ─── RESPONSIVE HELPERS ─────────────────────────────────────────────────────── */

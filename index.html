@@ -8,169 +8,6 @@
 
   <!-- Estilos principales (design system Vovex) -->
   <link rel="stylesheet" href="css/main.css" />
-
-  <!-- Estilos específicos del home -->
-  <style>
-    /* ── Hero de pantalla completa ── */
-    .hero {
-      position: relative;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      /* Clip diagonal inferior */
-      clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%);
-    }
-
-    .hero__bg {
-      position: absolute;
-      inset: 0;
-    }
-
-    .hero__bg img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      /* Efecto parallax ligero vía JS */
-      will-change: transform;
-    }
-
-    /* Overlay oscuro semitransparente */
-    .hero__overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.60);
-    }
-
-    /* Contenido centrado del hero */
-    .hero__content {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      padding: 0 1.5rem;
-      max-width: 900px;
-    }
-
-    .hero__title {
-      font-size: clamp(3rem, 10vw, 7rem);
-      font-family: var(--font-primary);
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: -0.02em;
-      line-height: 1.0;
-      color: var(--text-primary);
-      margin-bottom: 1rem;
-      /* Animación de entrada */
-      animation: heroSlideUp 1.2s ease-out both;
-    }
-
-    .hero__subtitle {
-      font-family: var(--font-secondary);
-      font-size: 0.8125rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.25em;
-      color: var(--warm-400);
-      animation: heroSlideUp 1.2s 200ms ease-out both;
-    }
-
-    /* Flecha de scroll al fondo del hero */
-    .hero__scroll-hint {
-      position: absolute;
-      bottom: 8%;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 2;
-      animation: bounce 2s infinite;
-    }
-
-    .hero__scroll-hint svg {
-      width: 24px;
-      height: 24px;
-      stroke: rgba(255,255,255,0.5);
-      fill: none;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    @keyframes heroSlideUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateX(-50%) translateY(0); }
-      50%       { transform: translateX(-50%) translateY(8px); }
-    }
-
-    /* ── Sección Featured (carrusel de obras) ── */
-    .featured-section {
-      padding: 6rem 0;
-      background-color: var(--bg-900);
-    }
-
-    .featured-section .container {
-      margin-bottom: 3rem;
-    }
-
-    /* ── Sección About / Cream ── */
-    .about-section {
-      position: relative;
-      background-color: var(--cream);
-      padding: 7rem 0;
-      margin: 0 0 5rem;
-      clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);
-    }
-
-    .about-section .eyebrow { color: var(--gold-500); }
-    .about-section h2       { color: var(--bg-900); }
-
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      margin-bottom: 3rem;
-    }
-
-    .about-grid p {
-      font-size: 0.875rem;
-      color: var(--bg-600);
-      line-height: 1.8;
-    }
-
-    @media (max-width: 768px) {
-      .about-grid { grid-template-columns: 1fr; }
-    }
-
-    /* ── Sección Narrativas ── */
-    .narratives-section {
-      padding-bottom: 6rem;
-      background-color: var(--bg-900);
-    }
-
-    .narratives-section .section-header {
-      padding: 0 var(--space-xl);
-      margin-bottom: 3rem;
-    }
-
-    .narratives-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      /* Misma diagonal arriba que en narrativas.html */
-      clip-path: polygon(0 6%, 100% 0, 100% 100%, 0 100%);
-      margin-top: -1rem;
-    }
-
-    @media (max-width: 768px) {
-      .narratives-grid {
-        grid-template-columns: 1fr;
-        clip-path: polygon(0 3%, 100% 0, 100% 100%, 0 100%);
-      }
-      .narratives-section .section-header { padding: 0 var(--space-lg); }
-    }
-  </style>
 </head>
 <body>
 
@@ -223,7 +60,7 @@
 
       <!-- Texto central -->
       <div class="hero__content">
-        <h1 class="hero__title">Afro-descendants</h1>
+        <h1 class="hero__title">Afrodescendants</h1>
         <p class="hero__subtitle">in Colonial Art</p>
       </div>
 
@@ -243,11 +80,11 @@
 
       <!-- Carrusel con controles prev/next -->
       <div data-carousel>
-        <div class="container" style="margin-bottom:1rem;">
+        <div class="container carousel-lead">
           <!-- Los items se renderizan por JS en .carousel__track -->
         </div>
 
-        <div class="carousel" style="padding-left:var(--space-xl);padding-right:var(--space-xl);">
+        <div class="carousel">
           <div class="carousel__track reveal" id="featured-track">
             <!-- Poblado por JS (artworks.js + inline JS abajo) -->
           </div>
@@ -277,13 +114,10 @@
         <!-- Intro en dos columnas -->
         <div class="about-grid">
           <p>
-            This virtual exhibition complements the physical exhibit and seeks to challenge the
-            oversimplified idea that all Afro-descendant people in the colonial era were enslaved.
+            This virtual exhibition builds on the physical show to challenge a common misconception: that every person of African descent in colonial Latin America lived in slavery. Through paintings, screens, and portraits, we trace how art from this period both recorded and constructed the racial hierarchies of its time.
           </p>
           <p>
-            Through secular works, religious paintings, and portraits, we will discover how
-            Afro-descendant people held diverse and complex roles in colonial society: merchants,
-            artisans, religious leaders, and trusted figures within the elites.
+            Through secular works, religious paintings, and portraits, we discover how Afro-descendant people held diverse and complex roles in colonial society: merchants, artisans, coachmen, wet nurses, confraternity leaders, and even freed entrepreneurs who ran their own businesses.
           </p>
         </div>
 
@@ -300,9 +134,7 @@
             </button>
             <div class="accordion__body" role="region">
               <div class="accordion__content">
-                This exhibition seeks to reveal the complexity of representations of Afro-descendant
-                people in colonial art, showing roles that go beyond slavery: merchants, artisans,
-                religious leaders, and trusted figures within the colonial elites.
+                This show has three goals. First, to show just how varied life could be under the broad label "Afro-descendant" — enslaved, freed, or born free, each with a different lived experience. Second, to unpack casta paintings as a visual system built to sort people into racial categories — and to notice where that system starts to crack. Third, to bring back the individual stories behind the images: real people who shaped the economic, religious, and family life of colonial society, not just subjects to be looked at.
               </div>
             </div>
           </div>
@@ -316,10 +148,67 @@
             </button>
             <div class="accordion__body" role="region">
               <div class="accordion__content">
-                During the Latin American colonial period (16th–19th centuries), Afro-descendant people
-                were a fundamental part of the social fabric. While many arrived as enslaved people,
-                others were free individuals who practiced specialized trades and held positions of
-                responsibility across different social strata.
+                Starting in the 1500s, the transatlantic slave trade brought thousands of Africans to the Americas, giving rise to a large and diverse Afro-descendant population. By the 1700s, casta painting series — like those by Miguel Cabrera or José de Páez — tried to pin down racial identity through image, at a moment when growing mixed-race populations made colonial elites increasingly anxious about maintaining clear social boundaries. Travelers like Thomas Gage marveled at the lavish clothing worn by Afro-descendant women — a style of dress so bold that colonial sumptuary laws tried, and largely failed, to restrict it.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion__item" role="listitem">
+            <button class="accordion__trigger" aria-expanded="false">
+              <span>Representation &amp; Visibility</span>
+              <svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <div class="accordion__body" role="region">
+              <div class="accordion__content">
+                <p>
+                  In the Spanish American colonies, Africans and their descendants were often denied
+                  individuation in representation and were instead depicted as generic types or as
+                  members of a group.<sup>1</sup> As Jaime Borja notes in <em>Los ingenios del pincel</em>,
+                  "of Black people—mostly enslaved, but also free men who acted as settlers and even
+                  conquistadors—no visual memory remains,"<sup>2</sup> despite their constant presence
+                  in colonial society. These groups remained marginally represented in painting as a
+                  reflection of their exclusion from access to the forms of power that guaranteed
+                  visibility. In this sense, portraits and colonial painting did not operate merely as
+                  representational tools, but as exercises of power, capable of determining who
+                  deserved to be seen and how.
+                </p>
+                <p>
+                  Nonetheless, colonial paintings include figures (particularly in the middle and
+                  background) whose inclusion itself demonstrates the social fluidity of a world shaped
+                  by movement, settlement, and relocation. Historically, figures of Africans and their
+                  descendants in Latin American colonial art have received limited interpretive
+                  attention. This marginalization extends beyond mere compositional hierarchy,
+                  reflecting broader assumptions that naturalized slavery as the expected condition of
+                  Black individuals in colonial society. Recent scholarship, however, has begun to
+                  challenge these views, highlighting the diverse roles of Black people, from military
+                  or commercial positions to artistic production,<sup>3</sup> and stressing the need to
+                  reconsider their visibility and significance within colonial visual culture.
+                </p>
+                <ol class="about-footnotes">
+                  <li id="footnote-1">
+                    1. Kathryn Santner and Helen Melling, "Introduction: Visualizing Blackness in
+                    Colonial Latin America," <em>Colonial Latin American Review</em> 30, no. 2 (2021):
+                    186.
+                    <a href="https://doi.org/10.1080/10609164.2021.1912477" target="_blank" rel="noopener">
+                      https://doi.org/10.1080/10609164.2021.1912477
+                    </a>.
+                  </li>
+                  <li id="footnote-2">
+                    2. Jaime Borja, <em>Los ingenios del pincel: Geografía de la pintura y la cultura
+                    visual en la América colonial</em>, 1.ª ed., Colección Ágora. Historia y Geografía
+                    (Bogotá: Ediciones Uniandes; Facultad de Artes y Humanidades, 2021),
+                    <a href="https://doi.org/10.30778/2020.07" target="_blank" rel="noopener">
+                      https://doi.org/10.30778/2020.07
+                    </a>.
+                  </li>
+                  <li id="footnote-3">
+                    3. Juan Correa (1647–1717) and his student José de Ibarra (1685–1756) were two of
+                    the most prominent painters in colonial Mexico City, and both were of African
+                    descent.
+                  </li>
+                </ol>
               </div>
             </div>
           </div>
@@ -359,7 +248,7 @@
       <!-- Card: Público General -->
       <a id="publico-general" href="pages/publico-general.html" class="narrative-card">
         <div class="narrative-card__bg"
-             style="background-image:url('../assets/images/narrativa-publico.png');background-color:#1C4694;">
+             style="background-image:url('../assets/images/narrativa-publico.png');background-color:var(--avatar-2);">
         </div>
         <div class="narrative-card__content">
           <span class="narrative-card__label">DID YOU KNOW?</span>
@@ -376,7 +265,7 @@
       <a id="especialistas" href="pages/especialistas.html"
          class="narrative-card narrative-card--dark">
         <div class="narrative-card__bg"
-             style="background-image:url('../assets/images/narrativa-especialistas.png');background-color:#212B3F;">
+             style="background-image:url('../assets/images/narrativa-especialistas.png');background-color:var(--avatar-1);">
         </div>
         <div class="narrative-card__content">
           <span class="narrative-card__label">INTO THE ROOTS</span>

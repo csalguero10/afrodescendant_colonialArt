@@ -250,3 +250,39 @@
     showQuote((current + 1) % quotes.length);
   }, 6000);
 })();
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   7. TABS POR CATEGORÍA — para "Facts that Transform" en Narrativas
+   ───────────────────────────────────────────────────────────────────────────── */
+(function initDykTabs() {
+  const wraps = document.querySelectorAll('[data-tabs]');
+  if (!wraps.length) return;
+
+  wraps.forEach(function (wrap) {
+    const tabs  = wrap.querySelectorAll('.dyk-tab');
+    const panel = wrap.querySelector('[data-tab-panel]');
+    if (!tabs.length || !panel) return;
+
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        if (tab.classList.contains('active')) return;
+
+        /* Actualizar estado activo de las tabs */
+        tabs.forEach(function (t) {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+
+        /* Fade out → cambiar texto → fade in */
+        panel.style.opacity = '0';
+        setTimeout(function () {
+          panel.textContent = tab.dataset.content || '';
+          panel.style.opacity = '1';
+        }, 200);
+      });
+    });
+  });
+})();
