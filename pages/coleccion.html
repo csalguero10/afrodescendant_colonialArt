@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Collection — Afro-descendants</title>
   <meta name="description" content="Galería de las 15 obras de la exposición con filtros por categoría." />
+  <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg" />
   <link rel="stylesheet" href="../css/main.css" />
 </head>
 <body>
@@ -516,11 +517,13 @@
 
       /* Aplicar zoom a la imagen principal para enfocar el detalle */
       zoomLevel = d.zoom.scale;
-      /* Centrar en la zona del zoom: x/y son porcentajes del origen del recorte */
-      var imgW = mainImg.naturalWidth  || mainImg.offsetWidth  || 800;
-      var imgH = mainImg.naturalHeight || mainImg.offsetHeight || 600;
-      panX = -(d.zoom.x / 100) * imgW  * (zoomLevel - 1) * (mainImg.offsetWidth  / imgW);
-      panY = -(d.zoom.y / 100) * imgH  * (zoomLevel - 1) * (mainImg.offsetHeight / imgH);
+      /* Centrar en la zona del zoom: x/y son porcentajes del punto de interés.
+         .viewer__image escala desde su centro (transform-origin: center center),
+         así que el pan necesario es relativo a esa distancia desde el centro. */
+      var imgW = mainImg.offsetWidth  || 800;
+      var imgH = mainImg.offsetHeight || 600;
+      panX = zoomLevel * imgW * (0.5 - d.zoom.x / 100);
+      panY = zoomLevel * imgH * (0.5 - d.zoom.y / 100);
       applyZoom();
     }
 

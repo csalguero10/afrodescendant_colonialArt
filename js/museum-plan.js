@@ -78,9 +78,9 @@ function initMuseumPlan(containerId) {
     '  <img id="plan-tooltip-imgEl" style="width:100%;height:100%;object-fit:cover;" src="" alt="" />',
     '</div>',
     '<div style="padding:0.75rem;background:#191613;">',
-    '  <p id="plan-tooltip-artist" style="font-family:Oswald,sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:#6A6460;margin-bottom:4px;"></p>',
-    '  <p id="plan-tooltip-title"  style="font-family:Raleway,sans-serif;font-size:13px;font-weight:600;color:#D9CEC5;margin-bottom:4px;line-height:1.4;"></p>',
-    '  <p id="plan-tooltip-year"   style="font-family:Raleway,sans-serif;font-size:11px;color:#A68F7B;"></p>',
+    '  <p id="plan-tooltip-artist" style="font-family:Hammersmith One,sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:#6A6460;margin-bottom:4px;"></p>',
+    '  <p id="plan-tooltip-title"  style="font-family:Plus Jakarta Sans,sans-serif;font-size:13px;font-weight:600;color:#D9CEC5;margin-bottom:4px;line-height:1.4;"></p>',
+    '  <p id="plan-tooltip-year"   style="font-family:Plus Jakarta Sans,sans-serif;font-size:11px;color:#A68F7B;"></p>',
     '</div>'
   ].join('');
 
@@ -116,7 +116,7 @@ function initMuseumPlan(containerId) {
       'border-radius: 50%',
       'background: #B8924A',
       'color: #fff',
-      'font-family: Oswald, sans-serif',
+      'font-family: Hammersmith One, sans-serif',
       'font-size: 12px',
       'font-weight: 700',
       'border: 2px solid rgba(255,255,255,0.3)',

@@ -28,8 +28,8 @@ document.addEventListener('DOMContentLoaded', function () {
   if (!artwork) {
     document.getElementById('viewer-main').innerHTML =
       '<div style="text-align:center;padding:6rem 2rem;">' +
-      '<h2 style="font-family:Oswald,sans-serif;font-size:2.5rem;text-transform:uppercase;">Obra no encontrada</h2>' +
-      '<a href="coleccion.html" style="color:#B8924A;font-family:Raleway,sans-serif;margin-top:1rem;display:inline-block;">← Volver a la colección</a>' +
+      '<h2 style="font-family:Hammersmith One,sans-serif;font-size:2.5rem;text-transform:uppercase;">Obra no encontrada</h2>' +
+      '<a href="coleccion.html" style="color:#B8924A;font-family:Plus Jakarta Sans,sans-serif;margin-top:1rem;display:inline-block;">← Volver a la colección</a>' +
       '</div>';
     return;
   }
@@ -267,7 +267,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!details.length) {
       /* Sin detalles disponibles */
       detailsContent.innerHTML =
-        '<p style="color:#6A6460;font-family:Raleway,sans-serif;font-size:0.875rem;">' +
+        '<p style="color:#6A6460;font-family:Plus Jakarta Sans,sans-serif;font-size:0.875rem;">' +
         'Esta obra no tiene detalles con zoom disponibles por el momento.</p>';
       return;
     }
@@ -290,13 +290,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     detailsContent.innerHTML =
       '<div style="display:flex;gap:0.5rem;margin-bottom:1.5rem;flex-wrap:wrap;">' + thumbsHtml + '</div>' +
-      '<p style="font-size:0.75rem;color:#6A6460;font-family:Raleway,sans-serif;margin-bottom:0.5rem;">' +
+      '<p style="font-size:0.75rem;color:#6A6460;font-family:Plus Jakarta Sans,sans-serif;margin-bottom:0.5rem;">' +
         (activeDetailIndex + 1) + ' de ' + details.length +
       '</p>' +
-      '<h3 id="detail-title" style="font-family:Raleway,sans-serif;font-size:1.25rem;color:#D9CEC5;margin-bottom:1rem;">' +
+      '<h3 id="detail-title" style="font-family:Plus Jakarta Sans,sans-serif;font-size:1.25rem;color:#D9CEC5;margin-bottom:1rem;">' +
         activeDetail.title +
       '</h3>' +
-      '<p id="detail-desc" style="font-family:Raleway,sans-serif;font-size:0.875rem;color:#D9CEC5;line-height:1.75;">' +
+      '<p id="detail-desc" style="font-family:Plus Jakarta Sans,sans-serif;font-size:0.875rem;color:#D9CEC5;line-height:1.75;">' +
         activeDetail.description +
       '</p>' +
       /* Dots de navegación */
@@ -336,10 +336,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var detail = details[index];
 
-    /* Aplicar zoom y pan para enfocar el detalle */
+    /* Aplicar zoom y pan para enfocar el detalle.
+       La imagen escala desde su centro (transform-origin: center center),
+       así que el pan necesario es relativo a esa distancia desde el centro. */
     zoomLevel = detail.zoom.scale;
-    panX      = -(detail.zoom.x / 100) * (mainImg ? mainImg.offsetWidth  : 0) * (zoomLevel - 1);
-    panY      = -(detail.zoom.y / 100) * (mainImg ? mainImg.offsetHeight : 0) * (zoomLevel - 1);
+    panX      = zoomLevel * (mainImg ? mainImg.offsetWidth  : 0) * (0.5 - detail.zoom.x / 100);
+    panY      = zoomLevel * (mainImg ? mainImg.offsetHeight : 0) * (0.5 - detail.zoom.y / 100);
     applyTransform();
 
     /* Re-renderizar el panel con el nuevo detalle activo */

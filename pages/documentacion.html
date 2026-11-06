@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Documentation — Presencias</title>
-  <meta name="description" content="Recursos académicos, metodología y fuentes de la exposición Presencias." />
+  <meta name="description" content="Context, methodology, and sources behind Presencias, a final project for the course Information Modelling and Web Technologies (MA in Digital Humanities and Digital Knowledge)." />
+  <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg" />
   <link rel="stylesheet" href="../css/main.css" />
 </head>
 <body>
@@ -43,8 +44,9 @@
       <h1>DOCUMENTATION</h1>
       <div class="gold-rule"></div>
       <p class="doc-intro">
-        Academic and methodological resources for the exhibition. Context, sources, open data,
-        and credits for the <em>Presencias</em> project.
+        Academic context, methodology, and sources behind the <em>Presencias</em> virtual
+        exhibition — a final project for the course <em>Information Modelling and Web
+        Technologies</em>, in the Master's program in Digital Humanities and Digital Knowledge.
       </p>
     </div>
 
@@ -58,7 +60,7 @@
           </p>
         </div>
         <a
-          href="https://github.com"
+          href="https://github.com/csalguero10/afrodescendant_colonialArt"
           target="_blank"
           rel="noopener noreferrer"
           class="github-banner__btn"
@@ -82,8 +84,8 @@
           <nav class="doc-sidebar__nav">
             <p class="doc-sidebar__title">Contents</p>
             <a href="#contexto"    class="doc-sidebar__link active">Project Context</a>
-            <a href="#metodologia" class="doc-sidebar__link">Methodology</a>
-            <a href="#recursos"    class="doc-sidebar__link">Downloadable Resources</a>
+            <a href="#metodologia" class="doc-sidebar__link">UX and UI Design</a>
+            <a href="#desarrollo"  class="doc-sidebar__link">Web Development</a>
             <a href="#creditos"    class="doc-sidebar__link">Sources &amp; Credits</a>
           </nav>
         </aside>
@@ -98,62 +100,97 @@
             aria-labelledby="contexto-heading"
           >
             <div class="doc-section--blue">
-              <span class="eyebrow">01 / CONTEXT</span>
               <h2 id="contexto-heading">PROJECT CONTEXT</h2>
               <div class="gold-rule"></div>
 
               <p class="doc-text">
-                <em>Presencias</em> is a virtual exhibition that complements the physical exhibit
-                and stems from doctoral research that computationally applies Erwin Panofsky's
-                iconographic method to the study of representations of Afro-descendant people in
-                Latin American colonial art (16th–19th centuries).
+                <em>Presencias</em> is the final project for the course <strong
+                class="text-accent">Information Modelling and Web Technologies</strong>, held by
+                Prof. Fabio Vitali, within the Master's program in Digital Humanities and Digital
+                Knowledge (DHDK).
               </p>
               <p class="doc-text">
-                The project sits at the intersection of Art History, Digital Humanities, and
-                Computer Vision. It builds on the corpus of the ARCA archive (Universidad de los
-                Andes, Bogotá) and incorporates visual analysis techniques assisted by
-                vision-language models (VLMs) for iconographic annotation at scale.
+                The choice of this narrative is not incidental. It builds on the author's ongoing
+                thesis research on how Afro-descendant people were represented in Latin American
+                colonial art — a corpus in which their presence was consistently reduced to the
+                condition of enslavement, even though the historical record shows a far more
+                complex reality: free and enslaved Black and mulatto men and women working in
+                trades, guilds, militias of pardos and morenos, and religious confraternities, and
+                occasionally reaching exceptional positions, such as the painter Juan Correa.
+              </p>
+              <p class="doc-text">
+                Colonial art is, in many ways, a misunderstood art. Seen from a distance and
+                without context, it is often dismissed as dull, or reduced to its ties with
+                Catholic religious imagery — a direct consequence of the evangelizing project that
+                accompanied Spanish colonization. Yet this body of work is considerably more
+                complex: it is one of the clearest visual records of the transculturation and
+                mestizaje between the groups that shaped colonial society — Spaniards, Africans
+                and their descendants, and the Indigenous peoples who inhabited these territories
+                long before their arrival. Reading these images carefully reveals the foundations
+                of the cultural identities we still recognize today.
+              </p>
+              <p class="doc-text">
+                From this premise, the exhibition was organized into two narrative routes.
+                <strong class="text-accent">"Did You Know?"</strong>, aimed at a general audience,
+                uses cultural identity as an entry point: many of the traditions, aesthetics, and
+                social behaviors of our present have roots in this period, even when we do not
+                always recognize them. <strong class="text-accent">"Into the Roots"</strong>, aimed
+                at a more specialized audience, offers a deeper, more academic reading of the same
+                works, with closer attention to iconographic and historiographic analysis.
               </p>
 
-              <div class="pull-quote">
-                <p>
-                  "The goal is not to replace the art historian's eye, but to amplify their
-                  ability to detect patterns in corpora of thousands of images that would
-                  otherwise be unmanageable."
-                </p>
-                <cite>Excerpt from the research project, 2025–2026</cite>
-              </div>
-
-              <!-- Timeline del proyecto -->
+              <!-- Fases del proyecto -->
               <h3 class="doc-heading doc-heading--lg">
-                Project Timeline
+                Project Phases
               </h3>
 
-              <div class="timeline">
-                <div class="timeline-item">
-                  <p class="timeline-item__date">2024 — Phase 1</p>
-                  <p class="timeline-item__title">Corpus Construction</p>
-                  <p class="timeline-item__text">
-                    Scraping and cleaning the ARCA archive with Playwright and Python. Downloaded
-                    ~3,400 high-resolution images with Dublin Core metadata.
-                  </p>
+              <div class="gantt" role="img" aria-label="Project phases: Research and Curation, Information Modelling, and Design and Development, shown as a Gantt-style timeline with overlapping stages">
+                <div class="gantt__row">
+                  <div class="gantt__meta">
+                    <span class="gantt__num">01</span>
+                    <div>
+                      <p class="gantt__title">Research &amp; Curation</p>
+                      <p class="gantt__text">
+                        Curatorial narrative and selection of works, drawing on the author's
+                        thesis research and the ARCA archive.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="gantt__track">
+                    <span class="gantt__bar" style="--gantt-col:1; --gantt-span:5;"></span>
+                  </div>
                 </div>
-                <div class="timeline-item">
-                  <p class="timeline-item__date">2025 — Phase 2</p>
-                  <p class="timeline-item__title">Assisted Iconographic Annotation</p>
-                  <p class="timeline-item__text">
-                    ColonialArt-VLM pipeline: using GPT-4V and Claude to annotate clothing,
-                    spatial position, gestures, and objects. Manual validation by colonial art
-                    specialists.
-                  </p>
+
+                <div class="gantt__row">
+                  <div class="gantt__meta">
+                    <span class="gantt__num">02</span>
+                    <div>
+                      <p class="gantt__title">Information Modelling</p>
+                      <p class="gantt__text">
+                        Data model for the exhibition: artwork records and the iconographic
+                        detail points behind the zoom viewer.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="gantt__track">
+                    <span class="gantt__bar" style="--gantt-col:5; --gantt-span:5;"></span>
+                  </div>
                 </div>
-                <div class="timeline-item">
-                  <p class="timeline-item__date">2025–2026 — Phase 3</p>
-                  <p class="timeline-item__title">Exhibition &amp; Outreach</p>
-                  <p class="timeline-item__text">
-                    Design of the physical exhibit in Bogotá and of this virtual exhibition.
-                    Publication of the annotated data under a CC-BY license.
-                  </p>
+
+                <div class="gantt__row">
+                  <div class="gantt__meta">
+                    <span class="gantt__num">03</span>
+                    <div>
+                      <p class="gantt__title">Design &amp; Development</p>
+                      <p class="gantt__text">
+                        Information architecture for the two routes and development of the
+                        static site for the course.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="gantt__track">
+                    <span class="gantt__bar" style="--gantt-col:9; --gantt-span:4;"></span>
+                  </div>
                 </div>
               </div>
 
@@ -167,64 +204,447 @@
             aria-labelledby="metodologia-heading"
           >
             <div class="doc-section--dark">
-              <span class="eyebrow">02 / METHODOLOGY</span>
-              <h2 id="metodologia-heading">METHODOLOGY</h2>
+              <h2 id="metodologia-heading">UX AND UI DESIGN</h2>
               <div class="gold-rule"></div>
 
               <p class="doc-text">
-                The research applies Panofsky's three-level model — pre-iconographic
-                description, iconographic analysis, and iconological interpretation — as the
-                conceptual framework for designing the computer vision pipeline.
+                This exhibition grows out of research first carried out for the author's
+                undergraduate thesis, which examined the images used to evangelize Afro-descendant
+                people during the colonial period. That research sparked a broader interest in how
+                Afro-descendant people were represented — and how they appeared at all — in
+                Latin American colonial art, a presence that is itself limited, and in the roles
+                they occupied during this period which, as noted above, were never limited to
+                enslavement.
               </p>
               <p class="doc-text">
-                Each level corresponds to a feature-extraction layer: detection of objects and
-                figures (level 1), classification of symbolic attributes (level 2), and
-                inference of social roles and power relations (level 3).
+                Fifteen images were selected for the exhibition from a dataset the author has been
+                building independently of this course, now comprising 130 works, assembled to
+                represent the range of ways Afro-descendant people were depicted in colonial
+                painting — from religious scenes to casta paintings, secular scenes, and
+                portraits.
+              </p>
+              <p class="doc-text">
+                Erwin Panofsky's three-level method — pre-iconographic description, iconographic
+                analysis, and iconological interpretation — provides the conceptual framework for
+                reading each work, from the recognition of a figure or a gesture to the inference
+                of the social hierarchy that image was meant to naturalize.
+              </p>
+              <p class="doc-text">
+                That reading was then translated into a concrete information model: a structured
+                record for each artwork, and a set of iconographic "details" — close-up zooms —
+                pointing to the specific elements, a gesture, a garment, an object, that carry the
+                most interpretive weight.
               </p>
 
-              <div class="method-grid">
+              <!-- Arquetipos de usuario -->
+              <h3 class="doc-heading doc-heading--lg">
+                User Archetypes
+              </h3>
+              <p class="doc-text">
+                Before defining the two narrative routes, two fictional archetypes were sketched
+                out to represent the exhibition's audience extremes — one with no prior interest
+                in the subject, one academically trained but outside the field.
+              </p>
 
-                <div class="method-card">
-                  <p class="method-card__num">01</p>
-                  <p class="method-card__title">Corpus Selection and Scraping</p>
-                  <p class="method-card__text">
-                    Automated extraction from the ARCA archive with Playwright. Cleaning and
-                    normalization of metadata according to Dublin Core. Storage in Google
-                    Sheets via gspread.
+              <div class="persona-grid">
+
+                <div class="persona-card">
+                  <div class="persona-card__header">
+                    <span class="persona-card__avatar persona-card__avatar--photo">
+                      <img src="../assets/images/Valentina%20Ruiz.jpeg" alt="Valentina Ruiz" />
+                    </span>
+                    <div>
+                      <p class="persona-card__name">Valentina Ruiz, 23</p>
+                      <p class="persona-card__role">General Public — "Did You Know?" route</p>
+                    </div>
+                  </div>
+                  <p class="persona-card__bio">
+                    Communications graduate working in social media marketing in Bogotá. She has
+                    no background in art history and rarely visits museums; she lands on
+                    <em>Presencias</em> after a friend shares the link, out of curiosity more than
+                    any real interest in colonial painting.
+                  </p>
+                  <div class="persona-card__meta">
+                    <div>
+                      <p class="persona-card__label">Goals</p>
+                      <p class="persona-card__text">
+                        Something she can skim on her phone in a few minutes; a quick, personal
+                        reason to care about colonial art today.
+                      </p>
+                    </div>
+                    <div>
+                      <p class="persona-card__label">Frustrations</p>
+                      <p class="persona-card__text">
+                        Long academic texts, unfamiliar terms (calidad, casta, pardos and morenos),
+                        and walls of text with no visual hook.
+                      </p>
+                    </div>
+                  </div>
+                  <p class="persona-card__quote">
+                    "If it doesn't grab me in the first ten seconds, I close the tab."
                   </p>
                 </div>
 
-                <div class="method-card">
-                  <p class="method-card__num">02</p>
-                  <p class="method-card__title">VLM Annotation</p>
-                  <p class="method-card__text">
-                    Structured prompting of vision-language models. The model identifies
-                    clothing, accessories, position, gestures, and spatial context. The
-                    response is stored as normalized JSON.
+                <div class="persona-card">
+                  <div class="persona-card__header">
+                    <span class="persona-card__avatar persona-card__avatar--photo">
+                      <img src="../assets/images/Andres%20Molina.jpeg" alt="Andrés Molina" />
+                    </span>
+                    <div>
+                      <p class="persona-card__name">Dr. Andrés Molina, 47</p>
+                      <p class="persona-card__role">Specialist — "Into the Roots" route</p>
+                    </div>
+                  </div>
+                  <p class="persona-card__bio">
+                    Associate professor of economic history, specializing in 19th-century trade
+                    and labor — not colonial art or Afro-descendant studies. A colleague points him
+                    to <em>Presencias</em>, and he is curious whether visual sources could
+                    complement his own research, despite having no training in iconographic
+                    analysis.
                   </p>
-                </div>
-
-                <div class="method-card">
-                  <p class="method-card__num">03</p>
-                  <p class="method-card__title">Iconographic Validation</p>
-                  <p class="method-card__text">
-                    Manual review of 15% of the corpus by specialists. Calculation of
-                    inter-annotator agreement metrics (Cohen's κ). Correction of systematic
-                    model errors.
-                  </p>
-                </div>
-
-                <div class="method-card">
-                  <p class="method-card__num">04</p>
-                  <p class="method-card__title">Curation and Exhibition</p>
-                  <p class="method-card__text">
-                    Selection of representative works for the exhibit. Writing curatorial
-                    entries at two levels of depth: general public and specialists. Design of
-                    the virtual exhibition with SvelteKit + static HTML.
+                  <div class="persona-card__meta">
+                    <div>
+                      <p class="persona-card__label">Goals</p>
+                      <p class="persona-card__text">
+                        Rigorous sourcing, a legible methodology, and enough depth to cite or
+                        discuss the material with students and colleagues.
+                      </p>
+                    </div>
+                    <div>
+                      <p class="persona-card__label">Frustrations</p>
+                      <p class="persona-card__text">
+                        Pop-history oversimplification, uncited claims, and content that assumes
+                        an art-historical expertise he doesn't have.
+                      </p>
+                    </div>
+                  </div>
+                  <p class="persona-card__quote">
+                    "I need to know where this claim comes from before I can use it."
                   </p>
                 </div>
 
               </div>
+
+              <!-- Referencias de diseño -->
+              <h3 class="doc-heading doc-heading--lg">
+                Design References
+              </h3>
+              <p class="doc-text">
+                With these two archetypes in mind, a range of virtual exhibitions, museum
+                platforms, and digitization projects were reviewed for inspiration — in framing,
+                interaction, and how to make high-resolution images of fragile works explorable
+                online.
+              </p>
+
+              <ul class="link-list">
+                <li class="link-list__item">
+                  <a href="https://archief.ntr.nl/tuinderlusten/en.html" target="_blank" rel="noopener noreferrer" class="link-list__link">The Garden of Earthly Delights</a>
+                  <span class="link-list__source">NTR (Netherlands)</span>
+                  <p class="link-list__desc">Interactive companion site exploring Hieronymus Bosch's triptych panel by panel.</p>
+                </li>
+                <li class="link-list__item">
+                  <a href="https://closertovaneyck.kikirpa.be/ghentaltarpiece/" target="_blank" rel="noopener noreferrer" class="link-list__link">Closer to Van Eyck — Rediscovering the Ghent Altarpiece</a>
+                  <span class="link-list__source">KIK-IRPA, Belgium</span>
+                  <p class="link-list__desc">Ultra-high-resolution viewer documenting the restoration of the Ghent Altarpiece.</p>
+                </li>
+                <li class="link-list__item">
+                  <a href="https://closertovaneyck.kikirpa.be/verona/" target="_blank" rel="noopener noreferrer" class="link-list__link">Closer to Van Eyck — Verona</a>
+                  <span class="link-list__source">KIK-IRPA, Belgium</span>
+                  <p class="link-list__desc">Map-based viewer tracing the history of the altarpiece's Verona panels.</p>
+                </li>
+                <li class="link-list__item">
+                  <a href="https://www.rijksmuseum.nl/en/stories/operation-night-watch/story/ultra-high-resolution-photo" target="_blank" rel="noopener noreferrer" class="link-list__link">Operation Night Watch — Ultra High-Resolution Photo</a>
+                  <span class="link-list__source">Rijksmuseum, Amsterdam</span>
+                  <p class="link-list__desc">A 717-gigapixel image of Rembrandt's <em>The Night Watch</em>, with footage from its restoration.</p>
+                </li>
+                <li class="link-list__item">
+                  <a href="https://artsandculture.google.com/partner/the-british-museum" target="_blank" rel="noopener noreferrer" class="link-list__link">Google Arts &amp; Culture — The British Museum</a>
+                  <span class="link-list__source">Google Arts &amp; Culture</span>
+                  <p class="link-list__desc">Partner page giving open online access to the museum's collection and curatorial stories.</p>
+                </li>
+                <li class="link-list__item">
+                  <a href="https://artsandculture.google.com/story/pQWBQGC0Am3YLw" target="_blank" rel="noopener noreferrer" class="link-list__link">12 Things You Didn't Know About Vermeer</a>
+                  <span class="link-list__source">Google Arts &amp; Culture</span>
+                  <p class="link-list__desc">Short-form narrative story format for a single artist, drawing on multiple museum collections.</p>
+                </li>
+                <li class="link-list__item">
+                  <a href="https://naturalhistory.si.edu/exhibits/african-voices" target="_blank" rel="noopener noreferrer" class="link-list__link">African Voices</a>
+                  <span class="link-list__source">Smithsonian National Museum of Natural History</span>
+                  <p class="link-list__desc">Exhibit on the diversity, history, and culture of African and African-descendant life.</p>
+                </li>
+                <li class="link-list__item">
+                  <a href="https://timeandhistory.com/watch-list/" target="_blank" rel="noopener noreferrer" class="link-list__link">Watch List (A–Z)</a>
+                  <span class="link-list__source">Time &amp; History</span>
+                  <p class="link-list__desc">Curated directory of museum, heritage, and art VR and interactive experiences.</p>
+                </li>
+                <li class="link-list__item">
+                  <a href="https://virtualexhibition.v21artspace.com/shape-shift" target="_blank" rel="noopener noreferrer" class="link-list__link">Shape Shift</a>
+                  <span class="link-list__source">V21 Artspace</span>
+                  <p class="link-list__desc">Browser-based virtual exhibition format.</p>
+                </li>
+                <li class="link-list__item">
+                  <a href="https://insidebruegel.net/" target="_blank" rel="noopener noreferrer" class="link-list__link">Inside Bruegel</a>
+                  <span class="link-list__source">Kunsthistorisches Museum, Vienna</span>
+                  <p class="link-list__desc">Ultra-high-resolution viewer for Pieter Bruegel the Elder's paintings.</p>
+                </li>
+                <li class="link-list__item">
+                  <a href="https://cenacolovinciano.org/en/" target="_blank" rel="noopener noreferrer" class="link-list__link">Cenacolo Vinciano</a>
+                  <span class="link-list__source">Museo del Cenacolo Vinciano, Milan</span>
+                  <p class="link-list__desc">Official site for Leonardo da Vinci's <em>Last Supper</em>, with visitor and conservation information.</p>
+                </li>
+                <li class="link-list__item">
+                  <a href="https://www.secondcanvas.net/museo-del-prado/" target="_blank" rel="noopener noreferrer" class="link-list__link">Second Canvas — Museo del Prado</a>
+                  <span class="link-list__source">Mad Pixel Factory</span>
+                  <p class="link-list__desc">Zoomable, gigapixel viewer of Prado masterpieces with guided stories and audio tours.</p>
+                </li>
+              </ul>
+
+              <div class="doc-callout doc-callout--stack">
+                <p class="doc-callout__label">
+                  Key Reference for Interactivity
+                </p>
+                <p class="doc-callout__text">
+                  The <strong class="text-accent">Second Canvas</strong> platform — built by the
+                  Spanish studio Mad Pixel Factory and used by both the Mauritshuis and SMK
+                  (Statens Museum for Kunst, Denmark) — was the clearest reference for how to
+                  present high-resolution images interactively. Its deep-zoom viewer and guided
+                  iconographic "details" directly inspired the zoom-and-pan viewer and detail
+                  points used throughout this exhibition's collection.
+                </p>
+              </div>
+
+              <!-- Decisiones de diseño: paleta y tipografía -->
+              <h3 class="doc-heading doc-heading--lg">
+                Design Decisions
+              </h3>
+              <p class="doc-text">
+                With those references in hand, a small UI kit was defined for the exhibition — a
+                dark, gold-accented palette evoking oil varnish and gilded frames without competing
+                with the artworks, and a type system dividing the interface by voice: a condensed
+                display face for titles, a humanist sans for reading, and a monospace face for
+                small structural labels.
+              </p>
+
+              <p class="doc-text doc-text--mb-sm">
+                <strong class="text-accent">Color Palette — Typography</strong>
+              </p>
+              <p class="doc-text doc-text--mb-sm">
+                Colors used for text, icons, and inline accents.
+              </p>
+              <div class="swatch-grid">
+                <div class="swatch">
+                  <div class="swatch__block" style="background-color:#FFFFFF;"></div>
+                  <p class="swatch__name">Paper White</p>
+                  <p class="swatch__role">Primary text, headings</p>
+                  <p class="swatch__hex">#FFFFFF</p>
+                </div>
+                <div class="swatch">
+                  <div class="swatch__block" style="background-color:#D9CEC5;"></div>
+                  <p class="swatch__name">Parchment</p>
+                  <p class="swatch__role">Body text</p>
+                  <p class="swatch__hex">#D9CEC5</p>
+                </div>
+                <div class="swatch">
+                  <div class="swatch__block" style="background-color:#A68F7B;"></div>
+                  <p class="swatch__name">Sepia</p>
+                  <p class="swatch__role">Tertiary text — captions, institutions</p>
+                  <p class="swatch__hex">#A68F7B</p>
+                </div>
+                <div class="swatch">
+                  <div class="swatch__block" style="background-color:#F2F2F2;"></div>
+                  <p class="swatch__name">Cloud</p>
+                  <p class="swatch__role">Light text on dark overlay panels</p>
+                  <p class="swatch__hex">#F2F2F2</p>
+                </div>
+                <div class="swatch">
+                  <div class="swatch__block" style="background-color:#6A6460;"></div>
+                  <p class="swatch__name">Smoke</p>
+                  <p class="swatch__role">Muted text — filters, footnotes</p>
+                  <p class="swatch__hex">#6A6460</p>
+                </div>
+                <div class="swatch">
+                  <div class="swatch__block" style="background-color:#F4DBAB;"></div>
+                  <p class="swatch__name">Antique Gold</p>
+                  <p class="swatch__role">Eyebrows, accent links</p>
+                  <p class="swatch__hex">#F4DBAB</p>
+                </div>
+                <div class="swatch">
+                  <div class="swatch__block" style="background-color:#BF6550;"></div>
+                  <p class="swatch__name">Terracotta Gold</p>
+                  <p class="swatch__role">Primary accent — links, icons, borders</p>
+                  <p class="swatch__hex">#BF6550</p>
+                </div>
+                <div class="swatch">
+                  <div class="swatch__block" style="background-color:#EC6648;"></div>
+                  <p class="swatch__name">Ember</p>
+                  <p class="swatch__role">Hover accent — nav, footnote links</p>
+                  <p class="swatch__hex">#EC6648</p>
+                </div>
+                <div class="swatch">
+                  <div class="swatch__block" style="background-color:#F2CBC2;"></div>
+                  <p class="swatch__name">Blush Clay</p>
+                  <p class="swatch__role">Secondary accent — tech-stack tags</p>
+                  <p class="swatch__hex">#F2CBC2</p>
+                </div>
+              </div>
+
+              <p class="doc-text doc-text--mb-sm">
+                <strong class="text-accent">Color Palette — Containers</strong>
+              </p>
+              <p class="doc-text doc-text--mb-sm">
+                Colors used for backgrounds, cards, panels, and borders.
+              </p>
+              <div class="swatch-grid">
+                <div class="swatch">
+                  <div class="swatch__block" style="background-color:#0C0B09;"></div>
+                  <p class="swatch__name">Void Black</p>
+                  <p class="swatch__role">Base background</p>
+                  <p class="swatch__hex">#0C0B09</p>
+                </div>
+                <div class="swatch">
+                  <div class="swatch__block" style="background-color:#191613;"></div>
+                  <p class="swatch__name">Umbra</p>
+                  <p class="swatch__role">Site background</p>
+                  <p class="swatch__hex">#191613</p>
+                </div>
+                <div class="swatch">
+                  <div class="swatch__block" style="background-color:#2A2620;"></div>
+                  <p class="swatch__name">Charcoal Oak</p>
+                  <p class="swatch__role">Cards, panels</p>
+                  <p class="swatch__hex">#2A2620</p>
+                </div>
+                <div class="swatch">
+                  <div class="swatch__block" style="background-color:#3D3830;"></div>
+                  <p class="swatch__name">Bark</p>
+                  <p class="swatch__role">Hover states, open accordions</p>
+                  <p class="swatch__hex">#3D3830</p>
+                </div>
+                <div class="swatch">
+                  <div class="swatch__block" style="background-color:#4D4840;"></div>
+                  <p class="swatch__name">Clay Border</p>
+                  <p class="swatch__role">Borders, input fields</p>
+                  <p class="swatch__hex">#4D4840</p>
+                </div>
+                <div class="swatch">
+                  <div class="swatch__block" style="background-color:#8A8480;"></div>
+                  <p class="swatch__name">Driftwood</p>
+                  <p class="swatch__role">Dividers</p>
+                  <p class="swatch__hex">#8A8480</p>
+                </div>
+                <div class="swatch">
+                  <div class="swatch__block" style="background-color:#59122C;"></div>
+                  <p class="swatch__name">Deep Grape</p>
+                  <p class="swatch__role">Narrative section backgrounds</p>
+                  <p class="swatch__hex">#59122C</p>
+                </div>
+                <div class="swatch">
+                  <div class="swatch__block" style="background-color:#F4DBAB;"></div>
+                  <p class="swatch__name">Ivory Cream</p>
+                  <p class="swatch__role">About, team &amp; gallery section backgrounds</p>
+                  <p class="swatch__hex">#F4DBAB</p>
+                </div>
+                <div class="swatch">
+                  <div class="swatch__block" style="background-color:#437379;"></div>
+                  <p class="swatch__name">Lagoon</p>
+                  <p class="swatch__role">Documentation sidebar background</p>
+                  <p class="swatch__hex">#437379</p>
+                </div>
+                <div class="swatch">
+                  <div class="swatch__block" style="background-color:#3B5659;"></div>
+                  <p class="swatch__name">Deep Teal</p>
+                  <p class="swatch__role">Planimetría &amp; museum info sections</p>
+                  <p class="swatch__hex">#3B5659</p>
+                </div>
+                <div class="swatch">
+                  <div class="swatch__block" style="background-color:#212B3F;"></div>
+                  <p class="swatch__name">Midnight Navy</p>
+                  <p class="swatch__role">Curatorial team avatar</p>
+                  <p class="swatch__hex">#212B3F</p>
+                </div>
+                <div class="swatch">
+                  <div class="swatch__block" style="background-color:#1C4694;"></div>
+                  <p class="swatch__name">Royal Blue</p>
+                  <p class="swatch__role">Team avatar &amp; gallery placeholder</p>
+                  <p class="swatch__hex">#1C4694</p>
+                </div>
+                <div class="swatch">
+                  <div class="swatch__block" style="background-color:#263D69;"></div>
+                  <p class="swatch__name">Steel Navy</p>
+                  <p class="swatch__role">Curatorial team avatar</p>
+                  <p class="swatch__hex">#263D69</p>
+                </div>
+              </div>
+
+              <p class="doc-text doc-text--mb-sm">
+                <strong class="text-accent">Typefaces</strong>
+              </p>
+              <div class="type-specimen">
+                <div class="type-specimen__item">
+                  <p class="type-specimen__sample" style="font-family:'Hammersmith One', sans-serif;">Aa</p>
+                  <p class="type-specimen__name">Hammersmith One</p>
+                  <p class="type-specimen__role">Headings · Eyebrows · Stats</p>
+                  <p class="type-specimen__weights">400 (single weight)</p>
+                </div>
+                <div class="type-specimen__item">
+                  <p class="type-specimen__sample" style="font-family:'Plus Jakarta Sans', sans-serif;">Aa</p>
+                  <p class="type-specimen__name">Plus Jakarta Sans</p>
+                  <p class="type-specimen__role">Body copy · Buttons · Navigation</p>
+                  <p class="type-specimen__weights">300 / 400 / 500 / 600 / 700 / 800</p>
+                </div>
+                <div class="type-specimen__item">
+                  <p class="type-specimen__sample" style="font-family:'JetBrains Mono', monospace;">Aa</p>
+                  <p class="type-specimen__name">JetBrains Mono</p>
+                  <p class="type-specimen__role">Eyebrow labels</p>
+                  <p class="type-specimen__weights">400 / 500</p>
+                </div>
+              </div>
+
+              <p class="doc-text">
+                With the palette and type system set as a small UI kit, the interface was
+                prototyped in <strong class="text-accent">Figma Make</strong>, combining written
+                prompts, reference images drawn from the sites above, and that UI kit. The
+                resulting prototype can be explored here:
+                <a href="https://tweet-radius-35659966.figma.site/" target="_blank" rel="noopener noreferrer" class="text-accent">Figma Prototype</a>.
+              </p>
+
+              <div class="doc-callout doc-callout--stack">
+                <p class="doc-callout__label">
+                  Image Assets
+                </p>
+                <p class="doc-callout__text">
+                  The museum interior renders, the archetype portraits, and the curatorial team
+                  photos used throughout this site were generated with
+                  <strong class="text-accent">Nano Banana</strong> (Gemini's image model). The
+                  artwork images themselves — the actual colonial-era corpus — come from the
+                  <strong class="text-accent">ARCA</strong> platform (Universidad de los Andes,
+                  Bogotá), the most complete dataset of American colonial art available to date.
+                </p>
+              </div>
+
+            </div>
+          </section>
+
+          <!-- ════════════════════════ SECCIÓN 3: WEB DEVELOPMENT ═════════ -->
+          <section
+            id="desarrollo"
+            class="doc-section reveal"
+            aria-labelledby="desarrollo-heading"
+          >
+            <div class="doc-section--dark">
+              <h2 id="desarrollo-heading">WEB DEVELOPMENT</h2>
+              <div class="gold-rule"></div>
+
+              <p class="doc-text">
+                From the Figma Make prototype, the exhibition was implemented as a static,
+                responsive site — no build step or framework — designed to remain legible to both
+                general and academic audiences.
+              </p>
+              <p class="doc-text">
+                The HTML pages and the CSS were built from scratch by the author. For the
+                JavaScript layer, AI assistance was used for a large part of the implementation,
+                particularly to complete the desired animations and interactions; Claude was also
+                used throughout for corrections when needed.
+              </p>
 
               <!-- Nota técnica del stack -->
               <div class="doc-callout doc-callout--stack">
@@ -232,133 +652,15 @@
                   Technical Stack
                 </p>
                 <div class="doc-callout__tags">
-                  <span class="code-note">Python 3.11</span>
-                  <span class="code-note">Playwright</span>
-                  <span class="code-note">gspread</span>
-                  <span class="code-note">FastAPI</span>
-                  <span class="code-note">OpenAI Vision API</span>
-                  <span class="code-note">Claude API</span>
-                  <span class="code-note">SvelteKit</span>
-                  <span class="code-note">HTML + CSS + JS</span>
+                  <span class="code-note">HTML</span>
+                  <span class="code-note">CSS</span>
+                  <span class="code-note">JavaScript</span>
+                  <span class="code-note">Google Fonts</span>
                   <span class="code-note">GitHub Pages</span>
                 </div>
               </div>
 
             </div>
-          </section>
-
-          <!-- ════════════════════════ SECCIÓN 3: RECURSOS ════════════════ -->
-          <section
-            id="recursos"
-            class="doc-section reveal"
-            aria-labelledby="recursos-heading"
-          >
-          <div class="doc-section--dark">
-            <span class="eyebrow">03 / RESOURCES</span>
-            <h2 id="recursos-heading">DOWNLOADABLE RESOURCES</h2>
-            <div class="gold-rule gold-rule--mb-1"></div>
-
-            <p class="doc-text doc-text--mb-lg">
-              The following materials are available under a
-              <strong class="text-accent">Creative Commons CC-BY 4.0</strong> license.
-              You can use, share, and adapt them with attribution to the project.
-            </p>
-
-            <div class="resources-grid">
-
-              <div class="resource-card">
-                <div class="resource-card__icon">
-                  <!-- Ícono descarga -->
-                  <svg viewBox="0 0 24 24">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                    <polyline points="7 10 12 15 17 10"></polyline>
-                    <line x1="12" y1="15" x2="12" y2="3"></line>
-                  </svg>
-                </div>
-                <div>
-                  <p class="resource-card__title">ARCA Corpus — Metadata</p>
-                  <p class="resource-card__desc">
-                    CSV with metadata for ~3,400 works from the ARCA archive: title, artist,
-                    date, category, dimensions, and image URL.
-                  </p>
-                  <a href="#" class="btn btn--outline">
-                    Download CSV →
-                  </a>
-                </div>
-              </div>
-
-              <div class="resource-card">
-                <div class="resource-card__icon">
-                  <svg viewBox="0 0 24 24">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                    <polyline points="7 10 12 15 17 10"></polyline>
-                    <line x1="12" y1="15" x2="12" y2="3"></line>
-                  </svg>
-                </div>
-                <div>
-                  <p class="resource-card__title">Iconographic Annotations</p>
-                  <p class="resource-card__desc">
-                    JSON with validated VLM annotations: clothing, gestures, objects, inferred
-                    social role, and model confidence level.
-                  </p>
-                  <a href="#" class="btn btn--outline">
-                    Download JSON →
-                  </a>
-                </div>
-              </div>
-
-              <div class="resource-card">
-                <div class="resource-card__icon">
-                  <!-- Ícono documento -->
-                  <svg viewBox="0 0 24 24">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                    <polyline points="14 2 14 8 20 8"></polyline>
-                    <line x1="16" y1="13" x2="8" y2="13"></line>
-                    <line x1="16" y1="17" x2="8" y2="17"></line>
-                    <polyline points="10 9 9 9 8 9"></polyline>
-                  </svg>
-                </div>
-                <div>
-                  <p class="resource-card__title">Curatorial Guide</p>
-                  <p class="resource-card__desc">
-                    PDF with a reading guide to the works for teachers and cultural mediators.
-                    Includes educational activities and a glossary.
-                  </p>
-                  <a href="#" class="btn btn--outline">
-                    Download PDF →
-                  </a>
-                </div>
-              </div>
-
-              <div class="resource-card">
-                <div class="resource-card__icon">
-                  <!-- Ícono código / terminal -->
-                  <svg viewBox="0 0 24 24">
-                    <polyline points="16 18 22 12 16 6"></polyline>
-                    <polyline points="8 6 2 12 8 18"></polyline>
-                  </svg>
-                </div>
-                <div>
-                  <p class="resource-card__title">Source Code</p>
-                  <p class="resource-card__desc">
-                    GitHub repository with the ColonialArt-VLM pipeline, the scraping scripts,
-                    and the code for this virtual exhibition.
-                  </p>
-                  <a
-                    href="https://github.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="btn btn--outline"
-                  >
-                    View on GitHub →
-                  </a>
-                </div>
-              </div>
-
-            </div>
-
-          </div>
-            
           </section>
 
           <!-- ════════════════════════ SECCIÓN 4: CRÉDITOS ════════════════ -->
@@ -368,7 +670,6 @@
             aria-labelledby="creditos-heading"
           >
           <div class="doc-section--dark">
-            <span class="eyebrow">04 / SOURCES &amp; CREDITS</span>
             <h2 id="creditos-heading">SOURCES &amp; CREDITS</h2>
             <div class="gold-rule gold-rule--mb-1"></div>
 
@@ -379,36 +680,16 @@
 
             <div class="credits-grid">
               <div class="credit-card">
-                <p class="credit-card__role">Research &amp; Curation</p>
-                <p class="credit-card__name">Catalina Rincón</p>
+                <p class="credit-card__role">Research, Curation &amp; Development</p>
+                <p class="credit-card__name">Catalina Salguero</p>
                 <p class="credit-card__institution">
-                  University of Bologna / DVS Center, University of Zurich
+                  MA in Digital Humanities and Digital Knowledge
                 </p>
-              </div>
-              <div class="credit-card">
-                <p class="credit-card__role">Research Direction</p>
-                <p class="credit-card__name">Prof. Tristan Weddigen</p>
-                <p class="credit-card__institution">DVS Center, University of Zurich</p>
-              </div>
-              <div class="credit-card">
-                <p class="credit-card__role">Digital Collaboration</p>
-                <p class="credit-card__name">UCSB-AMPLab</p>
-                <p class="credit-card__institution">University of California, Santa Barbara</p>
               </div>
               <div class="credit-card">
                 <p class="credit-card__role">Image Corpus</p>
                 <p class="credit-card__name">ARCA Project</p>
                 <p class="credit-card__institution">Universidad de los Andes, Bogotá</p>
-              </div>
-              <div class="credit-card">
-                <p class="credit-card__role">Heritage Digitization</p>
-                <p class="credit-card__name">Fundación Neogranadina</p>
-                <p class="credit-card__institution">Bogotá, Colombia</p>
-              </div>
-              <div class="credit-card">
-                <p class="credit-card__role">Photographic References</p>
-                <p class="credit-card__name">Fondazione Federico Zeri</p>
-                <p class="credit-card__institution">Università di Bologna</p>
               </div>
             </div>
 
@@ -421,44 +702,137 @@
 
               <div class="reference-item">
                 <p>
-                  <span class="ref-author">Panofsky, E.</span>
-                  <span class="ref-year">(1955)</span>.
-                  <em>Meaning in the Visual Arts.</em> Garden City, NY: Doubleday Anchor.
+                  <em>Arte Colonial Americano.</em> ARCA – Repositorio Institucional Universidad
+                  de los Andes. Accessed January 10, 2026.
+                  <a href="https://arca.uniandes.edu.co/sobre-arca" target="_blank" rel="noopener noreferrer" class="text-accent">arca.uniandes.edu.co/sobre-arca</a>.
                 </p>
               </div>
 
               <div class="reference-item">
                 <p>
-                  <span class="ref-author">Katzew, I.</span>
-                  <span class="ref-year">(2004)</span>.
-                  <em>Casta Painting: Images of Race in Eighteenth-Century Mexico.</em>
-                  New Haven: Yale University Press.
+                  <span class="ref-author">Bernasconi, Valentine, Eva Cetinić, and Leonardo Impett.</span>
+                  <span class="ref-year">2023</span>.
+                  "A Computational Approach to Hand Pose Recognition in Early Modern Paintings."
+                  <em>Journal of Imaging</em> 9, no. 6: 120.
+                  <a href="https://doi.org/10.3390/jimaging9060120" target="_blank" rel="noopener noreferrer" class="text-accent">doi.org/10.3390/jimaging9060120</a>.
                 </p>
               </div>
 
               <div class="reference-item">
                 <p>
-                  <span class="ref-author">Brewer-García, L.</span>
-                  <span class="ref-year">(2020)</span>.
-                  <em>Beyond Babel: Translations of Blackness in Colonial Peru and New Granada.</em>
-                  Cambridge University Press.
+                  <span class="ref-author">Borja, Jaime.</span>
+                  <span class="ref-year">2021</span>.
+                  <em>Los ingenios del pincel: Geografía de la pintura y la cultura visual en la
+                  América colonial.</em> 1st ed. Colección Ágora. Historia y Geografía. Bogotá:
+                  Ediciones Uniandes; Facultad de Artes y Humanidades.
+                  <a href="https://doi.org/10.30778/2020.07" target="_blank" rel="noopener noreferrer" class="text-accent">doi.org/10.30778/2020.07</a>.
                 </p>
               </div>
 
               <div class="reference-item">
                 <p>
-                  <span class="ref-author">Jopling, C. F.</span>
-                  <span class="ref-year">(1983)</span>.
-                  <em>White and Black in America.</em> Journal of Anthropology.
+                  <span class="ref-author">Catelli, Laura.</span>
+                  <span class="ref-year">2012</span>.
+                  "Pintores criollos, pintura de castas y colonialismo interno: Los discursos
+                  raciales de las agencias criollas en la Nueva España del periodo virreinal
+                  tardío." <em>Cuadernos del CILHA</em> 13 (2): 147–75.
                 </p>
               </div>
 
               <div class="reference-item">
                 <p>
-                  <span class="ref-author">Moreau, F. &amp; Jatowt, A.</span>
-                  <span class="ref-year">(2023)</span>.
-                  "Multimodal Language Models for Historical Image Analysis."
-                  <em>Digital Humanities Quarterly</em>, 17(2).
+                  <span class="ref-author">Fu, Shuyang, Huiqiang He, and Zhen-Gang Hou.</span>
+                  <span class="ref-year">2014</span>.
+                  "Learning Race from Face: A Survey." <em>IEEE Transactions on Pattern Analysis
+                  and Machine Intelligence</em> 36 (12): 2483–2509.
+                </p>
+              </div>
+
+              <div class="reference-item">
+                <p>
+                  <span class="ref-author">Gurram Sunitha, K., S. Geetha, S. Neelakandan, Aditya
+                  Kumar Singh Pundir, S. Hemalatha, and Vinay Kumar.</span>
+                  <span class="ref-year">2022</span>.
+                  "Intelligent Deep Learning Based Ethnicity Recognition and Classification Using
+                  Facial Images." <em>Image and Vision Computing</em> 121: 104404.
+                </p>
+              </div>
+
+              <div class="reference-item">
+                <p>
+                  <span class="ref-author">Iconclass.</span>
+                  <span class="ref-year">n.d.</span>
+                  "46: Social and Economic Life, Transport and Communication." Iconclass Browser.
+                  Accessed January 15, 2026.
+                  <a href="https://iconclass.org/" target="_blank" rel="noopener noreferrer" class="text-accent">iconclass.org</a>.
+                </p>
+              </div>
+
+              <div class="reference-item">
+                <p>
+                  <span class="ref-author">López Sanz, Hasan G., and Nicolás Sánchez Durá.</span>
+                  <span class="ref-year">2021</span>.
+                  "Imaginación colonial y formas de aproximación gráfica de las poblaciones negro
+                  africanas: El caso de la Guinea española (1880–1968)."
+                  <em>Encyclopédie Bérose des histoires de l'anthropologie.</em>
+                </p>
+              </div>
+
+              <div class="reference-item">
+                <p>
+                  <span class="ref-author">Milani, Federico, and Piero Fraternali.</span>
+                  <span class="ref-year">2021</span>.
+                  "A Dataset and a Convolutional Model for Iconography Classification in
+                  Paintings." <em>Journal on Computing and Cultural Heritage</em> 14 (4): 1–18.
+                </p>
+              </div>
+
+              <div class="reference-item">
+                <p>
+                  <span class="ref-author">Museo Colonial, and Museo Santa Clara.</span>
+                  <span class="ref-year">2016</span>.
+                  <em>Catálogo de pintura Museo Colonial.</em> Bogotá: Museo Colonial y Museo
+                  Santa Clara.
+                </p>
+              </div>
+
+              <div class="reference-item">
+                <p>
+                  <span class="ref-author">Rivas Pérez, Jorge F.</span>
+                  <span class="ref-year">2021</span>.
+                  "Painters of African Descent in Colonial Spanish America." Denver Art Museum
+                  (blog), February 24, 2021.
+                </p>
+              </div>
+
+              <div class="reference-item">
+                <p>
+                  <span class="ref-author">Santner, Kathryn, and Helen Melling.</span>
+                  <span class="ref-year">2021</span>.
+                  "Introduction: Visualizing Blackness in Colonial Latin America."
+                  <em>Colonial Latin American Review</em> 30 (2): 179–96.
+                </p>
+              </div>
+
+              <div class="reference-item">
+                <p>
+                  <span class="ref-author">Ufer, Nikolai, Sabine Lang, and Björn Ommer.</span>
+                  <span class="ref-year">2020</span>.
+                  "Object Retrieval and Localization in Large Art Collections Using Deep
+                  Multi-Style Feature Fusion and Iterative Voting." In <em>Computer Vision – ECCV
+                  2020 Workshops: Glasgow, UK, August 23–28, 2020, Proceedings, Part II</em>,
+                  159–76. Cham: Springer.
+                </p>
+              </div>
+
+              <div class="reference-item">
+                <p>
+                  <span class="ref-author">Zhao, Shu, Almıla Akdağ Salah, and Albert Ali Salah.</span>
+                  <span class="ref-year">2023</span>.
+                  "Automatic Analysis of Human Body Representations in Western Art." In
+                  <em>Computer Vision – ECCV 2022 Workshops</em>, Lecture Notes in Computer
+                  Science 13801, edited by Leonid Karlinsky, Tomer Michaeli, and Ko Nishino,
+                  282–97. Cham: Springer.
                 </p>
               </div>
 
@@ -470,11 +844,11 @@
                 Note on Licenses
               </p>
               <p class="doc-callout__text">
-                The images of the casta paintings and the religious work by José Nicolás de la
-                Escalera come from the ARCA archive (Universidad de los Andes) under an
-                academic-use license. The placeholder images in the collection are public
-                domain via Unsplash. The site's source code is under the MIT license. The
-                annotation data is under CC-BY 4.0.
+                The images reproduced in this exhibition come from the ARCA archive (Universidad
+                de los Andes, Bogotá) and are used here for academic and educational purposes as
+                part of the Information Modelling and Web Technologies course. The site's source
+                code and data model are shared for educational, non-commercial use; please credit
+                the project and its author if you reuse them.
               </p>
             </div>
             

@@ -1,17 +1,18 @@
 /* =============================================================================
-   PRESENCIAS — Exposición Virtual de Arte Colonial
+   Afrodescendientes — Exposición Virtual de Arte Colonial
    main.css — Hoja de estilos principal
-   Basado en el design system Vovex (Oswald + Raleway, paleta dark-gold)
+   Basado en el design system Vovex (Hammersmith One + Plus Jakarta Sans, paleta dark-gold)
    ============================================================================= */
 
 /* ─── Google Fonts ─────────────────────────────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hammersmith+One&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=JetBrains+Mono:ital,wght@0,400;0,500&display=swap');
 
 /* ─── Design Tokens (variables CSS del design system) ───────────────────────── */
 :root {
   /* Tipografías */
-  --font-primary:   'Oswald',  sans-serif;   /* Títulos, labels, stats */
-  --font-secondary: 'Raleway', sans-serif;   /* Cuerpo, botones, nav */
+  --font-primary:   'Hammersmith One',  sans-serif;   /* Títulos, labels, stats */
+  --font-secondary: 'Plus Jakarta Sans', sans-serif;   /* Cuerpo, botones, nav */
+  --font-eyebrow:   'JetBrains Mono', monospace; /* Eyebrow labels */
   --font-mono:      'Courier New', monospace; /* Notas de código */
 
   /* Fondos oscuros */
@@ -173,7 +174,7 @@ button {
 
 /* Eyebrow label (etiqueta sobre títulos: "COLECCIÓN • ARTE") */
 .eyebrow {
-  font-family: var(--font-secondary);
+  font-family: var(--font-eyebrow);
   font-weight: 500;
   font-size: 0.6875rem;        /* 11px */
   text-transform: uppercase;
@@ -307,7 +308,7 @@ button {
   background-color: var(--bg-900);
 }
 
-/* Estado abierto del hamburguesa */
+/* Estado abierto de la hamburguesa */
 .navbar__toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .navbar__toggle.open span:nth-child(2) { opacity: 0; }
 .navbar__toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
@@ -444,7 +445,7 @@ button {
   font-size: 0.6875rem;
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-full);
   transition: all var(--transition-base);
   cursor: pointer;
   text-decoration: none;
@@ -769,52 +770,6 @@ button {
   margin-top: 0.5rem;
 }
 
-/* ─── INFO CARDS (para página Info) ──────────────────────────────────────────── */
-.info-card {
-  background-color: var(--bg-900);
-  border: 1px solid rgba(184, 146, 74, 0.2);
-  border-radius: var(--radius-lg);
-  padding: 1.5rem;
-  transition: border-color var(--transition-base);
-  display: flex;
-  gap: 1rem;
-}
-
-.info-card:hover {
-  border-color: rgba(184, 146, 74, 0.5);
-}
-
-.info-card__icon {
-  color: var(--gold-500);
-  flex-shrink: 0;
-}
-
-.info-card__icon svg {
-  width: 24px;
-  height: 24px;
-  stroke: currentColor;
-  fill: none;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.info-card__title {
-  font-family: var(--font-primary);
-  font-size: 1rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 0.5rem;
-}
-
-.info-card__content {
-  font-family: var(--font-secondary);
-  font-size: 0.875rem;
-  color: var(--text-secondary);
-  line-height: 1.6;
-}
-
 /* ─── TEAM MEMBER CARDS ──────────────────────────────────────────────────────── */
 .team-card {
   cursor: pointer;
@@ -828,6 +783,17 @@ button {
   justify-content: center;
   margin-bottom: 1rem;
   transition: filter var(--transition-base);
+}
+
+.team-card__avatar--photo {
+  overflow: hidden;
+}
+
+.team-card__avatar--photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
 }
 
 .team-card:hover .team-card__avatar {
@@ -1019,6 +985,7 @@ button {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 4rem;
+  margin-top: 2.5rem;
 }
 
 .museum-text p {
@@ -1026,13 +993,6 @@ button {
   color: var(--text-secondary);
   line-height: 1.8;
   margin-bottom: 1rem;
-}
-
-/* Columna lateral con las info-cards (Ubicación, Horarios) */
-.museum-aside {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
 }
 
 @media (max-width: 900px) { .museum-grid { grid-template-columns: 1fr; gap: 2.5rem; } }
@@ -1049,21 +1009,59 @@ button {
 .gallery-section h2       { color: var(--bg-900); }
 .gallery-section .eyebrow { color: var(--gold-600); }
 
+/* Mosaico tipo "bento": una imagen alta a la izquierda, dos cuadradas arriba,
+   una franja ancha al centro, y una cuadrada + una franja ancha abajo. */
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
+  grid-template-rows: repeat(3, 220px);
+  grid-template-areas:
+    "a b c"
+    "a d d"
+    "e f f";
+  gap: 1.25rem;
   margin-top: 2rem;
 }
 
-@media (max-width: 900px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 560px) { .gallery-grid { grid-template-columns: 1fr; } }
+.gallery-item:nth-child(1) { grid-area: a; }
+.gallery-item:nth-child(2) { grid-area: b; }
+.gallery-item:nth-child(3) { grid-area: c; }
+.gallery-item:nth-child(4) { grid-area: d; }
+.gallery-item:nth-child(5) { grid-area: e; }
+.gallery-item:nth-child(6) { grid-area: f; }
+
+@media (max-width: 900px) {
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 200px);
+    grid-template-areas:
+      "a a"
+      "b c"
+      "d d"
+      "e f";
+  }
+}
+
+@media (max-width: 560px) {
+  .gallery-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    grid-template-areas: none;
+  }
+  .gallery-item:nth-child(1),
+  .gallery-item:nth-child(2),
+  .gallery-item:nth-child(3),
+  .gallery-item:nth-child(4),
+  .gallery-item:nth-child(5),
+  .gallery-item:nth-child(6) {
+    grid-area: auto;
+  }
+}
 
 /* Cada celda de la galería del museo */
 .gallery-item {
   position: relative;
-  height: 260px;
-  border-radius: var(--radius-lg);
+  height: 100%;
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -1073,6 +1071,10 @@ button {
   background-size: cover;
   background-position: center;
   transition: filter var(--transition-base), transform var(--transition-base);
+}
+
+@media (max-width: 560px) {
+  .gallery-item { height: 240px; }
 }
 
 .gallery-item::after {
@@ -1850,6 +1852,10 @@ button {
   margin-bottom: var(--space-lg);
 }
 
+.doc-text--mb-sm {
+  margin-bottom: 0.5rem;
+}
+
 /* Encabezados secundarios dentro de las secciones */
 .doc-heading {
   font-family: var(--font-primary);
@@ -1920,6 +1926,122 @@ button {
   line-height: 1.75;
 }
 
+/* ─── ARQUETIPOS DE USUARIO (doc. "Methodology") ────────────────────────────────── */
+
+.persona-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin: 2rem 0 2.5rem;
+}
+
+@media (max-width: 768px) {
+  .persona-grid { grid-template-columns: 1fr; }
+}
+
+.persona-card {
+  background-color: var(--bg-800);
+  border: 1px solid var(--bg-700);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+}
+
+.persona-card__header {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.persona-card__avatar {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-full);
+  background-color: var(--gold-500);
+  color: var(--bg-900);
+  font-family: var(--font-primary);
+  font-weight: 700;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.persona-card__avatar--photo {
+  overflow: hidden;
+}
+
+.persona-card__avatar--photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.persona-card__name {
+  font-family: var(--font-secondary);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.persona-card__role {
+  font-family: var(--font-primary);
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gold-500);
+  margin-top: 0.15rem;
+}
+
+.persona-card__bio {
+  font-family: var(--font-secondary);
+  font-size: 0.8125rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin-bottom: 1.25rem;
+}
+
+.persona-card__meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--bg-700);
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 560px) {
+  .persona-card__meta { grid-template-columns: 1fr; }
+}
+
+.persona-card__label {
+  font-family: var(--font-primary);
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--bg-500);
+  margin-bottom: 0.35rem;
+}
+
+.persona-card__text {
+  font-family: var(--font-secondary);
+  font-size: 0.75rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.persona-card__quote {
+  font-family: var(--font-secondary);
+  font-size: 0.8125rem;
+  font-style: italic;
+  color: var(--text-tertiary);
+  padding-top: 1rem;
+  border-top: 1px solid var(--bg-700);
+}
+
 /* Recuadro de nota destacada (stack técnico, licencias) */
 .doc-callout {
   padding: 1.5rem;
@@ -1970,24 +2092,181 @@ button {
 
 @media (max-width: 768px) { .resources-grid { grid-template-columns: 1fr; } }
 
+/* Enlaces de referencia (doc. "Design References") */
+.link-list {
+  margin: 1.5rem 0 2rem;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  .link-list { grid-template-columns: 1fr; }
+}
+
+.link-list__item {
+  padding: 1rem 1.25rem;
+  background-color: var(--bg-800);
+  border-radius: var(--radius-md);
+  transition: background-color var(--transition-fast);
+}
+
+.link-list__item:active,
+.link-list__item:focus-within {
+  background-color: var(--gold-500);
+}
+
+.link-list__item:active .link-list__link,
+.link-list__item:focus-within .link-list__link {
+  color: var(--bg-900);
+}
+
+.link-list__item:active .link-list__source,
+.link-list__item:focus-within .link-list__source {
+  color: var(--bg-900);
+}
+
+.link-list__item:active .link-list__desc,
+.link-list__item:focus-within .link-list__desc {
+  color: var(--bg-800);
+}
+
+.link-list__link {
+  display: block;
+  font-family: var(--font-secondary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.link-list__link:hover {
+  color: var(--gold-400);
+}
+
+.link-list__source {
+  display: block;
+  font-family: var(--font-primary);
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gold-500);
+  margin: 0.3rem 0 0.4rem;
+}
+
+.link-list__desc {
+  font-family: var(--font-secondary);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+/* ─── PALETA Y TIPOGRAFÍA (doc. "Design Decisions") ─────────────────────────────── */
+
+.swatch-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+  margin: 1rem 0 2rem;
+}
+
+@media (max-width: 900px) { .swatch-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 560px) { .swatch-grid { grid-template-columns: repeat(2, 1fr); } }
+
+.swatch {
+  background-color: var(--bg-800);
+  border: 1px solid var(--bg-700);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.swatch__block {
+  height: 70px;
+}
+
+.swatch__name {
+  margin: 0.65rem 0.85rem 0;
+  font-family: var(--font-primary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--text-primary);
+}
+
+.swatch__role {
+  margin: 0.15rem 0.85rem 0;
+  font-family: var(--font-secondary);
+  font-size: 0.6875rem;
+  color: var(--text-tertiary);
+}
+
+.swatch__hex {
+  margin: 0.35rem 0.85rem 0.85rem;
+  font-family: var(--font-eyebrow);
+  font-size: 0.625rem;
+  letter-spacing: 0.03em;
+  color: var(--gold-400);
+}
+
+.type-specimen {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 1rem 0 2rem;
+}
+
+@media (max-width: 768px) { .type-specimen { grid-template-columns: 1fr; } }
+
+.type-specimen__item {
+  background-color: var(--bg-800);
+  border: 1px solid var(--bg-700);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.type-specimen__sample {
+  font-size: 3rem;
+  line-height: 1;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+.type-specimen__name {
+  font-family: var(--font-primary);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--gold-400);
+  margin-bottom: 0.35rem;
+}
+
+.type-specimen__role {
+  font-family: var(--font-secondary);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.3rem;
+}
+
+.type-specimen__weights {
+  font-family: var(--font-eyebrow);
+  font-size: 0.625rem;
+  letter-spacing: 0.04em;
+  color: var(--text-tertiary);
+}
+
 /* Referencias bibliográficas */
 .references-list {
   margin-top: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
-}
-
-.reference-item {
-  padding: 1.25rem;
-  background-color: var(--bg-800);
-  border-radius: var(--radius-md);
-  border-left: 2px solid var(--bg-600);
-  transition: border-color var(--transition-fast);
-}
-
-.reference-item:hover {
-  border-left-color: var(--gold-500);
+  gap: 1rem;
 }
 
 .reference-item p {
@@ -1995,6 +2274,8 @@ button {
   font-size: 0.875rem;
   color: var(--text-secondary);
   line-height: 1.7;
+  padding-left: 1.75rem;
+  text-indent: -1.75rem;
 }
 
 .reference-item .ref-author {
@@ -2049,65 +2330,86 @@ button {
 }
 
 /* Timeline de la investigación */
-.timeline {
+/* ─── GANTT — fases del proyecto (doc. "Project Context") ──────────────────────── */
+
+.gantt {
   margin-top: 2rem;
-  position: relative;
-  padding-left: 2rem;
+  padding: 1.75rem;
+  background-color: var(--bg-800);
+  border: 1px solid var(--bg-700);
+  border-radius: var(--radius-lg);
 }
 
-/* Línea vertical */
-.timeline::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0.5rem;
-  bottom: 0;
-  width: 2px;
-  background: linear-gradient(to bottom, var(--gold-500), transparent);
+.gantt__row {
+  display: grid;
+  grid-template-columns: minmax(0, 15rem) 1fr;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.85rem 0;
+  border-top: 1px solid var(--bg-700);
 }
 
-.timeline-item {
-  position: relative;
-  margin-bottom: 2rem;
+.gantt__row:first-of-type { border-top: none; }
+
+.gantt__meta {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
 }
 
-/* Punto en la línea */
-.timeline-item::before {
-  content: '';
-  position: absolute;
-  left: -2rem;
-  top: 0.4rem;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: var(--gold-500);
-  transform: translateX(-4px);
-}
-
-.timeline-item__date {
+.gantt__num {
   font-family: var(--font-primary);
-  font-size: 0.75rem;
+  font-size: 1.125rem;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--gold-400);
-  margin-bottom: 0.25rem;
+  color: var(--gold-500);
+  line-height: 1.4;
+  flex-shrink: 0;
 }
 
-.timeline-item__title {
+.gantt__title {
   font-family: var(--font-primary);
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: 0.8125rem;
+  font-weight: 600;
   text-transform: uppercase;
+  letter-spacing: 0.02em;
   color: var(--text-primary);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.2rem;
 }
 
-.timeline-item__text {
+.gantt__text {
   font-family: var(--font-secondary);
-  font-size: 0.875rem;
+  font-size: 0.75rem;
+  line-height: 1.6;
   color: var(--text-secondary);
-  line-height: 1.7;
+}
+
+.gantt__track {
+  position: relative;
+  height: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  background-image: repeating-linear-gradient(
+    to right,
+    var(--bg-700) 0, var(--bg-700) 1px,
+    transparent 1px, transparent calc(100% / 12)
+  );
+}
+
+.gantt__bar {
+  grid-column: var(--gantt-col) / span var(--gantt-span);
+  grid-row: 1;
+  height: 100%;
+  border-radius: var(--radius-full);
+  background: linear-gradient(to right, var(--gold-600), var(--gold-500));
+}
+
+@media (max-width: 640px) {
+  .gantt { padding: 1.25rem; }
+  .gantt__row {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+  .gantt__track { height: 0.5rem; }
 }
 
 /* Cita destacada */
@@ -2197,11 +2499,11 @@ button {
 .narrative-card--dark:hover::after { background: rgba(223, 169, 128, 0.28); }
 
 /*
-  Slide-up mechanic:
-  En reposo: el bloque está desplazado ~160px hacia abajo con translateY(160px),
-  de modo que desc + btn quedan fuera del borde inferior (overflow:hidden los oculta)
-  y sólo label + título son visibles, pegados al fondo de la card.
-  En hover: translateY(0) revela todo el bloque.
+  Reveal mechanic:
+  Label + título están siempre en flujo normal, pegados al fondo con un
+  padding fijo — su posición no depende de si el título ocupa 1 o 2 líneas.
+  Sólo .narrative-card__reveal (desc + btn) se anima: en reposo mide 0 de
+  alto (oculto vía overflow:hidden) y en hover se expande.
 */
 .narrative-card__content {
   position: absolute;
@@ -2210,8 +2512,6 @@ button {
   bottom: 0;
   z-index: 2;
   padding: 2rem 2.75rem 2.75rem;
-  transform: translateY(160px);
-  transition: transform 440ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
   /* Gradiente para que el título sea legible sobre la imagen */
   background: linear-gradient(
     to top,
@@ -2219,10 +2519,6 @@ button {
     rgba(0,0,0,0.45) 55%,
     transparent 100%
   );
-}
-
-.narrative-card:hover .narrative-card__content {
-  transform: translateY(0);
 }
 
 .narrative-card__label {
@@ -2246,6 +2542,17 @@ button {
   margin-bottom: 0;
 }
 
+/* Contenedor animado de desc + btn — oculto en reposo, expandido en hover */
+.narrative-card__reveal {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 440ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.narrative-card:hover .narrative-card__reveal {
+  max-height: 220px;
+}
+
 .narrative-card__desc {
   font-family: var(--font-secondary);
   font-size: 0.9375rem;
@@ -2255,11 +2562,12 @@ button {
   margin-top: 1rem;
   margin-bottom: 1.5rem;
   opacity: 0;
-  transition: opacity 280ms 180ms ease-out;
+  transition: opacity 280ms ease-out;
 }
 
 .narrative-card:hover .narrative-card__desc {
   opacity: 1;
+  transition-delay: 180ms;
 }
 
 /* Botón sólido dorado — siempre legible */
@@ -2274,16 +2582,17 @@ button {
   text-transform: uppercase;
   letter-spacing: 0.15em;
   border: none;
-  border-radius: 2px;
+  border-radius: var(--radius-full);
   background: var(--gold-500);
   color: var(--bg-900);
   opacity: 0;
-  transition: opacity 260ms 200ms ease-out,
+  transition: opacity 260ms ease-out,
               background 150ms, transform 150ms;
 }
 
 .narrative-card:hover .narrative-card__btn {
   opacity: 1;
+  transition-delay: 200ms;
 }
 
 .narrative-card__btn:hover {
@@ -2650,6 +2959,7 @@ body.recorrido::before {
   margin: 0 auto;
   padding: 0 4rem;
   width: 100%;
+  text-align: center;
 }
 
 .pg-hero__eyebrow {
@@ -2685,6 +2995,8 @@ body.recorrido::before {
   line-height: 1.8;
   color: rgba(var(--warm-100-rgb), 0.65);
   max-width: 55ch;
+  margin-left: auto;
+  margin-right: auto;
   margin-bottom: 2.5rem;
   opacity: 0;
   animation: fadeUp 900ms 500ms ease-out forwards;
@@ -2702,18 +3014,13 @@ body.recorrido::before {
   color: var(--bg-900);
   background: var(--gold-500);
   padding: 0.85rem 2rem;
-  border-radius: 1px;
+  border-radius: var(--radius-full);
   text-decoration: none;
   opacity: 0;
   animation: fadeUp 800ms 700ms ease-out forwards;
   transition: background 200ms;
 }
 .pg-hero__cta:hover { background: var(--gold-400); color: var(--bg-900); }
-.pg-hero__cta svg {
-  width: 16px; height: 16px;
-  stroke: currentColor; fill: none;
-  stroke-width: 2; stroke-linecap: round;
-}
 
 /* ── Sala — parada de recorrido (scrollytelling) ── */
 .sala {
@@ -3184,6 +3491,39 @@ body.recorrido::before {
 
 /* Notas al pie dentro del acordeón "About" */
 .accordion__content p + p { margin-top: 1rem; }
+
+.accordion__subheading {
+  margin-top: 1.25rem;
+}
+
+.accordion__content ul {
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.accordion__content li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-left: 1rem;
+  margin-bottom: 0.75rem;
+  text-align: left;
+}
+
+.accordion__content li:last-child {
+  margin-bottom: 0;
+}
+
+.accordion__content li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.65em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold-500);
+}
 
 .about-footnotes {
   list-style: none;
