@@ -257,7 +257,7 @@
   <footer class="footer" role="contentinfo">
     <div class="footer__inner">
       <div class="footer__brand">
-        <a href="../index.html" class="footer__logo"><img src="../assets/images/logo-afro.svg" alt="Presencias"
+        <a href="index.html" class="footer__logo"><img src="assets/images/logo-afro.svg" alt="Presencias"
             class="footer__logo-img" /></a>
         <span class="footer__copy">© 2026 Virtual Exhibition</span>
       </div>
@@ -300,10 +300,13 @@
 
       /* Construir los items del carrusel */
       track.innerHTML = featured.map(function (art) {
+        /* art.imageUrl está escrito relativo a /pages/ (ej. "../assets/...");
+           index.html vive en la raíz, así que hay que quitar ese "../" */
+        var imgSrc = art.imageUrl.replace(/^\.\.\//, '');
         return [
           '<a href="pages/coleccion.html?obra=' + art.id + '" class="carousel__item artwork-card">',
           '<div class="artwork-card__img">',
-          '<img src="' + art.imageUrl + '" alt="' + art.title + '" loading="lazy" />',
+          '<img src="' + imgSrc + '" alt="' + art.title + '" loading="lazy" />',
           '<div class="artwork-card__overlay">',
           '<h3>' + art.title + '</h3>',
           '<span class="artist">' + art.artist + '</span>',
