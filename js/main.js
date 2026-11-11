@@ -74,7 +74,12 @@
     },
     {
       root: null,          // viewport del navegador
-      threshold: 0.12,     // 12% del elemento visible
+      /* 0 en vez de un % fijo: con secciones muy altas (más que el viewport),
+         un umbral como 0.12 nunca se alcanza porque nunca hay esa fracción
+         de la sección visible a la vez, y el elemento queda invisible para
+         siempre. Con threshold 0 basta con que un solo píxel entre al
+         viewport para disparar la revelación (sigue siendo "one-shot"). */
+      threshold: 0,
       rootMargin: '0px'
     }
   );

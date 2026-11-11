@@ -119,6 +119,7 @@ body {
   font-size: 16px;
   line-height: 1.75;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 /* ─── Tipografía global ──────────────────────────────────────────────────────── */
@@ -128,6 +129,7 @@ h1, h2, h3 {
   line-height: 1.1;
   text-transform: uppercase;
   letter-spacing: -0.01em;
+  overflow-wrap: break-word;
 }
 
 h1 { font-size: clamp(2.5rem, 6vw, 4rem); }
@@ -3398,7 +3400,7 @@ body.recorrido::before {
 }
 
 .hero__title {
-  font-size: clamp(3rem, 10vw, 7rem);
+  font-size: clamp(2rem, 9vw, 7rem);
   font-family: var(--font-primary);
   font-weight: 700;
   text-transform: uppercase;
@@ -3406,6 +3408,7 @@ body.recorrido::before {
   line-height: 1.0;
   color: var(--text-primary);
   margin-bottom: 1rem;
+  overflow-wrap: break-word;
   /* Animación de entrada */
   animation: heroSlideUp 1.2s ease-out both;
 }
